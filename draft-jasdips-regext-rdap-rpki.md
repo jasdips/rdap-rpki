@@ -24,6 +24,8 @@ email = "jasdips@arin.net"
 
 .# Abstract
 
+TODO
+
 {mainmatter}
 
 # Introduction
@@ -103,8 +105,8 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * handle -- a string representing the RIR-unique identifier of the ASPA registration
 * name -- a string representing an identifier assigned to the ASPA registration by the registration holder
 * autnum -- an unsigned 32-bit integer representing the autonomous system number [RFC5396] of the registration holder
-* providerAutnums -- an array of unsigned 32-bit integers, ordered in ascending numerical order, representing the
-  autonomous system numbers [RFC5396] of the ASes that are authorized as providers
+* providerAutnum -- an unsigned 32-bit integer representing the autonomous system numbers [RFC5396] of the AS that is
+  authorized as a provider
 * events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
   end-entity certificate for the ASPA
 * autoRenew -- a boolean indicating if it is an auto-renewing ASPA or not
@@ -135,3 +137,4 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 # Acknowledgements
 
 {backmatter}
+
