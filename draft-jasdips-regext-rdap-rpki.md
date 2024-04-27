@@ -81,7 +81,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
   an IPv6 ROA
 * maxLength -- a number representing the maximum length of the IP address prefix that the origin AS is authorized to
   advertise; up to 32 for IPv4 and uo to 128 for IPv6
-* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number [RFC5396]
+* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number [@!RFC5396]
 * events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
   end-entity certificate for the ROA
 * autoRenew -- a boolean indicating if it is an auto-renewing ROA or not
@@ -104,8 +104,8 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * objectClassName -- the string "aspa"
 * handle -- a string representing the RIR-unique identifier of the ASPA registration
 * name -- a string representing an identifier assigned to the ASPA registration by the registration holder
-* autnum -- an unsigned 32-bit integer representing the autonomous system number [RFC5396] of the registration holder
-* providerAutnum -- an unsigned 32-bit integer representing the autonomous system number [RFC5396] of the AS that is
+* autnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the registration holder
+* providerAutnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the AS that is
   authorized as a provider
 * events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
   end-entity certificate for the ASPA
