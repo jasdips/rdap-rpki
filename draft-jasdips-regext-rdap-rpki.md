@@ -160,5 +160,7 @@ https://example.com/rdap/rpkiAspa/YYYY
 
 # Acknowledgements
 
+Andy Newton helped clarify why the RPKI registration data in RDAP would be useful.
+
 {backmatter}
 
