@@ -33,7 +33,8 @@ inter-domain routing ([@RFC4271]) on the internet. RPKI enables internet number 
 assert about their registered IP addresses and autonomous system numbers to help prevent route hijacks and leaks. To
 that end, RPKI defines the following cryptographic profiles:
 * Route Origin Authorization (ROA, [@!RFC6482] and [@?I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where an IP
-  prefix holder cryptographically asserts about the origin autonomous system (AS) for routing that IP prefix.
+  address prefix holder cryptographically asserts about the origin autonomous system (AS) for routing that IP address
+  prefix.
 * Autonomous System Provider Authorization (ASPA, [@?I-D.ietf-sidrops-aspa-profile]) when an autonomous system number
   (ASN) holder cryptographically asserts about the provider AS for that ASN.
 
@@ -65,6 +66,23 @@ protocol.
 this document.
 
 # Route Origin Authorization Object Class
+
+The Route Origin Authorization (ROA) object class can contain the following members:
+
+* objectClassName -- the string "roa"
+* handle -- a string representing the RIR-unique identifier of the ROA registration
+* name -- a string representing an identifier assigned to the ROA registration by the registration holder
+* prefix -- a string representing the IP address prefix (prefix/length) of the ROA, either IPv4 or IPv6
+* ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies
+  an IPv6 ROA
+* maxLength -- a number representing the maximum length of the IP address prefix that the origin AS is authorized to
+  advertise; up to 32 for IPv4 and uo to 128 for IPv6
+* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number [RFC5396]
+* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates for the ROA
+* autoRenew -- a boolean indicating if it is an auto-renewing ROA or not
+* status -- a string indicating the validation state of the ROA
+* remarks -- see [@!RFC9083, section 4.3]
+* links -- links ([@!RFC9083, section 4.2]) for self, and related to IP network and IRR route/route6 objects
 
 ## Lookup
 
