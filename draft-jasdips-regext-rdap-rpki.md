@@ -41,9 +41,9 @@ that end, RPKI defines the following cryptographic profiles:
 * Autonomous System Provider Authorization (ASPA, [@?I-D.ietf-sidrops-aspa-profile]) when an autonomous system number
   (ASN) holder cryptographically asserts about the provider AS for that ASN.
 
-This extension maps the registration data in the Regional Internet Registries (RIRs), including at national and local
-levels, for aforementioned RPKI profiles into RDAP. The intent is that such RDAP data can complement the existing RPKI
-diagnostic tools when troubleshooting a route hijack or leak, by conveniently providing access to registration
+This RDAP extension maps the registration data from the Regional Internet Registries (RIRs), including at national and
+local levels, for aforementioned RPKI profiles into RDAP. The intent is that such RDAP data can complement the existing
+RPKI diagnostic tools when troubleshooting a route hijack or leak, by conveniently providing access to registration
 information from an RIR's database beside what's inherently available from an RPKI profile object. There is metadata
 that is often needed for troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
 
@@ -51,7 +51,7 @@ that is often needed for troubleshooting that does not appear in, say, a ROA or 
 * And if so, when did the first version get published?
 * And, was it created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route object?
 
-This specification next defines RDAP object classes, as well as lookup and search path segments, for ROA and ASPA
+This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA and ASPA
 registration data.
 
 ## Requirements Language
@@ -73,21 +73,21 @@ this document.
 
 The Route Origin Authorization (ROA) object class can contain the following members:
 
-* objectClassName -- the string "roa"
+* objectClassName -- the string "rpki roa"
 * handle -- a string representing the RIR-unique identifier of the ROA registration
 * name -- a string representing an identifier assigned to the ROA registration by the registration holder
 * prefix -- a string representing the IP address prefix (prefix/length) of the ROA, either IPv4 or IPv6
 * ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies
   an IPv6 ROA
 * maxLength -- a number representing the maximum length of the IP address prefix that the origin AS is authorized to
-  advertise; up to 32 for IPv4 and uo to 128 for IPv6
+  advertise; up to 32 for IPv4 and up to 128 for IPv6
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number [@!RFC5396]
 * events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
   end-entity certificate for the ROA
-* autoRenew -- a boolean indicating if it is an auto-renewing ROA or not
+* autoRenewed -- a boolean indicating if the ROA is auto-renewed or not
 * status -- a string indicating the validation state of the ROA
 * remarks -- see [@!RFC9083, section 4.3]
-* links -- links ([@!RFC9083, section 4.2]) for self, and related to IP network and IRR objects
+* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR objects
 
 ## Lookup
 
@@ -101,7 +101,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 
 The Autonomous System Provider Authorization (ASPA) object class can contain the following members:
 
-* objectClassName -- the string "aspa"
+* objectClassName -- the string "rpki aspa"
 * handle -- a string representing the RIR-unique identifier of the ASPA registration
 * name -- a string representing an identifier assigned to the ASPA registration by the registration holder
 * autnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the registration holder
@@ -109,10 +109,10 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
   authorized as a provider
 * events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
   end-entity certificate for the ASPA
-* autoRenew -- a boolean indicating if it is an auto-renewing ASPA or not
+* autoRenewed -- a boolean indicating if the ASPA is auto-renewed or not
 * status -- a string indicating the validation state of the ASPA
 * remarks -- see [@!RFC9083, section 4.3]
-* links -- links ([@!RFC9083, section 4.2]) for self, and related to autonomous system number and IRR objects
+* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
 
 ## Lookup
 
