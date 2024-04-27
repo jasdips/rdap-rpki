@@ -32,6 +32,7 @@ The network operators are increasingly deploying the Resource Public Key Infrast
 inter-domain routing ([@RFC4271]) on the internet. RPKI enables internet number resource holders to cryptographically
 assert about their registered IP addresses and autonomous system numbers to help prevent route hijacks and leaks. To
 that end, RPKI defines the following cryptographic profiles:
+
 * Route Origin Authorization (ROA, [@!RFC6482] and [@?I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where an IP
   address prefix holder cryptographically asserts about the origin autonomous system (AS) for routing that IP address
   prefix.
@@ -43,6 +44,7 @@ levels, for aforementioned RPKI profiles into RDAP. The intent is that such RDAP
 diagnostic tools when troubleshooting a route hijack or leak, by conveniently providing access to registration
 information from an RIR's database beside what's inherently available from an RPKI profile object. There is metadata
 that is often needed for troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
+
 * Is it an auto-renewing ROA?
 * And if so, when did the first version get published?
 * And, was it created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route object?
@@ -78,11 +80,12 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * maxLength -- a number representing the maximum length of the IP address prefix that the origin AS is authorized to
   advertise; up to 32 for IPv4 and uo to 128 for IPv6
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number [RFC5396]
-* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates for the ROA
+* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
+  end-entity certificate for the ROA
 * autoRenew -- a boolean indicating if it is an auto-renewing ROA or not
 * status -- a string indicating the validation state of the ROA
 * remarks -- see [@!RFC9083, section 4.3]
-* links -- links ([@!RFC9083, section 4.2]) for self, and related to IP network and IRR route/route6 objects
+* links -- links ([@!RFC9083, section 4.2]) for self, and related to IP network and IRR objects
 
 ## Lookup
 
@@ -93,6 +96,21 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 ## Relationship with IP Network Object Class
 
 # Autonomous System Provider Authorization Object Class
+
+The Autonomous System Provider Authorization (ASPA) object class can contain the following members:
+
+* objectClassName -- the string "aspa"
+* handle -- a string representing the RIR-unique identifier of the ASPA registration
+* name -- a string representing an identifier assigned to the ASPA registration by the registration holder
+* autnum -- an unsigned 32-bit integer representing the autonomous system number [RFC5396] of the registration holder
+* providerAutnums -- an array of unsigned 32-bit integers, ordered in ascending numerical order, representing the
+  autonomous system numbers [RFC5396] of the ASes that are authorized as providers
+* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
+  end-entity certificate for the ASPA
+* autoRenew -- a boolean indicating if it is an auto-renewing ASPA or not
+* status -- a string indicating the validation state of the ASPA
+* remarks -- see [@!RFC9083, section 4.3]
+* links -- links ([@!RFC9083, section 4.2]) for self, and related to autonomous system number and IRR objects
 
 ## Lookup
 
