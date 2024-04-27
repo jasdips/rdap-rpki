@@ -91,6 +91,18 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 
 ## Lookup
 
+The resource type path segment for exact match lookup of a ROA object is "rpkiRoa".
+
+The following lookup path segment is defined for a ROA object:
+
+Syntax: rpkiRoa/<handle>
+
+For example:
+
+```
+https://example.com/rdap/rpkiRoa/XXXX
+```
+
 ## Search
 
 ## Reverse Search
@@ -115,6 +127,18 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
 
 ## Lookup
+
+The resource type path segment for exact match lookup of an ASPA object is "rpkiAspa".
+
+The following lookup path segment is defined for an ASPA object:
+
+Syntax: rpkiAspa/<handle>
+
+For example:
+
+```
+https://example.com/rdap/rpkiAspa/YYYY
+```
 
 ## Search
 
