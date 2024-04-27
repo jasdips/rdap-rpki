@@ -28,6 +28,27 @@ email = "jasdips@arin.net"
 
 # Introduction
 
+The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI, [@!RFC6480]) to secure
+inter-domain routing ([@?RFC4271]) on the internet. RPKI enables internet number resource holders to cryptographically
+assert about their registered IP addresses and autonomous system numbers to help prevent route hijacks and leaks. To
+that end, RPKI defines the following cryptographic profiles:
+* Route Origin Authorization (ROA, [@!RFC6482] and [@?I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where an IP
+  prefix holder cryptographically asserts about the origin autonomous system (AS) for routing that IP prefix.
+* Autonomous System Provider Authorization (ASPA, [@?I-D.ietf-sidrops-aspa-profile]) when an autonomous system number
+  (ASN) holder cryptographically asserts about the provider AS for that ASN.
+
+This extension maps the registration data in the Regional Internet Registries (RIRs), including at national and local
+levels, for aforementioned RPKI profiles into RDAP. The intent is that such RDAP data can complement the existing RPKI
+diagnostic tools when troubleshooting a route hijack or leak, by conveniently providing access to metadata information
+from an RIR's database beside what's inherently available from an RPKI profile object. There is metadata that is often
+needed for troubleshooting that does not appear in a ROA or a VRP (Verified ROA Payload), such as:
+* Is it an auto-renewing ROA?
+* And if so, when did the first version get published?
+* And, was it created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route object?
+
+This specification next defines RDAP object classes, as well as lookup and search path segments, for ROA and ASPA
+registration data.
+
 ## Requirements Language
 
 The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
