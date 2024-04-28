@@ -210,6 +210,103 @@ https://example.net/rdap/rpkiRoas?autnum=65536
 
 ## Relationship with IP Network Object Class
 
+It would be useful to show all the ROAs associated with an IP network. To that end, this extension adds a new "rpkiRoas"
+member to the IP Network object class ([@!RFC9083, section 5.4]):
+
+* rpkiRoas -- an array of ROA objects ((#roa_object_class)) for the IP network
+
+Here is an elided example for an IP network with ROAs:
+
+```
+{
+  "objectClassName" : "ip network",
+  "handle" : "ZZZZ-RIR",
+  "startAddress" : "2001:db8::",
+  "endAddress" : "2001:db8:ffff:ffff:ffff:ffff:ffff:ffff",
+  "ipVersion" : "v6",
+  ...
+  "rpkiRoas":
+  [
+    {
+      "objectClassName": "rpki roa",
+      "handle": "XXXX",
+      "name": "ROA-1",
+      "startAddress": "2001:db8::",
+      "prefixLength": 48,
+      "ipVersion": "v6",
+      "maxLength": 64,
+      "originAutnum": 65536,
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z"
+      "autoRenewed": true,
+      "status": [ "valid" ],
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpkiRoa/XXXX",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpkiRoa/XXXX",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpkiRoa/XXXX",
+          "rel": "related",
+          "href": "https://example.net/rdap/ip/2001:db8::/48",
+          "type": "application/rdap+json"
+        },
+        ...
+      ]
+    },
+    {
+      "objectClassName": "rpki roa",
+      "handle": "YYYY",
+      "name": "ROA-2",
+      "startAddress": "2001:db8:1::",
+      "prefixLength": 48,
+      "ipVersion": "v6",
+      "maxLength": 64,
+      "originAutnum": 65537,
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z"
+      "autoRenewed": true,
+      "status": [ "not found" ],
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpkiRoa/YYYY",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpkiRoa/YYYY",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpkiRoa/YYYY",
+          "rel": "related",
+          "href": "https://example.net/rdap/ip/2001:db8:1::/48",
+          "type": "application/rdap+json"
+        },
+        ...
+      ]
+    }
+  ]
+}
+```
+
 # Autonomous System Provider Authorization
 
 ## Object Class {#aspa_object_class}
