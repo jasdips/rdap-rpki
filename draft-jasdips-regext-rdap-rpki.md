@@ -163,6 +163,18 @@ https://example.net/rdap/rpkiRoa/XXXX
 
 ## Search
 
+The resource type path segment for searching ROA objects is "rpkiRoas".
+
+The following search path segments are defined for ROA objects:
+
+Syntax: rpkiRoas?name=<name search pattern>
+
+Syntax: rpkiRoas?cidr=<CIDR prefix/CIDR length>
+
+Syntax: rpkiRoas?startAddress=<IP address>
+
+Syntax: rpkiRoas?autnum=<autonomous system number>
+
 ## Reverse Search
 
 ## Relationship with IP Network Object Class
@@ -247,6 +259,16 @@ https://example.net/rdap/rpkiAspa/YYYY
 ```
 
 ## Search
+
+The resource type path segment for searching ASPA objects is "rpkiAspas".
+
+The following search path segments are defined for ASPA objects:
+
+Syntax: rpkiAspas?name=<name search pattern>
+
+Syntax: rpkiAspas?autnum=<autonomous system number>
+
+Syntax: rpkiAspas?providerAutnum=<autonomous system number>
 
 ## Reverse Search
 
