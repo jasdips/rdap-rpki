@@ -35,10 +35,10 @@ inter-domain routing ([@RFC4271]) on the internet. RPKI enables internet number 
 assert about their registered IP addresses and autonomous system numbers to help prevent route hijacks and leaks. To
 that end, RPKI defines the following cryptographic profiles:
 
-* Route Origin Authorization (ROA, [@!RFC6482] and [@?I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where a
+* Route Origin Authorization (ROA, [@!RFC6482] and [@!I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where a
   Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block holder cryptographically asserts about the origin
   autonomous system (AS, [@RFC4271]) for routing that CIDR address block.
-* Autonomous System Provider Authorization (ASPA, [@?I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
+* Autonomous System Provider Authorization (ASPA, [@!I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
   (ASN, [@!RFC5396]) holder cryptographically asserts about the provider AS for that ASN.
 
 This RDAP extension maps the registration data from the Regional Internet Registries (RIRs), including at national and
