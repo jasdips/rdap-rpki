@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-04-27T00:00:00Z
+date = 2024-04-28T00:00:00Z
 
 [[author]]
 initials="J."
@@ -69,17 +69,17 @@ protocol.
 "..." in examples is used as shorthand for elements defined outside of
 this document.
 
-# Route Origin Authorization Object Class
+# Route Origin Authorization
+
+## Object Class {#roa_object_class}
 
 The Route Origin Authorization (ROA) object class can contain the following members:
 
 * objectClassName -- the string "rpki roa"
 * handle -- a string representing the RIR-unique identifier of the ROA registration
 * name -- a string representing an identifier assigned to the ROA registration by the registration holder
-* cidr -- a string representing the CIDR address block (CIDR prefix/CIDR length) of the ROA, either IPv4 or IPv6
 * startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
   IPv4 or IPv6
-* endAddress -- a string representing the ending IP address of the CIDR address block, either IPv4 or IPv6
 * prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
   IPv4 and up to 128 for IPv6
 * ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies
@@ -104,9 +104,7 @@ Here is an elided example of a ROA object in RDAP:
   "objectClassName": "rpki roa",
   "handle": "XXXX",
   "name": "ROA-1",
-  "cidr": "2001:db8::/48",
   "startAddress": "2001:db8::",
-  "endAddress": "2001:db8:0:ffff:ffff:ffff:ffff:ffff",
   "prefixLength": 48,
   "ipVersion": "v6",
   "maxLength": 64,
@@ -170,17 +168,51 @@ The following search path segments are defined for ROA objects:
 
 Syntax: rpkiRoas?name=<name search pattern>
 
-Syntax: rpkiRoas?cidr=<CIDR prefix/CIDR length>
-
-Syntax: rpkiRoas?startAddress=<IP address>
+Syntax: rpkiRoas?startAddress=<IP address>&&prefixLength=<CIDR length>
 
 Syntax: rpkiRoas?autnum=<autonomous system number>
+
+Searches for ROA information by name are specified using this form:
+
+rpkiRoas?name=XXXX
+
+XXXX is a search pattern representing the "name" property of a ROA, as described in (#roa_object_class). The following
+URL would be used to find information for ROA names matching the "ROA-*" pattern:
+
+```
+https://example.net/rdap/rpkiRoas?name=ROA-*
+```
+
+Searches for ROA information by CIDR are specified using this form:
+
+rpkiRoas?startAddress=XXXX&&prefixLength=YYYY
+
+XXXX is an IP address representing the "startAddress" property of a ROA and YYYY is a CIDR length representing its
+"prefixLength" property, as described in (#roa_object_class). The following URL would be used to find information for
+the most-specific ROA matching the "2001:db8::/64" CIDR:
+
+```
+https://example.net/rdap/rpkiRoas?startAddress=2001%3Adb8%3A%3A&&prefixLength=64
+```
+
+Searches for ROA information by autonomous system number are specified using this form:
+
+rpkiRoas?autnum=ZZZZ
+
+ZZZZ is an autonomous system number representing the "autnum" property of a ROA, as described in (#roa_object_class).
+The following URL would be used to find information for a ROA with origin autonomous system number 65536:
+
+```
+https://example.net/rdap/rpkiRoas?autnum=65536
+```
 
 ## Reverse Search
 
 ## Relationship with IP Network Object Class
 
-# Autonomous System Provider Authorization Object Class
+# Autonomous System Provider Authorization
+
+## Object Class {#aspa_object_class}
 
 The Autonomous System Provider Authorization (ASPA) object class can contain the following members:
 
@@ -271,6 +303,40 @@ Syntax: rpkiAspas?name=<name search pattern>
 Syntax: rpkiAspas?autnum=<autonomous system number>
 
 Syntax: rpkiAspas?providerAutnum=<autonomous system number>
+
+Searches for ASPA information by name are specified using this form:
+
+rpkiAspas?name=XXXX
+
+XXXX is a search pattern representing the "name" property of an ASPA, as described in (#aspa_object_class). The
+following URL would be used to find information for ASPA names matching the "ASPA-*" pattern:
+
+```
+https://example.net/rdap/rpkiAspas?name=ASPA-*
+```
+
+Searches for ASPA information by autonomous system number are specified using this form:
+
+rpkiAspas?autnum=YYYY
+
+YYYY is an autonomous system number representing the "autnum" property of an ASPA, as described in (#aspa_object_class).
+The following URL would be used to find information for an ASPA with autonomous system number 65536:
+
+```
+https://example.net/rdap/rpkiAspas?autnum=65536
+```
+
+Searches for ASPA information by provider autonomous system number are specified using this form:
+
+rpkiAspas?providerAutnum=ZZZZ
+
+ZZZZ is an autonomous system number representing the "providerAutnum" property of an ASPA, as described in
+(#aspa_object_class). The following URL would be used to find information for ASPAs with provider autonomous system
+number 65537:
+
+```
+https://example.net/rdap/rpkiAspas?providerAutnum=65537
+```
 
 ## Reverse Search
 
