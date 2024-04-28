@@ -206,7 +206,7 @@ The following URL would be used to find information for a ROA with origin autono
 https://example.net/rdap/rpkiRoas?autnum=65536
 ```
 
-# Search Results
+### Search Results
 
 The ROA search results are returned in the "rpkiRoaSearchResults" member, which is an array of ROA objects
 ((#roa_object_class)).
@@ -492,6 +492,60 @@ number 65542:
 https://example.net/rdap/rpkiAspas?providerAutnum=65542
 ```
 
+### Search Results
+
+The ASPA search results are returned in the "rpkiAspaSearchResults" member, which is an array of ASPA objects
+((#aspa_object_class)).
+
+Here is an elided example of the search results when finding information for an ASPA with autonomous system number
+65536:
+
+```
+{
+  "rdapConformance": [ "rdap_level_0" ],
+  ...
+  "rpkiAspaSearchResults":
+  [
+    {
+      "objectClassName": "rpki aspa",
+      "handle": "XXXX",
+      "name": "ASPA-1",
+      "autnum": 65536,
+      "providerAutnum": 65542,
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z"
+      "autoRenewed": true,
+      "status": [ "valid" ],
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpkiAspa/YYYY",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65536",
+          "type": "application/rdap+json"
+        },
+        ...
+      ],
+      ...
+    }
+  ]
+}
+```
+
 ## Reverse Search
 
 ## Relationship with Autonomous System Number Object Class
@@ -597,7 +651,7 @@ Here is an elided example for an autonomous system number with ASPAs:
 
 ## RDAP Extensions Registry
 
-IANA is requested to register the following values in the RDAP Extensions Registry  at
+IANA is requested to register the following values in the RDAP Extensions Registry at
 https://www.iana.org/assignments/rdap-extensions/:
 
 Extension identifier: rpki1
