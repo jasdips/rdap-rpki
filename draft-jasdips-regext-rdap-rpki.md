@@ -125,15 +125,15 @@ Here is an elided example of a ROA object in RDAP:
   "links":
   [
     {
-      "value": "https://example.net/rpkiRoa/XXXX",
+      "value": "https://example.net/rdap/rpkiRoa/XXXX",
       "rel": "self",
-      "href": "https://example.net/rpkiRoa/XXXX",
+      "href": "https://example.net/rdap/rpkiRoa/XXXX",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rpkiRoa/XXXX",
+      "value": "https://example.net/rdap/rpkiRoa/XXXX",
       "rel": "related",
-      "href": "https://example.net/ip/2001:db8::/48",
+      "href": "https://example.net/rdap/ip/2001:db8::/48",
       "type": "application/rdap+json"
     },
     ...
@@ -158,7 +158,7 @@ Syntax: rpkiRoa/<handle>
 For example:
 
 ```
-https://example.com/rdap/rpkiRoa/XXXX
+https://example.net/rdap/rpkiRoa/XXXX
 ```
 
 ## Search
@@ -177,12 +177,60 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * autnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the registration holder
 * providerAutnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the AS that is
   authorized as a provider
-* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
-  end-entity certificate for the ASPA
 * autoRenewed -- a boolean indicating if the ASPA is auto-renewed or not
 * status -- a string indicating the validation state of the ASPA
-* remarks -- see [@!RFC9083, section 4.3]
+* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
+  end-entity certificate for the ASPA
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
+* remarks -- see [@!RFC9083, section 4.3]
+
+Here is an elided example of an ASPA object in RDAP:
+
+```
+{
+  "objectClassName": "rpki aspa",
+  "handle": "YYYY",
+  "name": "ASPA-1",
+  "autnum": 65536,
+  "providerAutnum": 65537,
+  "autoRenewed": true,
+  "status": [ "valid" ],
+  "events":
+  [
+    {
+      "eventAction": "not valid before",
+      "eventDate": "2024-04-27T23:59:59Z"
+    },
+    {
+      "eventAction": "not valid after",
+      "eventDate": "2025-04-27T23:59:59Z"
+    },
+    ...
+  ],
+  "links":
+  [
+    {
+      "value": "https://example.net/rdap/rpkiAspa/YYYY",
+      "rel": "self",
+      "href": "https://example.net/rdap/rpkiAspa/YYYY",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpkiAspa/YYYY",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65536",
+      "type": "application/rdap+json"
+    },
+    ...
+  ],
+  "remarks":
+  [
+    {
+      "description": [ "An ASPA object in RDAP" ]
+    }
+  ],
+}
+```
 
 ## Lookup
 
@@ -195,7 +243,7 @@ Syntax: rpkiAspa/<handle>
 For example:
 
 ```
-https://example.com/rdap/rpkiAspa/YYYY
+https://example.net/rdap/rpkiAspa/YYYY
 ```
 
 ## Search
