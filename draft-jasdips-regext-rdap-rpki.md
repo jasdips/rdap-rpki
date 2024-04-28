@@ -264,6 +264,13 @@ Here is an elided example of the search results when finding information for a R
 
 ## Reverse Search
 
+Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips", a
+related resource type of "rpkiRoa", and a ROA property of "originAutnum" or "startAddress", then the reverse search will
+be performed on the IP network objects from its data store.
+
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for IP
+network searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries.
+
 ## Relationship with IP Network Object Class
 
 It would be useful to show all the ROAs associated with an IP network. To that end, this extension adds a new "rpkiRoas"
@@ -548,6 +555,13 @@ Here is an elided example of the search results when finding information for an 
 
 ## Reverse Search
 
+Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums", a
+related resource type of "rpkiAspa", and an ASPA property of "autnum" or "providerAutnum", then the reverse search will
+be performed on the autonomous system number objects from its data store.
+
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
+autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries.
+
 ## Relationship with Autonomous System Number Object Class
 
 It would be useful to show all the ASPAs associated with an autonomous system number. To that end, this extension adds a
@@ -724,9 +738,69 @@ Contact: IETF <iesg@ietf.org>
 
 Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
 
-## RDAP Reverse Search Registry
+## RDAP Reverse Search Registry {#reverse_search_registry}
 
-## RDAP Reverse Search Mapping Registry
+IANA is requested to register the following entries in the "RDAP Reverse Search" registry at
+https://www.iana.org/assignments/rdap-reverse-search/:
+
+Searchable Resource Type: ips
+
+Related Resource Type: rpkiRoa
+
+Property: originAutnum
+
+Description: The server supports the IP search based on the origin autonomous system number of an associated ROA.
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
+Searchable Resource Type: ips
+
+Related Resource Type: rpkiRoa
+
+Property: startAddress
+
+Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of the CIDR address
+block of an associated ROA.
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
+Searchable Resource Type: autnums
+
+Related Resource Type: rpkiAspa
+
+Property: autnum
+
+Description: The server supports the autnum search based on the autonomous system number of an associated ASPA.
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
+Searchable Resource Type: autnums
+
+Related Resource Type: rpkiAspa
+
+Property: providerAutnum
+
+Description: The server supports the autnum search based on the provider autonomous system number of an associated ASPA.
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
+## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
 
 # Acknowledgements
 
