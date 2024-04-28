@@ -35,11 +35,11 @@ inter-domain routing ([@RFC4271]) on the internet. RPKI enables internet number 
 assert about their registered IP addresses and autonomous system numbers to help prevent route hijacks and leaks. To
 that end, RPKI defines the following cryptographic profiles:
 
-* Route Origin Authorization (ROA, [@!RFC6482] and [@?I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where an IP
-  address prefix holder cryptographically asserts about the origin autonomous system (AS) for routing that IP address
-  prefix.
-* Autonomous System Provider Authorization (ASPA, [@?I-D.ietf-sidrops-aspa-profile]) when an autonomous system number
-  (ASN) holder cryptographically asserts about the provider AS for that ASN.
+* Route Origin Authorization (ROA, [@!RFC6482] and [@?I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where a
+  Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block holder cryptographically asserts about the origin
+  autonomous system (AS, [@RFC4271]) for routing that CIDR address block.
+* Autonomous System Provider Authorization (ASPA, [@?I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
+  (ASN, [@!RFC5396]) holder cryptographically asserts about the provider AS for that ASN.
 
 This RDAP extension maps the registration data from the Regional Internet Registries (RIRs), including at national and
 local levels, for aforementioned RPKI profiles into RDAP. The intent is that such RDAP data can complement the existing
@@ -76,18 +76,76 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * objectClassName -- the string "rpki roa"
 * handle -- a string representing the RIR-unique identifier of the ROA registration
 * name -- a string representing an identifier assigned to the ROA registration by the registration holder
-* prefix -- a string representing the IP address prefix (prefix/length) of the ROA, either IPv4 or IPv6
+* cidr -- a string representing the CIDR address block (CIDR prefix/CIDR length) of the ROA, either IPv4 or IPv6
+* startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
+  IPv4 or IPv6
+* endAddress -- a string representing the ending IP address of the CIDR address block, either IPv4 or IPv6
+* prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
+  IPv4 and up to 128 for IPv6
 * ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies
   an IPv6 ROA
-* maxLength -- a number representing the maximum length of the IP address prefix that the origin AS is authorized to
-  advertise; up to 32 for IPv4 and up to 128 for IPv6
+* maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
+  authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number [@!RFC5396]
-* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
-  end-entity certificate for the ROA
 * autoRenewed -- a boolean indicating if the ROA is auto-renewed or not
 * status -- a string indicating the validation state of the ROA
-* remarks -- see [@!RFC9083, section 4.3]
+* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
+  end-entity certificate for the ROA
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR objects
+* remarks -- see [@!RFC9083, section 4.3]
+
+Here is an elided example of a ROA object in RDAP:
+
+```
+{
+  "objectClassName": "rpki roa",
+  "handle": "XXXX",
+  "name": "ROA-1",
+  "cidr": "2001:db8::/48",
+  "startAddress": "2001:db8::",
+  "endAddress": "2001:db8:0:ffff:ffff:ffff:ffff:ffff",
+  "prefixLength": 48,
+  "ipVersion": "v6",
+  "maxLength": 64,
+  "originAutnum": 65536,
+  "autoRenewed": true,
+  "status": [ "valid" ],
+  "events":
+  [
+    {
+      "eventAction": "not valid before",
+      "eventDate": "2024-04-27T23:59:59Z"
+    },
+    {
+      "eventAction": "not valid after",
+      "eventDate": "2025-04-27T23:59:59Z"
+    },
+    ...
+  ],
+  "links":
+  [
+    {
+      "value": "https://example.net/rpkiRoa/XXXX",
+      "rel": "self",
+      "href": "https://example.net/rpkiRoa/XXXX",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rpkiRoa/XXXX",
+      "rel": "related",
+      "href": "https://example.net/ip/2001:db8::/48",
+      "type": "application/rdap+json"
+    },
+    ...
+  ],
+  "remarks":
+  [
+    {
+      "description": [ "A ROA object in RDAP" ]
+    }
+  ],
+}
+```
 
 ## Lookup
 
