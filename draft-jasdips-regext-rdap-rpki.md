@@ -87,10 +87,13 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
   authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number [@!RFC5396]
+* notValidBefore -- a string that contains the time and date representing the not-valid-before date of the end-entity
+  certificate for the ROA
+* notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
+  certificate for the ROA
 * autoRenewed -- a boolean indicating if the ROA is auto-renewed or not
 * status -- a string indicating the validation state of the ROA
-* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
-  end-entity certificate for the ROA
+* events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR objects
 * remarks -- see [@!RFC9083, section 4.3]
 
@@ -108,17 +111,15 @@ Here is an elided example of a ROA object in RDAP:
   "ipVersion": "v6",
   "maxLength": 64,
   "originAutnum": 65536,
+  "notValidBefore": "2024-04-27T23:59:59Z",
+  "notValidAfter": "2025-04-27T23:59:59Z"
   "autoRenewed": true,
   "status": [ "valid" ],
   "events":
   [
     {
-      "eventAction": "not valid before",
-      "eventDate": "2024-04-27T23:59:59Z"
-    },
-    {
-      "eventAction": "not valid after",
-      "eventDate": "2025-04-27T23:59:59Z"
+      "eventAction": "registration",
+      "eventDate": "2024-01-01T23:59:59Z"
     },
     ...
   ],
@@ -189,10 +190,13 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * autnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the registration holder
 * providerAutnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the AS that is
   authorized as a provider
+* notValidBefore -- a string that contains the time and date representing the not-valid-before date of the end-entity
+  certificate for the ASPA
+* notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
+  certificate for the ASPA
 * autoRenewed -- a boolean indicating if the ASPA is auto-renewed or not
 * status -- a string indicating the validation state of the ASPA
-* events -- events ([@!RFC9083, section 4.5]) representing the not-valid-before and not-valid-after dates of the
-  end-entity certificate for the ASPA
+* events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
 * remarks -- see [@!RFC9083, section 4.3]
 
@@ -205,17 +209,15 @@ Here is an elided example of an ASPA object in RDAP:
   "name": "ASPA-1",
   "autnum": 65536,
   "providerAutnum": 65537,
+  "notValidBefore": "2024-04-27T23:59:59Z",
+  "notValidAfter": "2025-04-27T23:59:59Z"
   "autoRenewed": true,
   "status": [ "valid" ],
   "events":
   [
     {
-      "eventAction": "not valid before",
-      "eventDate": "2024-04-27T23:59:59Z"
-    },
-    {
-      "eventAction": "not valid after",
-      "eventDate": "2025-04-27T23:59:59Z"
+      "eventAction": "registration",
+      "eventDate": "2024-01-01T23:59:59Z"
     },
     ...
   ],
