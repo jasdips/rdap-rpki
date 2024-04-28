@@ -142,7 +142,7 @@ Here is an elided example of a ROA object in RDAP:
     {
       "description": [ "A ROA object in RDAP" ]
     }
-  ],
+  ]
 }
 ```
 
@@ -219,11 +219,11 @@ Here is an elided example for an IP network with ROAs:
 
 ```
 {
-  "objectClassName" : "ip network",
-  "handle" : "ZZZZ-RIR",
-  "startAddress" : "2001:db8::",
-  "endAddress" : "2001:db8:ffff:ffff:ffff:ffff:ffff:ffff",
-  "ipVersion" : "v6",
+  "objectClassName": "ip network",
+  "handle": "ZZZZ-RIR",
+  "startAddress": "2001:db8::",
+  "endAddress": "2001:db8:ffff:ffff:ffff:ffff:ffff:ffff",
+  "ipVersion": "v6",
   ...
   "rpkiRoas":
   [
@@ -302,7 +302,8 @@ Here is an elided example for an IP network with ROAs:
         },
         ...
       ]
-    }
+    },
+    ...
   ]
 }
 ```
@@ -337,7 +338,7 @@ Here is an elided example of an ASPA object in RDAP:
   "handle": "YYYY",
   "name": "ASPA-1",
   "autnum": 65536,
-  "providerAutnum": 65537,
+  "providerAutnum": 65542,
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z"
   "autoRenewed": true,
@@ -371,7 +372,7 @@ Here is an elided example of an ASPA object in RDAP:
     {
       "description": [ "An ASPA object in RDAP" ]
     }
-  ],
+  ]
 }
 ```
 
@@ -429,15 +430,108 @@ rpkiAspas?providerAutnum=ZZZZ
 
 ZZZZ is an autonomous system number representing the "providerAutnum" property of an ASPA, as described in
 (#aspa_object_class). The following URL would be used to find information for ASPAs with provider autonomous system
-number 65537:
+number 65542:
 
 ```
-https://example.net/rdap/rpkiAspas?providerAutnum=65537
+https://example.net/rdap/rpkiAspas?providerAutnum=65542
 ```
 
 ## Reverse Search
 
 ## Relationship with Autonomous System Number Object Class
+
+It would be useful to show all the ASPAs associated with an autonomous system number. To that end, this extension adds a
+new "rpkiAspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
+
+* rpkiAspas -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number
+
+Here is an elided example for an autonomous system number with ASPAs:
+
+```
+{
+  "objectClassName": "autnum",
+  "handle": "ZZZZ-RIR",
+  "startAutnum": 65536,
+  "endAutnum": 65541,
+  ...
+  "rpkiAspas":
+  [
+    {
+      "objectClassName": "rpki aspa",
+      "handle": "XXXX",
+      "name": "ASPA-1",
+      "autnum": 65536,
+      "providerAutnum": 65542,
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z"
+      "autoRenewed": true,
+      "status": [ "valid" ],
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpkiAspa/YYYY",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65536",
+          "type": "application/rdap+json"
+        },
+        ...
+      ],
+      ...
+    },
+    {
+      "objectClassName": "rpki aspa",
+      "handle": "YYYY",
+      "name": "ASPA-2",
+      "autnum": 65537,
+      "providerAutnum": 65543,
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z"
+      "autoRenewed": true,
+      "status": [ "not found" ],
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpkiAspa/YYYY",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65537",
+          "type": "application/rdap+json"
+        },
+        ...
+      ],
+      ...
+    },
+    ...
+  ]
+}
+```
 
 # RDAP Conformance
 
