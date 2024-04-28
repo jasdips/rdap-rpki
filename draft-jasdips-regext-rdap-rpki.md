@@ -541,6 +541,79 @@ Here is an elided example for an autonomous system number with ASPAs:
 
 ## RDAP Extensions Registry
 
+IANA is requested to register the following values in the RDAP Extensions Registry  at
+https://www.iana.org/assignments/rdap-extensions/:
+
+Extension identifier: rpki1
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+Extension identifier: rpkiRoa
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+Extension identifier: rpkiRoas
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+Extension identifier: rpkiRoaSearchResults
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+Extension identifier: rpkiAspa
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+Extension identifier: rpkiAspas
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+Extension identifier: rpkiAspaSearchResults
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
 ## RDAP Reverse Search Registry
 
 ## RDAP Reverse Search Mapping Registry
