@@ -740,7 +740,7 @@ Intended usage: This extension identifier is used for accessing the RPKI registr
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
-IANA is requested to register the following entries in the "RDAP Reverse Search" registry at
+IANA is requested to register the following entries in the RDAP Reverse Search Registry at
 https://www.iana.org/assignments/rdap-reverse-search/:
 
 Searchable Resource Type: ips
@@ -801,6 +801,65 @@ Registrant Contact Information: iesg@ietf.org
 Reference: [this document]
 
 ## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
+
+IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry at
+https://www.iana.org/assignments/rdap-reverse-search-mapping/:
+
+Searchable Resource Type: ips
+
+Related Resource Type: rpkiRoa
+
+Property: originAutnum
+
+Property Path: $.originAutnum
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
+Searchable Resource Type: ips
+
+Related Resource Type: rpkiRoa
+
+Property: startAddress
+
+Property Path: $.startAddress
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
+Searchable Resource Type: autnums
+
+Related Resource Type: rpkiAspa
+
+Property: autnum
+
+Property Path: $.autnum
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
+Searchable Resource Type: autnums
+
+Related Resource Type: rpkiAspa
+
+Property: providerAutnum
+
+Property Path: $.providerAutnum
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
 
 # Acknowledgements
 
