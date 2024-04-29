@@ -24,7 +24,9 @@ email = "jasdips@arin.net"
 
 .# Abstract
 
-TODO
+The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI) to secure inter-domain
+routing on the internet. This document defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for
+accessing the RPKI registration data in the Regional Internet Registries (RIRs) through RDAP.
 
 {mainmatter}
 
@@ -672,7 +674,7 @@ rdapConformance array of its responses, in accordance with the following:
 * Any response that includes an ASPA search link, includes the "rpki1" and "rpkiAspas" literals.
 * Any response for an ASPA search request includes the "rpki1", "rpkiAspa", "rpkiAspas", and "rpkiAspaSearchResults"
   literals.
-* a response to a "/help" request includes the "rpki1", "rpkiRoa", "rpkiRoas", "rpkiRoaSearchResults", "rpkiAspa",
+* A response to a "/help" request includes the "rpki1", "rpkiRoa", "rpkiRoas", "rpkiRoaSearchResults", "rpkiAspa",
   "rpkiAspas", and "rpkiAspaSearchResults" literals.
 
 Although responses will generally not include all the rdapConformance string literals defined in this document, that is
