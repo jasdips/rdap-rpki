@@ -96,7 +96,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
   certificate for the ROA ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if the registered ROA is auto-renewed or not
-* status -- a string indicating the validation state of the ROA ([@!RFC6483])
+* bgpStatus -- a string representing the result of validating a BGP announcement against the ROA ([@!RFC6483])
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR objects
 * remarks -- see [@!RFC9083, section 4.3]
@@ -116,7 +116,7 @@ Here is an elided example of a ROA object in RDAP:
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z"
   "autoRenewed": true,
-  "status": [ "valid" ],
+  "bgpStatus": [ "rpki valid" ],
   "events":
   [
     {
@@ -244,7 +244,7 @@ Here is an elided example of the search results when finding information for a R
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z"
       "autoRenewed": true,
-      "status": [ "valid" ],
+      "bgpStatus": [ "rpki valid" ],
       "events":
       [
         {
@@ -315,7 +315,7 @@ Here is an elided example for an IP network with ROAs:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z"
       "autoRenewed": true,
-      "status": [ "valid" ],
+      "bgpStatus": [ "rpki valid" ],
       "events":
       [
         {
@@ -353,7 +353,7 @@ Here is an elided example for an IP network with ROAs:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z"
       "autoRenewed": true,
-      "status": [ "not found" ],
+      "bgpStatus": [ "rpki unknown" ],
       "events":
       [
         {
@@ -402,7 +402,8 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
   certificate for the ASPA ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if the registered ASPA is auto-renewed or not
-* status -- a string indicating the validation state of the ASPA ([@!RFC6483])
+* bgpStatus -- a string representing the result of validating a BGP announcement against the ASPA
+  ([@!I-D.ietf-sidrops-aspa-verification])
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
 * remarks -- see [@!RFC9083, section 4.3]
@@ -419,7 +420,7 @@ Here is an elided example of an ASPA object in RDAP:
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z"
   "autoRenewed": true,
-  "status": [ "valid" ],
+  "bgpStatus": [ "rpki valid" ],
   "events":
   [
     {
@@ -544,7 +545,7 @@ Here is an elided example of the search results when finding information for an 
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z"
       "autoRenewed": true,
-      "status": [ "valid" ],
+      "bgpStatus": [ "rpki valid" ],
       "events":
       [
         {
@@ -612,7 +613,7 @@ Here is an elided example for an autonomous system number with ASPAs:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z"
       "autoRenewed": true,
-      "status": [ "valid" ],
+      "bgpStatus": [ "rpki valid" ],
       "events":
       [
         {
@@ -648,7 +649,7 @@ Here is an elided example for an autonomous system number with ASPAs:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z"
       "autoRenewed": true,
-      "status": [ "not found" ],
+      "bgpStatus": [ "rpki unknown" ],
       "events":
       [
         {
@@ -782,6 +783,41 @@ Published specification: [this document]
 Contact: IETF <iesg@ietf.org>
 
 Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+## RDAP JSON Values Registry
+
+IANA is requested to register the following entries in the RDAP JSON Values Registry at
+https://www.iana.org/assignments/rdap-json-values/:
+
+Value: rpki valid
+
+Type: status
+
+Description: When validating a BGP announcement against an RPKI profile object returns a "Valid" result.
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Value: rpki invalid
+
+Type: status
+
+Description: When validating a BGP announcement against an RPKI profile object returns an "Invalid" result.
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Value: rpki unknown
+
+Type: status
+
+Description: When validating a BGP announcement against an RPKI profile object returns an "Unknown" result.
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
