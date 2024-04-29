@@ -89,8 +89,8 @@ The Route Origin Authorization (ROA) object class can contain the following memb
   an IPv6 ROA ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
   authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
-* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC5396],
-  ([@!I-D.ietf-sidrops-rfc6482bis, section 4]))
+* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number
+  ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * notValidBefore -- a string that contains the time and date representing the not-valid-before date of the end-entity
   certificate for the ROA ([@!RFC6487, section 4])
 * notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
@@ -189,9 +189,9 @@ https://example.net/rdap/rpkiRoas?name=ROA-*
 
 Searches for ROA information by CIDR are specified using this form:
 
-rpkiRoas?startAddress=XXXX&&prefixLength=YYYY
+rpkiRoas?startAddress=YYYY&&prefixLength=ZZZZ
 
-XXXX is an IP address representing the "startAddress" property of a ROA and YYYY is a CIDR length representing its
+YYYY is an IP address representing the "startAddress" property of a ROA and ZZZZ is a CIDR length representing its
 "prefixLength" property, as described in (#roa_object_class). The following URL would be used to find information for
 the most-specific ROA matching the "2001:db8::/64" CIDR:
 
@@ -201,9 +201,9 @@ https://example.net/rdap/rpkiRoas?startAddress=2001%3Adb8%3A%3A&&prefixLength=64
 
 Searches for ROA information by autonomous system number are specified using this form:
 
-rpkiRoas?autnum=ZZZZ
+rpkiRoas?autnum=AAAA
 
-ZZZZ is an autonomous system number representing the "autnum" property of a ROA, as described in (#roa_object_class).
+AAAA is an autonomous system number representing the "autnum" property of a ROA, as described in (#roa_object_class).
 The following URL would be used to find information for a ROA with origin autonomous system number 65536:
 
 ```
@@ -220,7 +220,15 @@ Here is an elided example of the search results when finding information for a R
 
 ```
 {
-  "rdapConformance": [ "rdap_level_0", "rpki1", "rpkiRoa", "rpkiRoas", "rpkiRoaSearchResults" ],
+  "rdapConformance":
+  [
+    "rdap_level_0",
+    "rpki1",
+    "rpkiRoa",
+    "rpkiRoas",
+    "rpkiRoaSearchResults",
+    ...
+  ],
   ...
   "rpkiRoaSearchResults":
   [
@@ -273,7 +281,8 @@ related resource type of "rpkiRoa", and a ROA property of "originAutnum" or "sta
 be performed on the IP network objects from its data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for IP
-network searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries.
+network searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource
+type is "rpkiRoa".
 
 ## Relationship with IP Network Object Class
 
@@ -384,15 +393,16 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * objectClassName -- the string "rpki aspa"
 * handle -- a string representing the RIR-unique identifier of the ASPA registration
 * name -- a string representing an identifier assigned to the ASPA registration by the registration holder
-* autnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the registration holder
-* providerAutnum -- an unsigned 32-bit integer representing the autonomous system number [@!RFC5396] of the AS that is
-  authorized as a provider
+* autnum -- an unsigned 32-bit integer representing the autonomous system number of the registration holder
+  ([@!I-D.ietf-sidrops-aspa-profile, section 3])
+* providerAutnum -- an unsigned 32-bit integer representing the autonomous system number of the AS that is authorized
+  as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * notValidBefore -- a string that contains the time and date representing the not-valid-before date of the end-entity
-  certificate for the ASPA
+  certificate for the ASPA ([@!RFC6487, section 4])
 * notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
-  certificate for the ASPA
-* autoRenewed -- a boolean indicating if the ASPA is auto-renewed or not
-* status -- a string indicating the validation state of the ASPA
+  certificate for the ASPA ([@!RFC6487, section 4])
+* autoRenewed -- a boolean indicating if the registered ASPA is auto-renewed or not
+* status -- a string indicating the validation state of the ASPA ([@!RFC6483])
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
 * remarks -- see [@!RFC9083, section 4.3]
@@ -402,7 +412,7 @@ Here is an elided example of an ASPA object in RDAP:
 ```
 {
   "objectClassName": "rpki aspa",
-  "handle": "YYYY",
+  "handle": "XXXX",
   "name": "ASPA-1",
   "autnum": 65536,
   "providerAutnum": 65542,
@@ -421,13 +431,13 @@ Here is an elided example of an ASPA object in RDAP:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpkiAspa/YYYY",
+      "value": "https://example.net/rdap/rpkiAspa/XXXX",
       "rel": "self",
-      "href": "https://example.net/rdap/rpkiAspa/YYYY",
+      "href": "https://example.net/rdap/rpkiAspa/XXXX",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpkiAspa/YYYY",
+      "value": "https://example.net/rdap/rpkiAspa/XXXX",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
@@ -513,7 +523,15 @@ Here is an elided example of the search results when finding information for an 
 
 ```
 {
-  "rdapConformance": [ "rdap_level_0", "rpki1", "rpkiAspa", "rpkiAspas", "rpkiAspaSearchResults" ],
+  "rdapConformance":
+  [
+    "rdap_level_0",
+    "rpki1",
+    "rpkiAspa",
+    "rpkiAspas",
+    "rpkiAspaSearchResults",
+    ...
+  ],
   ...
   "rpkiAspaSearchResults":
   [
@@ -538,13 +556,13 @@ Here is an elided example of the search results when finding information for an 
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "value": "https://example.net/rdap/rpkiAspa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiAspa/YYYY",
+          "href": "https://example.net/rdap/rpkiAspa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "value": "https://example.net/rdap/rpkiAspa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
@@ -564,7 +582,8 @@ related resource type of "rpkiAspa", and an ASPA property of "autnum" or "provid
 be performed on the autonomous system number objects from its data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
-autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries.
+autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
+related resource type is "rpkiAspa".
 
 ## Relationship with Autonomous System Number Object Class
 
@@ -605,13 +624,13 @@ Here is an elided example for an autonomous system number with ASPAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "value": "https://example.net/rdap/rpkiAspa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiAspa/YYYY",
+          "href": "https://example.net/rdap/rpkiAspa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "value": "https://example.net/rdap/rpkiAspa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
