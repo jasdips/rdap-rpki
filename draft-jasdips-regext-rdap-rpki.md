@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-04-28T00:00:00Z
+date = 2024-04-29T00:00:00Z
 
 [[author]]
 initials="J."
@@ -96,7 +96,8 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
   certificate for the ROA ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if the registered ROA is auto-renewed or not
-* bgpStatus -- a string representing the result of validating a BGP announcement against the ROA ([@!RFC6483])
+* bgpStatus -- a string representing the result of validating a BGP announcement against the ROA ([@!RFC6483]); see
+  (#json_values_registry) for possible values
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR objects
 * remarks -- see [@!RFC9083, section 4.3]
@@ -204,7 +205,7 @@ Searches for ROA information by autonomous system number are specified using thi
 rpkiRoas?autnum=AAAA
 
 AAAA is an autonomous system number representing the "autnum" property of a ROA, as described in (#roa_object_class).
-The following URL would be used to find information for a ROA with origin autonomous system number 65536:
+The following URL would be used to find information for ROAs with origin autonomous system number 65536:
 
 ```
 https://example.net/rdap/rpkiRoas?autnum=65536
@@ -215,7 +216,7 @@ https://example.net/rdap/rpkiRoas?autnum=65536
 The ROA search results are returned in the "rpkiRoaSearchResults" member, which is an array of ROA objects
 ((#roa_object_class)).
 
-Here is an elided example of the search results when finding information for a ROA with origin autonomous system number
+Here is an elided example of the search results when finding information for ROAs with origin autonomous system number
 65536:
 
 ```
@@ -269,16 +270,18 @@ Here is an elided example of the search results when finding information for a R
         },
         ...
       ]
-    }
+    },
+    ...
   ]
 }
 ```
 
 ## Reverse Search
 
-Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips", a
-related resource type of "rpkiRoa", and a ROA property of "originAutnum" or "startAddress", then the reverse search will
-be performed on the IP network objects from its data store.
+Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips"
+([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpkiRoa", and a ROA property of
+"originAutnum" or "startAddress", then the reverse search will be performed on the IP network objects from its data
+store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for IP
 network searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource
@@ -286,12 +289,12 @@ type is "rpkiRoa".
 
 ## Relationship with IP Network Object Class
 
-It would be useful to show all the ROAs associated with an IP network. To that end, this extension adds a new "rpkiRoas"
-member to the IP Network object class ([@!RFC9083, section 5.4]):
+It would be useful to show all the ROAs associated with an IP network object. To that end, this extension adds a new
+"rpkiRoas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
 * rpkiRoas -- an array of ROA objects ((#roa_object_class)) for the IP network
 
-Here is an elided example for an IP network with ROAs:
+Here is an elided example for an IP network object with ROAs:
 
 ```
 {
@@ -403,7 +406,7 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
   certificate for the ASPA ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if the registered ASPA is auto-renewed or not
 * bgpStatus -- a string representing the result of validating a BGP announcement against the ASPA
-  ([@!I-D.ietf-sidrops-aspa-verification])
+  ([@!I-D.ietf-sidrops-aspa-verification]); see (#json_values_registry) for possible values
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
 * remarks -- see [@!RFC9083, section 4.3]
@@ -496,7 +499,7 @@ Searches for ASPA information by autonomous system number are specified using th
 rpkiAspas?autnum=YYYY
 
 YYYY is an autonomous system number representing the "autnum" property of an ASPA, as described in (#aspa_object_class).
-The following URL would be used to find information for an ASPA with autonomous system number 65536:
+The following URL would be used to find information for ASPAs with autonomous system number 65536:
 
 ```
 https://example.net/rdap/rpkiAspas?autnum=65536
@@ -519,8 +522,7 @@ https://example.net/rdap/rpkiAspas?providerAutnum=65542
 The ASPA search results are returned in the "rpkiAspaSearchResults" member, which is an array of ASPA objects
 ((#aspa_object_class)).
 
-Here is an elided example of the search results when finding information for an ASPA with autonomous system number
-65536:
+Here is an elided example of the search results when finding information for ASPAs with autonomous system number 65536:
 
 ```
 {
@@ -571,16 +573,18 @@ Here is an elided example of the search results when finding information for an 
         ...
       ],
       ...
-    }
+    },
+    ...
   ]
 }
 ```
 
 ## Reverse Search
 
-Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums", a
-related resource type of "rpkiAspa", and an ASPA property of "autnum" or "providerAutnum", then the reverse search will
-be performed on the autonomous system number objects from its data store.
+Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums"
+([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpkiAspa", and an ASPA property of
+"autnum" or "providerAutnum", then the reverse search will be performed on the autonomous system number objects from its
+data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
 autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
@@ -588,12 +592,12 @@ related resource type is "rpkiAspa".
 
 ## Relationship with Autonomous System Number Object Class
 
-It would be useful to show all the ASPAs associated with an autonomous system number. To that end, this extension adds a
-new "rpkiAspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
+It would be useful to show all the ASPAs associated with an autonomous system number object. To that end, this extension
+adds a new "rpkiAspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
 
 * rpkiAspas -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number
 
-Here is an elided example for an autonomous system number with ASPAs:
+Here is an elided example for an autonomous system number object with ASPAs:
 
 ```
 {
@@ -784,7 +788,7 @@ Contact: IETF <iesg@ietf.org>
 
 Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
 
-## RDAP JSON Values Registry
+## RDAP JSON Values Registry {#json_values_registry}
 
 IANA is requested to register the following entries in the RDAP JSON Values Registry at
 https://www.iana.org/assignments/rdap-json-values/:
@@ -945,7 +949,7 @@ Reference: [this document]
 
 # Acknowledgements
 
-Andy Newton helped clarify why the RPKI registration data in RDAP would be useful.
+Andy Newton helped clarify why making the RPKI registration data accessible through RDAP would be useful.
 
 {backmatter}
 
