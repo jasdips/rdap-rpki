@@ -794,7 +794,7 @@ Related Resource Type: rpkiRoa
 
 Property: originAutnum
 
-Description: The server supports the IP search based on the origin autonomous system number of an associated ROA.
+Description: The server supports the IP search based on the origin autonomous system number of an associated RPKI ROA.
 
 Registrant Name: IETF
 
@@ -809,7 +809,7 @@ Related Resource Type: rpkiRoa
 Property: startAddress
 
 Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of the CIDR address
-block of an associated ROA.
+block of an associated RPKI ROA.
 
 Registrant Name: IETF
 
@@ -823,7 +823,7 @@ Related Resource Type: rpkiAspa
 
 Property: autnum
 
-Description: The server supports the autnum search based on the autonomous system number of an associated ASPA.
+Description: The server supports the autnum search based on the autonomous system number of an associated RPKI ASPA.
 
 Registrant Name: IETF
 
@@ -837,7 +837,8 @@ Related Resource Type: rpkiAspa
 
 Property: providerAutnum
 
-Description: The server supports the autnum search based on the provider autonomous system number of an associated ASPA.
+Description: The server supports the autnum search based on the provider autonomous system number of an associated RPKI
+ASPA.
 
 Registrant Name: IETF
 
