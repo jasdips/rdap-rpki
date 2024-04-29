@@ -216,7 +216,7 @@ Here is an elided example of the search results when finding information for a R
 
 ```
 {
-  "rdapConformance": [ "rdap_level_0" ],
+  "rdapConformance": [ "rdap_level_0", "rpki1", "rpkiRoa", "rpkiRoas", "rpkiRoaSearchResults" ],
   ...
   "rpkiRoaSearchResults":
   [
@@ -509,7 +509,7 @@ Here is an elided example of the search results when finding information for an 
 
 ```
 {
-  "rdapConformance": [ "rdap_level_0" ],
+  "rdapConformance": [ "rdap_level_0", "rpki1", "rpkiAspa", "rpkiAspas", "rpkiAspaSearchResults" ],
   ...
   "rpkiAspaSearchResults":
   [
@@ -659,7 +659,29 @@ Here is an elided example for an autonomous system number with ASPAs:
 
 # RDAP Conformance
 
+A server that supports the functionality specified in this document MUST include additional string literals in the
+rdapConformance array of its responses, in accordance with the following:
+
+* Any response that includes a ROA lookup link, includes the "rpki1" and "rpkiRoa" literals.
+* Any response for a ROA lookup request includes the "rpki1" and "rpkiRoa" literals.
+* Any response that includes a ROA search link, includes the "rpki1" and "rpkiRoas" literals.
+* Any response for a ROA search request includes the "rpki1", "rpkiRoa", "rpkiRoas", and "rpkiRoaSearchResults"
+  literals.
+* Any response that includes an ASPA lookup link, includes the "rpki1" and "rpkiAspa" literals.
+* Any response for an ASPA lookup request includes the "rpki1" and "rpkiAspa" literals.
+* Any response that includes an ASPA search link, includes the "rpki1" and "rpkiAspas" literals.
+* Any response for an ASPA search request includes the "rpki1", "rpkiAspa", "rpkiAspas", and "rpkiAspaSearchResults"
+  literals.
+* a response to a "/help" request includes the "rpki1", "rpkiRoa", "rpkiRoas", "rpkiRoaSearchResults", "rpkiAspa",
+  "rpkiAspas", and "rpkiAspaSearchResults" literals.
+
+Although responses will generally not include all the rdapConformance string literals defined in this document, that is
+not meant to imply that a server can support only a portion of the functionality defined in this document.
+
 # Security Considerations
+
+This document does not introduce any new security considerations past those already discussed in the RDAP protocol
+specifications ([@RFC7481], [@RFC9560]).
 
 # IANA Considerations
 
