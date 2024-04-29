@@ -1,5 +1,5 @@
 %%%
-Title = "An RDAP Extension for RPKI Data"
+Title = "An RDAP Extension for RPKI Registration Data"
 area = "Applications and Real-Time Area (ART)"
 workgroup = "Registration Protocols Extensions (regext)"
 abbrev = "rdap-rpki"
@@ -24,9 +24,9 @@ email = "jasdips@arin.net"
 
 .# Abstract
 
-The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI) to secure inter-domain
-routing on the internet. This document defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for
-accessing the RPKI registration data in the Regional Internet Registries (RIRs) through RDAP.
+The Resource Public Key Infrastructure (RPKI) is used to secure inter-domain routing on the internet. This document
+defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for accessing the RPKI registration data in
+the Regional Internet Registries (RIRs) through RDAP.
 
 {mainmatter}
 
@@ -34,8 +34,8 @@ accessing the RPKI registration data in the Regional Internet Registries (RIRs) 
 
 The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI, [@!RFC6480]) to secure
 inter-domain routing ([@RFC4271]) on the internet. RPKI enables internet number resource holders to cryptographically
-assert about their registered IP addresses and autonomous system numbers to help prevent route hijacks and leaks. To
-that end, RPKI defines the following cryptographic profiles:
+assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and leaks. To that
+end, RPKI defines the following cryptographic profiles:
 
 * Route Origin Authorization (ROA, [@!RFC6482] and [@!I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where a
   Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block holder cryptographically asserts about the origin
@@ -43,11 +43,12 @@ that end, RPKI defines the following cryptographic profiles:
 * Autonomous System Provider Authorization (ASPA, [@!I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
   (ASN, [@!RFC5396]) holder cryptographically asserts about the provider AS for that ASN.
 
-This RDAP extension maps the registration data from the Regional Internet Registries (RIRs), including at national and
-local levels, for aforementioned RPKI profiles into RDAP. The intent is that such RDAP data can complement the existing
-RPKI diagnostic tools when troubleshooting a route hijack or leak, by conveniently providing access to registration
-information from an RIR's database beside what's inherently available from an RPKI profile object. There is metadata
-that is often needed for troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
+This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data in the Regional Internet
+Registries (RIRs), including at national and local levels, for aforementioned RPKI profiles through RDAP. The intent is
+that such RDAP data can complement the existing RPKI diagnostic tools when troubleshooting a route hijack or leak, by
+conveniently providing access to registration information from an RIR's database beside what's inherently available from
+an RPKI profile object. There is metadata that is often needed for troubleshooting that does not appear in, say, a ROA
+or a VRP (Verified ROA Payload); such as:
 
 * Is it an auto-renewing ROA?
 * And if so, when did the first version get published?
@@ -81,20 +82,21 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * handle -- a string representing the RIR-unique identifier of the ROA registration
 * name -- a string representing an identifier assigned to the ROA registration by the registration holder
 * startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
-  IPv4 or IPv6
+  IPv4 or IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
-  IPv4 and up to 128 for IPv6
+  IPv4 and up to 128 for IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies
-  an IPv6 ROA
+  an IPv6 ROA ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
-  authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6
-* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number [@!RFC5396]
+  authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
+* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC5396],
+  ([@!I-D.ietf-sidrops-rfc6482bis, section 4]))
 * notValidBefore -- a string that contains the time and date representing the not-valid-before date of the end-entity
-  certificate for the ROA
+  certificate for the ROA ([@!RFC6487, section 4])
 * notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
-  certificate for the ROA
-* autoRenewed -- a boolean indicating if the ROA is auto-renewed or not
-* status -- a string indicating the validation state of the ROA
+  certificate for the ROA ([@!RFC6487, section 4])
+* autoRenewed -- a boolean indicating if the registered ROA is auto-renewed or not
+* status -- a string indicating the validation state of the ROA ([@!RFC6483])
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR objects
 * remarks -- see [@!RFC9083, section 4.3]
