@@ -99,10 +99,10 @@ The Route Origin Authorization (ROA) object class can contain the following memb
   authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number
   ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
-* notValidBefore -- a string that contains the time and date representing the not-valid-before date of the end-entity
-  certificate for the ROA ([@!RFC6487, section 4])
-* notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
-  certificate for the ROA ([@!RFC6487, section 4])
+* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-before date of the end-entity certificate for the ROA ([@!RFC6487, section 4])
+* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-after date of the end-entity certificate for the ROA ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if the registered ROA is auto-renewed or not
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR objects
@@ -402,10 +402,10 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
   ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * providerAutnum -- an unsigned 32-bit integer representing the autonomous system number of the AS that is authorized
   as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
-* notValidBefore -- a string that contains the time and date representing the not-valid-before date of the end-entity
-  certificate for the ASPA ([@!RFC6487, section 4])
-* notValidAfter -- a string that contains the time and date representing the not-valid-after date of the end-entity
-  certificate for the ASPA ([@!RFC6487, section 4])
+* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-before date of the end-entity certificate for the ASPA ([@!RFC6487, section 4])
+* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-after date of the end-entity certificate for the ASPA ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if the registered ASPA is auto-renewed or not
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
