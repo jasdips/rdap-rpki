@@ -180,7 +180,7 @@ Syntax: rpkiRoas?name=<name search pattern>
 
 Syntax: rpkiRoas?startAddress=<IP address>&&prefixLength=<CIDR length>
 
-Syntax: rpkiRoas?autnum=<autonomous system number>
+Syntax: rpkiRoas?originAutnum=<autonomous system number>
 
 Searches for ROA information by name are specified using this form:
 
@@ -205,15 +205,15 @@ the most-specific ROA matching the "2001:db8::/64" CIDR:
 https://example.net/rdap/rpkiRoas?startAddress=2001%3Adb8%3A%3A&&prefixLength=64
 ```
 
-Searches for ROA information by autonomous system number are specified using this form:
+Searches for ROA information by origin autonomous system number are specified using this form:
 
-rpkiRoas?autnum=AAAA
+rpkiRoas?originAutnum=AAAA
 
-AAAA is an autonomous system number representing the "autnum" property of a ROA, as described in (#roa_object_class).
+AAAA is an autonomous system number representing the "originAutnum" property of a ROA, as described in (#roa_object_class).
 The following URL would be used to find information for ROAs with origin autonomous system number 65536:
 
 ```
-https://example.net/rdap/rpkiRoas?autnum=65536
+https://example.net/rdap/rpkiRoas?originAutnum=65536
 ```
 
 ### Search Results
