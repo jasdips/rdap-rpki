@@ -55,12 +55,17 @@ This document defines a new RDAP extension, "rpki1", for accessing the RPKI regi
 Registries (RIRs), including at national and local levels, for aforementioned RPKI profiles through RDAP. The intent is
 that such RDAP data can complement the existing RPKI diagnostic tools when troubleshooting a route hijack or leak, by
 conveniently providing access to registration information from an RIR's database beside what's inherently available from
-an RPKI profile object. There is metadata that is often needed for troubleshooting that does not appear in, say, a ROA
-or a VRP (Verified ROA Payload); such as:
+an RPKI profile object. There is registration metadata that is often needed for troubleshooting that does not appear in,
+say, a ROA or a VRP (Verified ROA Payload); such as:
 
-* Is it an auto-renewing ROA?
-* And if so, when did the first version get published?
-* And, was it created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route object?
+* Is it an auto-renewing ROA or not?
+* When did the initial version of a ROA get published?
+* Was a ROA created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route object?
+* Which IRR route object is related with a ROA?
+* Which ROAs are associated with an IP network?
+
+Beyond the troubleshooting context, the ability to flexibly look up and search ROAs and ASPAs through RDAP should prove
+beneficial to all users, irrespective of one's RPKI expertise level.
 
 This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA and ASPA
 registration data.
