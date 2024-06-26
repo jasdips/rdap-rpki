@@ -65,7 +65,7 @@ say, a ROA or a VRP (Verified ROA Payload); such as:
 * Which ROAs are associated with an IP network?
 
 Beyond the troubleshooting context, the ability to flexibly look up and search ROAs and ASPAs through RDAP should prove
-beneficial to all users, irrespective of one's RPKI expertise level.
+beneficial to all interested users, irrespective of their RPKI expertise level.
 
 This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA and ASPA
 registration data.
