@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-06-26T00:00:00Z
+date = 2024-06-30T00:00:00Z
 
 [[author]]
 initials="J."
@@ -50,6 +50,9 @@ end, RPKI defines the following cryptographic profiles:
   autonomous system (AS, [@RFC4271]) for routing that CIDR address block.
 * Autonomous System Provider Authorization (ASPA, [@!I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
   (ASN, [@!RFC5396]) holder cryptographically asserts about the provider AS for that ASN.
+* BGPSec Router Certificate ([@RFC8209]) where an ASN holder cryptographically asserts that a router holding the
+  corresponding private key is authorized to emit secure route advertisements on behalf of the AS specified in the
+  certificate.
 
 This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data in the Regional Internet
 Registries (RIRs), including at national and local levels, for aforementioned RPKI profiles through RDAP. The intent is
@@ -64,11 +67,14 @@ say, a ROA or a VRP (Verified ROA Payload); such as:
 * Which IRR route object is related with a ROA?
 * Which ROAs are associated with an IP network?
 
-Beside the troubleshooting context, the ability to conveniently look up and search registered ROAs and ASPAs through
-RDAP would inform users, irrespective of their RPKI expertise level.
+Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
+access to the latter's contact information through RDAP entity objects, which should come handy when troubleshooting.
 
-This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA and ASPA
-registration data.
+Beside the troubleshooting context, the ability to conveniently look up and search registered RPKI data through RDAP
+would inform users, irrespective of their RPKI expertise level.
+
+This specification next defines RDAP object classes, as well as lookup and/or search path segments, for the ROA, ASPA,
+and BGPSec Router Certificate registration data.
 
 ## Requirements Language
 
@@ -214,8 +220,9 @@ Searches for ROA information by origin autonomous system number are specified us
 
 rpkiRoas?originAutnum=AAAA
 
-AAAA is an autonomous system number representing the "originAutnum" property of a ROA, as described in (#roa_object_class).
-The following URL would be used to find information for ROAs with origin autonomous system number 65536:
+AAAA is an autonomous system number representing the "originAutnum" property of a ROA, as described in
+(#roa_object_class). The following URL would be used to find information for ROAs with origin autonomous system number
+65536:
 
 ```
 https://example.net/rdap/rpkiRoas?originAutnum=65536
