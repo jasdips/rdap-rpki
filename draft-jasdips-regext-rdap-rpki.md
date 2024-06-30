@@ -776,7 +776,7 @@ The resource type path segment for exact match lookup of a BGPSec Router Certifi
 
 The following lookup path segment is defined for a BGPSec Router Certificate object:
 
-Syntax: rpkiAspa/<autonomous system number>
+Syntax: rpkiBgpsecRouterCert/<autonomous system number>
 
 For example:
 
