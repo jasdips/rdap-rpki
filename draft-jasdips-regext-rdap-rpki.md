@@ -707,8 +707,8 @@ The BGPSec Router Certificate object class can contain the following members:
 * subject -- a string representing the identity of the router
 * subjectPublicKeyInfo -- an object representing the subject's public key information ([@!RFC8208, section 3.1]), with
   the following members:
-  * publicKeyAlgorithm -- a string representing the algorithm for the public key
-  * publicKey -- a string representation of the public key
+    * publicKeyAlgorithm -- a string representing the algorithm for the public key
+    * publicKey -- a string representation of the public key
 * autnum -- an unsigned 32-bit integer representing the autonomous system number that the router emits secure route
   advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
 * notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
@@ -724,14 +724,14 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
 ```
 {
   "objectClassName": "rpki bgpsec router cert",
-  "handle": "XXXX",
-  "serialNumber": "...",
-  "issuer": "...",
-  "signatureAlgorithm": "...",
-  "subject": "...",
+  "handle": "ABCD",
+  "serialNumber": "1234",
+  "issuer": "CN=ISP-CA",
+  "signatureAlgorithm": "ecdsa-with-SHA256",
+  "subject": "CN=ROUTER-ASN-65536",
   "subjectPublicKeyInfo":
   {
-    "publicKeyAlgorithm": "...",
+    "publicKeyAlgorithm": "id-ecPublicKey",
     "publicKey": "...",
   }
   "autnum": 65536,
@@ -748,13 +748,13 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpkiBgpsecRouterCert/XXXX",
+      "value": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
       "rel": "self",
-      "href": "https://example.net/rdap/rpkiBgpsecRouterCert/XXXX",
+      "href": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpkiBgpsecRouterCert/XXXX",
+      "value": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
@@ -768,6 +768,68 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
     }
   ]
 }
+```
+
+## Lookup
+
+The resource type path segment for exact match lookup of a BGPSec Router Certificate object is "rpkiBgpsecRouterCert".
+
+The following lookup path segment is defined for a BGPSec Router Certificate object:
+
+Syntax: rpkiAspa/<autonomous system number>
+
+For example:
+
+```
+https://example.net/rdap/rpkiBgpsecRouterCert/65536
+```
+
+## Search
+
+The resource type path segment for searching BGPSec Router Certificate objects is "rpkiBgpsecRouterCerts".
+
+The following search path segments are defined for BGPSec Router Certificate objects:
+
+Syntax: rpkiBgpsecRouterCerts?handle=<handle>
+
+Syntax: rpkiBgpsecRouterCerts?issuer=<certificate issuer>
+
+Syntax: rpkiBgpsecRouterCerts?subject=<certificate subject>
+
+Searches for BGPSec router certificate information by handle are specified using this form:
+
+rpkiBgpsecRouterCerts?handle=XXXX
+
+XXXX is a search pattern representing the "handle" property of a BGPSec Router Certificate object, as described in
+(#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
+objects with handle matching the "ABC*" pattern:
+
+```
+https://example.net/rdap/rpkiBgpsecRouterCerts?handle=ABC*
+```
+
+Searches for BGPSec router certificate information by certificate issuer are specified using this form:
+
+rpkiBgpsecRouterCerts?issuer=YYYY
+
+YYYY is a search pattern representing the "issuer" property of a BGPSec Router Certificate object, as described in
+(#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
+objects with issuer matching the "CN=ISP-C*" pattern:
+
+```
+https://example.net/rdap/rpkiBgpsecRouterCerts?issuer=CN%3DISP-C*
+```
+
+Searches for BGPSec router certificate information by certificate subject are specified using this form:
+
+rpkiBgpsecRouterCerts?subject=ZZZZ
+
+ZZZZ is a search pattern representing the "subject" property of a BGPSec Router Certificate object, as described in
+(#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
+objects with subject matching the "CN=ROUTER-ASN-655*" pattern:
+
+```
+https://example.net/rdap/rpkiBgpsecRouterCerts?subject=CN%3DROUTER-ASN-6553*
 ```
 
 # RDAP Conformance
