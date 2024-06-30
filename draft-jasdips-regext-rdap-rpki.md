@@ -50,7 +50,7 @@ end, RPKI defines the following cryptographic profiles:
   autonomous system (AS, [@RFC4271]) for routing that CIDR address block.
 * Autonomous System Provider Authorization (ASPA, [@!I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
   (ASN, [@!RFC5396]) holder cryptographically asserts about the provider AS for that ASN.
-* BGPSec Router Certificate ([@RFC8209]) where an ASN holder cryptographically asserts that a router holding the
+* BGPSec Router Certificate ([@!RFC8209]) where an ASN holder cryptographically asserts that a router holding the
   corresponding private key is authorized to emit secure route advertisements on behalf of the AS specified in the
   certificate.
 
@@ -689,6 +689,83 @@ Here is an elided example for an autonomous system number object with ASPAs:
       ...
     },
     ...
+  ]
+}
+```
+
+# BGPSec Router Certificate
+
+## Object Class {#bgpsec_router_cert_object_class}
+
+The BGPSec Router Certificate object class can contain the following members:
+
+* objectClassName -- the string "rpki bgpsec router cert"
+* handle -- a string representing the RIR-unique identifier of the BGPSec Router Certificate registration
+* serialNumber -- a string representing the unique identifier for the certificate
+* issuer -- a string representing the Certificate Authority (CA) that issued the certificate
+* signatureAlgorithm -- a string representing the algorithm used by the CA to sign the certificate
+* subject -- a string representing the identity of the router
+* subjectPublicKeyInfo -- an object representing the subject's public key information ([@!RFC8208, section 3.1]), with
+  the following members:
+  * publicKeyAlgorithm -- a string representing the algorithm for the public key
+  * publicKey -- a string representation of the public key
+* autnum -- an unsigned 32-bit integer representing the autonomous system number that the router emits secure route
+  advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
+* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-before date of the certificate
+* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-after date of the certificate
+* events -- see [@!RFC9083, section 4.5]
+* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number object
+* remarks -- see [@!RFC9083, section 4.3]
+
+Here is an elided example of a BGPSec Router Certificate object in RDAP:
+
+```
+{
+  "objectClassName": "rpki bgpsec router cert",
+  "handle": "XXXX",
+  "serialNumber": "...",
+  "issuer": "...",
+  "signatureAlgorithm": "...",
+  "subject": "...",
+  "subjectPublicKeyInfo":
+  {
+    "publicKeyAlgorithm": "...",
+    "publicKey": "...",
+  }
+  "autnum": 65536,
+  "notValidBefore": "2024-04-27T23:59:59Z",
+  "notValidAfter": "2025-04-27T23:59:59Z"
+  "events":
+  [
+    {
+      "eventAction": "registration",
+      "eventDate": "2024-01-01T23:59:59Z"
+    },
+    ...
+  ],
+  "links":
+  [
+    {
+      "value": "https://example.net/rdap/rpkiBgpsecRouterCert/XXXX",
+      "rel": "self",
+      "href": "https://example.net/rdap/rpkiBgpsecRouterCert/XXXX",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpkiBgpsecRouterCert/XXXX",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65536",
+      "type": "application/rdap+json"
+    },
+    ...
+  ],
+  "remarks":
+  [
+    {
+      "description": [ "A BGPSec Router Certificate object in RDAP" ]
+    }
   ]
 }
 ```
