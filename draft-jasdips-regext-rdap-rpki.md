@@ -55,17 +55,17 @@ end, RPKI defines the following cryptographic profiles:
   certificate.
 
 This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data in the Regional Internet
-Registries (RIRs), including at national and local levels, for aforementioned RPKI profiles through RDAP. The intent is
-that such RDAP data can complement the existing RPKI diagnostic tools when troubleshooting a route hijack or leak, by
+Registries (RIRs), including at national and local levels, for aforementioned RPKI profiles through RDAP. The motivation
+is that such RDAP data can complement the existing RPKI diagnostic tools when troubleshooting a route hijack or leak, by
 conveniently providing access to registration information from an RIR's database beside what's inherently available from
 an RPKI profile object. There is registration metadata that is often needed for troubleshooting that does not appear in,
 say, a ROA or a VRP (Verified ROA Payload); such as:
 
 * Is it an auto-renewing ROA or not?
 * When did the initial version of a ROA get published?
-* Was a ROA created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route object?
-* Which IRR route object is related with a ROA?
-* Which ROAs are associated with an IP network?
+* Was a ROA created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route?
+* Which IRR route is related with a ROA?
+* Which IP network is associated with a ROA?
 
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
 access to the latter's contact information through RDAP entity objects, which should come handy when troubleshooting.
@@ -73,8 +73,8 @@ access to the latter's contact information through RDAP entity objects, which sh
 Beside the troubleshooting context, the ability to conveniently look up and search registered RPKI data through RDAP
 would inform users irrespective of their RPKI expertise level.
 
-This specification next defines RDAP object classes, as well as lookup and/or search path segments, for the ROA, ASPA,
-and BGPSec Router Certificate registration data.
+This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA, ASPA, and
+BGPSec Router Certificate registration data.
 
 ## Requirements Language
 
@@ -116,7 +116,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
   representing the not-valid-after date of the end-entity certificate for the ROA ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if the registered ROA is auto-renewed or not
 * events -- see [@!RFC9083, section 4.5]
-* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR objects
+* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR (when defined) objects
 * remarks -- see [@!RFC9083, section 4.3]
 
 Here is an elided example of a ROA object in RDAP:
@@ -308,7 +308,8 @@ type is "rpkiRoa".
 It would be useful to show all the ROAs associated with an IP network object. To that end, this extension adds a new
 "rpkiRoas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
-* rpkiRoas -- an array of ROA objects ((#roa_object_class)) for the IP network
+* rpkiRoas -- an array of ROA objects ((#roa_object_class)) for the IP network; if the array is too large, the server
+  MAY truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an IP network object with ROAs:
 
@@ -420,7 +421,8 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
   representing the not-valid-after date of the end-entity certificate for the ASPA ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if the registered ASPA is auto-renewed or not
 * events -- see [@!RFC9083, section 4.5]
-* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR objects
+* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR (when defined)
+  objects
 * remarks -- see [@!RFC9083, section 4.3]
 
 Here is an elided example of an ASPA object in RDAP:
@@ -605,7 +607,8 @@ related resource type is "rpkiAspa".
 It would be useful to show all the ASPAs associated with an autonomous system number object. To that end, this extension
 adds a new "rpkiAspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
 
-* rpkiAspas -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number
+* rpkiAspas -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number; if the array is too
+  large, the server MAY truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an autonomous system number object with ASPAs:
 
