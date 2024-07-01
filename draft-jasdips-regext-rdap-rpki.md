@@ -71,7 +71,7 @@ Furthermore, correlating registered RPKI data with registered IP networks and au
 access to the latter's contact information through RDAP entity objects, which should come handy when troubleshooting.
 
 Beside the troubleshooting context, the ability to conveniently look up and search registered RPKI data through RDAP
-would inform users, irrespective of their RPKI expertise level.
+would inform users irrespective of their RPKI expertise level.
 
 This specification next defines RDAP object classes, as well as lookup and/or search path segments, for the ROA, ASPA,
 and BGPSec Router Certificate registration data.
@@ -832,6 +832,90 @@ objects with subject matching the "CN=ROUTER-ASN-655*" pattern:
 https://example.net/rdap/rpkiBgpsecRouterCerts?subject=CN%3DROUTER-ASN-6553*
 ```
 
+### Search Results
+
+The BGPSec Router Certificate search results are returned in the "rpkiBgpsecRouterCertSearchResults" member, which is an
+array of BGPSec Router Certificate objects ((#bgpsec_router_cert_object_class)).
+
+Here is an elided example of the search results when finding information for BGPSec Router Certificate objects with
+subject matching the "CN=ROUTER-ASN-655*" pattern:
+
+```
+{
+  "rdapConformance":
+  [
+    "rdap_level_0",
+    "rpki1",
+    "rpkiBgpsecRouterCert",
+    "rpkiBgpsecRouterCerts",
+    "rpkiBgpsecRouterCertSearchResults",
+    ...
+  ],
+  ...
+  "rpkiBgpsecRouterCertSearchResults":
+  [
+    {
+      "objectClassName": "rpki bgpsec router cert",
+      "handle": "ABCD",
+      "serialNumber": "1234",
+      "issuer": "CN=ISP-CA",
+      "signatureAlgorithm": "ecdsa-with-SHA256",
+      "subject": "CN=ROUTER-ASN-65536",
+      "subjectPublicKeyInfo":
+      {
+        "publicKeyAlgorithm": "id-ecPublicKey",
+        "publicKey": "...",
+      }
+      "autnum": 65536,
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z"
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65536",
+          "type": "application/rdap+json"
+        },
+        ...
+      ],
+      "remarks":
+      [
+        {
+          "description": [ "A BGPSec Router Certificate object in RDAP" ]
+        }
+      ]
+    },
+    ...
+  ]
+}
+```
+
+## Reverse Search
+
+Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums"
+([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpkiBgpsecRouterCert", and a BGPSec Router
+Certificate property of "autnum", then the reverse search will be performed on the autonomous system number objects from
+its data store.
+
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
+autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
+related resource type is "rpkiBgpsecRouterCert".
+
 # RDAP Conformance
 
 A server that supports the functionality specified in this document MUST include additional string literals in the
@@ -935,6 +1019,36 @@ Contact: IETF <iesg@ietf.org>
 
 Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
 
+Extension identifier: rpkiBgpsecRouterCert
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+Extension identifier: rpkiBgpsecRouterCerts
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
+Extension identifier: rpkiBgpsecRouterCertSearchResults
+
+Registry operator: Any
+
+Published specification: [this document]
+
+Contact: IETF <iesg@ietf.org>
+
+Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
 IANA is requested to register the following entries in the RDAP Reverse Search Registry at
@@ -998,6 +1112,21 @@ Registrant Contact Information: iesg@ietf.org
 
 Reference: [this document]
 
+Searchable Resource Type: autnums
+
+Related Resource Type: rpkiBgpsecRouterCert
+
+Property: autnum
+
+Description: The server supports the autnum search based on the autonomous system number of an associated RPKI
+BGPSec Router Certificate object.
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
 ## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
 
 IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry at
@@ -1052,6 +1181,20 @@ Related Resource Type: rpkiAspa
 Property: providerAutnum
 
 Property Path: $.providerAutnum
+
+Registrant Name: IETF
+
+Registrant Contact Information: iesg@ietf.org
+
+Reference: [this document]
+
+Searchable Resource Type: autnums
+
+Related Resource Type: rpkiBgpsecRouterCert
+
+Property: autnum
+
+Property Path: $.autnum
 
 Registrant Name: IETF
 
