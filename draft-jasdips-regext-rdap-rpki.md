@@ -931,8 +931,16 @@ rdapConformance array of its responses, in accordance with the following:
 * Any response that includes an ASPA search link, includes the "rpki1" and "rpkiAspas" literals.
 * Any response for an ASPA search request includes the "rpki1", "rpkiAspa", "rpkiAspas", and "rpkiAspaSearchResults"
   literals.
+* Any response that includes a BGPSec Router Certificate lookup link, includes the "rpki1" and "rpkiBgpsecRouterCert"
+  literals.
+* Any response for a BGPSec Router Certificate lookup request includes the "rpki1" and "rpkiBgpsecRouterCert" literals.
+* Any response that includes a BGPSec Router Certificate search link, includes the "rpki1" and "rpkiBgpsecRouterCerts"
+  literals.
+* Any response for a BGPSec Router Certificate search request includes the "rpki1", "rpkiBgpsecRouterCert",
+  "rpkiBgpsecRouterCerts", and "rpkiBgpsecRouterCertSearchResults" literals.
 * A response to a "/help" request includes the "rpki1", "rpkiRoa", "rpkiRoas", "rpkiRoaSearchResults", "rpkiAspa",
-  "rpkiAspas", and "rpkiAspaSearchResults" literals.
+  "rpkiAspas", "rpkiAspaSearchResults", "rpkiBgpsecRouterCert", "rpkiBgpsecRouterCerts", and
+  "rpkiBgpsecRouterCertSearchResults" literals.
 
 Although responses will generally not include all the rdapConformance string literals defined in this document, that is
 not meant to imply that a server can support only a portion of the functionality defined in this document.
