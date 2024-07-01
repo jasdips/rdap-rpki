@@ -1216,7 +1216,7 @@ Reference: [this document]
 
 # Acknowledgements
 
-Job Snijders suggested adding the BGPSec router certificate data to this RDAP extension.
+Job Snijders suggested accessing the BGPSec Router Certificate registration data as well through this RDAP extension.
 
 {backmatter}
 
