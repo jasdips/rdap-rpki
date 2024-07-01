@@ -91,7 +91,7 @@ protocol.
 "..." in examples is used as shorthand for elements defined outside of
 this document.
 
-# Route Origin Authorization
+# Route Origin Authorization {#roa}
 
 ## Object Class {#roa_object_class}
 
@@ -402,7 +402,7 @@ Here is an elided example for an IP network object with ROAs:
 }
 ```
 
-# Autonomous System Provider Authorization
+# Autonomous System Provider Authorization {#aspa}
 
 ## Object Class {#aspa_object_class}
 
@@ -696,7 +696,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
 }
 ```
 
-# BGPSec Router Certificate
+# BGPSec Router Certificate {#bgpsec_router_cert}
 
 ## Object Class {#bgpsec_router_cert_object_class}
 
@@ -719,7 +719,8 @@ The BGPSec Router Certificate object class can contain the following members:
 * notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
   representing the not-valid-after date of the certificate
 * events -- see [@!RFC9083, section 4.5]
-* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number object
+* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR (when defined)
+  objects
 * remarks -- see [@!RFC9083, section 4.3]
 
 Here is an elided example of a BGPSec Router Certificate object in RDAP:
@@ -793,11 +794,11 @@ The resource type path segment for searching BGPSec Router Certificate objects i
 
 The following search path segments are defined for BGPSec Router Certificate objects:
 
-Syntax: rpkiBgpsecRouterCerts?handle=<handle>
+Syntax: rpkiBgpsecRouterCerts?handle=<handle search pattern>
 
-Syntax: rpkiBgpsecRouterCerts?issuer=<certificate issuer>
+Syntax: rpkiBgpsecRouterCerts?issuer=<certificate issuer search pattern>
 
-Syntax: rpkiBgpsecRouterCerts?subject=<certificate subject>
+Syntax: rpkiBgpsecRouterCerts?subject=<certificate subject search pattern>
 
 Searches for BGPSec router certificate information by handle are specified using this form:
 
@@ -945,8 +946,8 @@ rdapConformance array of its responses, in accordance with the following:
   "rpkiAspas", "rpkiAspaSearchResults", "rpkiBgpsecRouterCert", "rpkiBgpsecRouterCerts", and
   "rpkiBgpsecRouterCertSearchResults" literals.
 
-Although responses will generally not include all the rdapConformance string literals defined in this document, that is
-not meant to imply that a server can support only a portion of the functionality defined in this document.
+To be in compliance with this specification, a registry with RPKI data would need to implement at the least one of the
+newly defined RDAP object classes ((#roa), (#aspa), (#bgpsec_router_cert)), and if possible, all.
 
 # Security Considerations
 
@@ -1212,6 +1213,10 @@ Registrant Name: IETF
 Registrant Contact Information: iesg@ietf.org
 
 Reference: [this document]
+
+# Acknowledgements
+
+Job Snijders suggested adding the BGPSec router certificate data to this RDAP extension.
 
 {backmatter}
 
