@@ -709,6 +709,10 @@ not meant to imply that a server can support only a portion of the functionality
 
 # Security Considerations
 
+The RDAP extension in this document MUST NOT be used to directly influence Internet routing. Neither RDAP nor this
+extension define the necessary security properties or distribution mechanisms required to securely add, remove, or
+modify Internet routes.
+
 This document does not introduce any new security considerations past those already discussed in the RDAP protocol
 specifications ([@RFC7481], [@RFC9560]).
 
