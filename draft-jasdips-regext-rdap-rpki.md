@@ -197,8 +197,8 @@ Searches for ROA information by name are specified using this form:
 
 rpki1/roas?name=XXXX
 
-XXXX is a search pattern representing the "name" property of a ROA, as described in (#roa_object_class). The following
-URL would be used to find information for ROA names matching the "ROA-*" pattern:
+XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "name" property of a ROA, as described in
+(#roa_object_class). The following URL would be used to find information for ROA names matching the "ROA-*" pattern:
 
 ```
 https://example.net/rdap/rpki1/roas?name=ROA-*
@@ -497,8 +497,8 @@ Searches for ASPA information by name are specified using this form:
 
 rpki1/aspas?name=XXXX
 
-XXXX is a search pattern representing the "name" property of an ASPA, as described in (#aspa_object_class). The
-following URL would be used to find information for ASPA names matching the "ASPA-*" pattern:
+XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "name" property of an ASPA, as described in
+(#aspa_object_class). The following URL would be used to find information for ASPA names matching the "ASPA-*" pattern:
 
 ```
 https://example.net/rdap/rpki1/aspas?name=ASPA-*
@@ -803,9 +803,9 @@ Searches for BGPSec router certificate information by handle are specified using
 
 rpki1/bgpsec_router_certs?handle=XXXX
 
-XXXX is a search pattern representing the "handle" property of a BGPSec Router Certificate object, as described in
-(#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
-objects with handle matching the "ABC*" pattern:
+XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of a BGPSec Router Certificate
+object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find information for
+BGPSec Router Certificate objects with handle matching the "ABC*" pattern:
 
 ```
 https://example.net/rdap/rpki1/bgpsec_router_certs?handle=ABC*
@@ -815,9 +815,9 @@ Searches for BGPSec router certificate information by certificate issuer are spe
 
 rpki1/bgpsec_router_certs?issuer=YYYY
 
-YYYY is a search pattern representing the "issuer" property of a BGPSec Router Certificate object, as described in
-(#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
-objects with issuer matching the "CN=ISP-C*" pattern:
+YYYY is a search pattern per [@!RFC9082, section 4.1], representing the "issuer" property of a BGPSec Router Certificate
+object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find information for
+BGPSec Router Certificate objects with issuer matching the "CN=ISP-C*" pattern:
 
 ```
 https://example.net/rdap/rpki1/bgpsec_router_certs?issuer=CN%3DISP-C*
@@ -827,9 +827,9 @@ Searches for BGPSec router certificate information by certificate subject are sp
 
 rpki1/bgpsec_router_certs?subject=ZZZZ
 
-ZZZZ is a search pattern representing the "subject" property of a BGPSec Router Certificate object, as described in
-(#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
-objects with subject matching the "CN=ROUTER-ASN-655*" pattern:
+ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of a BGPSec Router
+Certificate object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find
+information for BGPSec Router Certificate objects with subject matching the "CN=ROUTER-ASN-655*" pattern:
 
 ```
 https://example.net/rdap/rpki1/bgpsec_router_certs?subject=CN%3DROUTER-ASN-6553*
