@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-06-30T00:00:00Z
+date = 2024-07-04T00:00:00Z
 
 [[author]]
 initials="J."
@@ -68,7 +68,7 @@ say, a ROA or a VRP (Verified ROA Payload); such as:
 * Which IP network is associated with a ROA?
 
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
-access to the latter's contact information through RDAP entity objects, which should come handy when troubleshooting.
+access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
 
 Beside the troubleshooting context, the ability to conveniently look up and search registered RPKI data through RDAP
 would inform users irrespective of their RPKI expertise level.
