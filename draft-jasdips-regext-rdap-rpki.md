@@ -746,13 +746,13 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+      "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
       "rel": "self",
-      "href": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+      "href": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+      "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
@@ -770,69 +770,70 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
 
 ## Lookup
 
-The resource type path segment for exact match lookup of a BGPSec Router Certificate object is "rpkiBgpsecRouterCert".
+The resource type path segment for exact match lookup of a BGPSec Router Certificate object is
+"rpki1/bgpsec_router_cert".
 
 The following lookup path segment is defined for a BGPSec Router Certificate object:
 
-Syntax: rpkiBgpsecRouterCert/<autonomous system number>
+Syntax: rpki1/bgpsec_router_cert/<autonomous system number>
 
 For example:
 
 ```
-https://example.net/rdap/rpkiBgpsecRouterCert/65536
+https://example.net/rdap/rpki1/bgpsec_router_cert/65536
 ```
 
 ## Search
 
-The resource type path segment for searching BGPSec Router Certificate objects is "rpkiBgpsecRouterCerts".
+The resource type path segment for searching BGPSec Router Certificate objects is "rpki1/bgpsec_router_certs".
 
 The following search path segments are defined for BGPSec Router Certificate objects:
 
-Syntax: rpkiBgpsecRouterCerts?handle=<handle search pattern>
+Syntax: rpki1/bgpsec_router_certs?handle=<handle search pattern>
 
-Syntax: rpkiBgpsecRouterCerts?issuer=<certificate issuer search pattern>
+Syntax: rpki1/bgpsec_router_certs?issuer=<certificate issuer search pattern>
 
-Syntax: rpkiBgpsecRouterCerts?subject=<certificate subject search pattern>
+Syntax: rpki1/bgpsec_router_certs?subject=<certificate subject search pattern>
 
 Searches for BGPSec router certificate information by handle are specified using this form:
 
-rpkiBgpsecRouterCerts?handle=XXXX
+rpki1/bgpsec_router_certs?handle=XXXX
 
 XXXX is a search pattern representing the "handle" property of a BGPSec Router Certificate object, as described in
 (#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
 objects with handle matching the "ABC*" pattern:
 
 ```
-https://example.net/rdap/rpkiBgpsecRouterCerts?handle=ABC*
+https://example.net/rdap/rpki1/bgpsec_router_certs?handle=ABC*
 ```
 
 Searches for BGPSec router certificate information by certificate issuer are specified using this form:
 
-rpkiBgpsecRouterCerts?issuer=YYYY
+rpki1/bgpsec_router_certs?issuer=YYYY
 
 YYYY is a search pattern representing the "issuer" property of a BGPSec Router Certificate object, as described in
 (#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
 objects with issuer matching the "CN=ISP-C*" pattern:
 
 ```
-https://example.net/rdap/rpkiBgpsecRouterCerts?issuer=CN%3DISP-C*
+https://example.net/rdap/rpki1/bgpsec_router_certs?issuer=CN%3DISP-C*
 ```
 
 Searches for BGPSec router certificate information by certificate subject are specified using this form:
 
-rpkiBgpsecRouterCerts?subject=ZZZZ
+rpki1/bgpsec_router_certs?subject=ZZZZ
 
 ZZZZ is a search pattern representing the "subject" property of a BGPSec Router Certificate object, as described in
 (#bgpsec_router_cert_object_class). The following URL would be used to find information for BGPSec Router Certificate
 objects with subject matching the "CN=ROUTER-ASN-655*" pattern:
 
 ```
-https://example.net/rdap/rpkiBgpsecRouterCerts?subject=CN%3DROUTER-ASN-6553*
+https://example.net/rdap/rpki1/bgpsec_router_certs?subject=CN%3DROUTER-ASN-6553*
 ```
 
 ### Search Results
 
-The BGPSec Router Certificate search results are returned in the "rpkiBgpsecRouterCertSearchResults" member, which is an
+The BGPSec Router Certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is an
 array of BGPSec Router Certificate objects ((#bgpsec_router_cert_object_class)).
 
 Here is an elided example of the search results when finding information for BGPSec Router Certificate objects with
@@ -844,13 +845,10 @@ subject matching the "CN=ROUTER-ASN-655*" pattern:
   [
     "rdap_level_0",
     "rpki1",
-    "rpkiBgpsecRouterCert",
-    "rpkiBgpsecRouterCerts",
-    "rpkiBgpsecRouterCertSearchResults",
     ...
   ],
   ...
-  "rpkiBgpsecRouterCertSearchResults":
+  "rpki1_bgpsecRouterCertSearchResults":
   [
     {
       "objectClassName": "rpki1_bgpsec_router_cert",
@@ -878,13 +876,13 @@ subject matching the "CN=ROUTER-ASN-655*" pattern:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+          "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+          "href": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiBgpsecRouterCert/65536",
+          "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
@@ -906,13 +904,13 @@ subject matching the "CN=ROUTER-ASN-655*" pattern:
 ## Reverse Search
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums"
-([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpkiBgpsecRouterCert", and a BGPSec Router
-Certificate property of "autnum", then the reverse search will be performed on the autonomous system number objects from
-its data store.
+([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_bgpsec_router_cert", and a BGPSec
+Router Certificate property of "autnum", then the reverse search will be performed on the autonomous system number
+objects from its data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
 autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
-related resource type is "rpkiBgpsecRouterCert".
+related resource type is "rpki1_bgpsec_router_cert".
 
 # RDAP Conformance
 
@@ -1013,7 +1011,7 @@ Reference: [this document]
 
 Searchable Resource Type: autnums
 
-Related Resource Type: rpkiBgpsecRouterCert
+Related Resource Type: rpki1_bgpsec_router_cert
 
 Property: autnum
 
@@ -1089,7 +1087,7 @@ Reference: [this document]
 
 Searchable Resource Type: autnums
 
-Related Resource Type: rpkiBgpsecRouterCert
+Related Resource Type: rpki1_bgpsec_router_cert
 
 Property: autnum
 
