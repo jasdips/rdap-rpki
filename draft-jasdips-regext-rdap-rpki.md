@@ -34,7 +34,8 @@ email = "andy@hxr.us"
 
 The Resource Public Key Infrastructure (RPKI) is used to secure inter-domain routing on the internet. This document
 defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for accessing the RPKI registration data in
-the Regional Internet Registries (RIRs) through RDAP.
+the Internet Number Registries (INRs) through RDAP. An Internet Number Registry (INR) could be a Regional Internet
+Registry (RIR), a National Internet Registry (NIR), or a Local Internet Registry (LIR).
 
 {mainmatter}
 
@@ -54,12 +55,14 @@ end, RPKI defines the following cryptographic profiles:
   corresponding private key is authorized to emit secure route advertisements on behalf of the AS specified in the
   certificate.
 
-This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data in the Regional Internet
-Registries (RIRs), including at national and local levels, for aforementioned RPKI profiles through RDAP. The motivation
-is that such RDAP data can complement the existing RPKI diagnostic tools when troubleshooting a route hijack or leak, by
-conveniently providing access to registration information from an RIR's database beside what's inherently available from
-an RPKI profile object. There is registration metadata that is often needed for troubleshooting that does not appear in,
-say, a ROA or a VRP (Verified ROA Payload); such as:
+This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data in the Internet Number
+Registries (INRs) for aforementioned RPKI profiles through RDAP. An Internet Number Registry (INR) could be a Regional
+Internet Registry (RIR), a National Internet Registry (NIR), or a Local Internet Registry (LIR).
+
+The motivation here is that such RDAP data could complement the existing RPKI diagnostic tools when troubleshooting a
+route hijack or leak, by conveniently providing access to registration information from an INR's database beside what's
+inherently available from an RPKI profile object. There is registration metadata that is often needed for
+troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
 
 * Is it an auto-renewing ROA or not?
 * When did the initial version of a ROA get published?
@@ -98,7 +101,7 @@ this document.
 The Route Origin Authorization (ROA) object class can contain the following members:
 
 * objectClassName -- the string "rpki1_roa"
-* handle -- a string representing the RIR-unique identifier of the ROA registration
+* handle -- a string representing the INR-unique identifier of the ROA registration
 * name -- a string representing an identifier assigned to the ROA registration by the registration holder
 * startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
   IPv4 or IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
@@ -406,7 +409,7 @@ Here is an elided example for an IP network object with ROAs:
 The Autonomous System Provider Authorization (ASPA) object class can contain the following members:
 
 * objectClassName -- the string "rpki1_aspa"
-* handle -- a string representing the RIR-unique identifier of the ASPA registration
+* handle -- a string representing the INR-unique identifier of the ASPA registration
 * name -- a string representing an identifier assigned to the ASPA registration by the registration holder
 * autnum -- an unsigned 32-bit integer representing the autonomous system number of the registration holder
   ([@!I-D.ietf-sidrops-aspa-profile, section 3])
@@ -697,7 +700,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
 The BGPSec Router Certificate object class can contain the following members:
 
 * objectClassName -- the string "rpki1_bgpsec_router_cert"
-* handle -- a string representing the RIR-unique identifier of the BGPSec Router Certificate registration
+* handle -- a string representing the INR-unique identifier of the BGPSec Router Certificate registration
 * serialNumber -- a string representing the unique identifier for the certificate
 * issuer -- a string representing the Certificate Authority (CA) that issued the certificate
 * signatureAlgorithm -- a string representing the algorithm used by the CA to sign the certificate
