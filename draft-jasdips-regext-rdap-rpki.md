@@ -145,13 +145,13 @@ Here is an elided example of a ROA object in RDAP:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpkiRoa/XXXX",
+      "value": "https://example.net/rdap/rpki1/roa/XXXX",
       "rel": "self",
-      "href": "https://example.net/rdap/rpkiRoa/XXXX",
+      "href": "https://example.net/rdap/rpki1/roa/XXXX",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpkiRoa/XXXX",
+      "value": "https://example.net/rdap/rpki1/roa/XXXX",
       "rel": "related",
       "href": "https://example.net/rdap/ip/2001:db8::/48",
       "type": "application/rdap+json"
@@ -169,68 +169,68 @@ Here is an elided example of a ROA object in RDAP:
 
 ## Lookup
 
-The resource type path segment for exact match lookup of a ROA object is "rpkiRoa".
+The resource type path segment for exact match lookup of a ROA object is "rpki1/roa".
 
 The following lookup path segment is defined for a ROA object:
 
-Syntax: rpkiRoa/<handle>
+Syntax: rpki1/roa/<handle>
 
 For example:
 
 ```
-https://example.net/rdap/rpkiRoa/XXXX
+https://example.net/rdap/rpki1/roa/XXXX
 ```
 
 ## Search
 
-The resource type path segment for searching ROA objects is "rpkiRoas".
+The resource type path segment for searching ROA objects is "rpki1/roas".
 
 The following search path segments are defined for ROA objects:
 
-Syntax: rpkiRoas?name=<name search pattern>
+Syntax: rpki1/roas?name=<name search pattern>
 
-Syntax: rpkiRoas?startAddress=<IP address>&&prefixLength=<CIDR length>
+Syntax: rpki1/roas?startAddress=<IP address>&&prefixLength=<CIDR length>
 
-Syntax: rpkiRoas?originAutnum=<autonomous system number>
+Syntax: rpki1/roas?originAutnum=<autonomous system number>
 
 Searches for ROA information by name are specified using this form:
 
-rpkiRoas?name=XXXX
+rpki1/roas?name=XXXX
 
 XXXX is a search pattern representing the "name" property of a ROA, as described in (#roa_object_class). The following
 URL would be used to find information for ROA names matching the "ROA-*" pattern:
 
 ```
-https://example.net/rdap/rpkiRoas?name=ROA-*
+https://example.net/rdap/rpki1/roas?name=ROA-*
 ```
 
 Searches for ROA information by CIDR are specified using this form:
 
-rpkiRoas?startAddress=YYYY&&prefixLength=ZZZZ
+rpki1/roas?startAddress=YYYY&&prefixLength=ZZZZ
 
 YYYY is an IP address representing the "startAddress" property of a ROA and ZZZZ is a CIDR length representing its
 "prefixLength" property, as described in (#roa_object_class). The following URL would be used to find information for
 the most-specific ROA matching the "2001:db8::/64" CIDR:
 
 ```
-https://example.net/rdap/rpkiRoas?startAddress=2001%3Adb8%3A%3A&&prefixLength=64
+https://example.net/rdap/rpki1/roas?startAddress=2001%3Adb8%3A%3A&&prefixLength=64
 ```
 
 Searches for ROA information by origin autonomous system number are specified using this form:
 
-rpkiRoas?originAutnum=AAAA
+rpki1/roas?originAutnum=AAAA
 
 AAAA is an autonomous system number representing the "originAutnum" property of a ROA, as described in
 (#roa_object_class). The following URL would be used to find information for ROAs with origin autonomous system number
 65536:
 
 ```
-https://example.net/rdap/rpkiRoas?originAutnum=65536
+https://example.net/rdap/rpki1/roas?originAutnum=65536
 ```
 
 ### Search Results
 
-The ROA search results are returned in the "rpkiRoaSearchResults" member, which is an array of ROA objects
+The ROA search results are returned in the "rpki1_roaSearchResults" member, which is an array of ROA objects
 ((#roa_object_class)).
 
 Here is an elided example of the search results when finding information for ROAs with origin autonomous system number
@@ -242,13 +242,10 @@ Here is an elided example of the search results when finding information for ROA
   [
     "rdap_level_0",
     "rpki1",
-    "rpkiRoa",
-    "rpkiRoas",
-    "rpkiRoaSearchResults",
     ...
   ],
   ...
-  "rpkiRoaSearchResults":
+  "rpki1_roaSearchResults":
   [
     {
       "objectClassName": "rpki1_roa",
@@ -273,13 +270,13 @@ Here is an elided example of the search results when finding information for ROA
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiRoa/XXXX",
+          "value": "https://example.net/rdap/rpki1/roa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiRoa/XXXX",
+          "href": "https://example.net/rdap/rpki1/roa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiRoa/XXXX",
+          "value": "https://example.net/rdap/rpki1/roa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8::/48",
           "type": "application/rdap+json"
@@ -295,20 +292,20 @@ Here is an elided example of the search results when finding information for ROA
 ## Reverse Search
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips"
-([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpkiRoa", and a ROA property of
+([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_roa", and a ROA property of
 "originAutnum" or "startAddress", then the reverse search will be performed on the IP network objects from its data
 store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for IP
 network searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource
-type is "rpkiRoa".
+type is "rpki1_roa".
 
 ## Relationship with IP Network Object Class
 
 It would be useful to show all the ROAs associated with an IP network object. To that end, this extension adds a new
-"rpkiRoas" member to the IP Network object class ([@!RFC9083, section 5.4]):
+"rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
-* rpkiRoas -- an array of ROA objects ((#roa_object_class)) for the IP network; if the array is too large, the server
+* rpki1_roas -- an array of ROA objects ((#roa_object_class)) for the IP network; if the array is too large, the server
   MAY truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an IP network object with ROAs:
@@ -321,7 +318,7 @@ Here is an elided example for an IP network object with ROAs:
   "endAddress": "2001:db8:ffff:ffff:ffff:ffff:ffff:ffff",
   "ipVersion": "v6",
   ...
-  "rpkiRoas":
+  "rpki1_roas":
   [
     {
       "objectClassName": "rpki1_roa",
@@ -346,13 +343,13 @@ Here is an elided example for an IP network object with ROAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiRoa/XXXX",
+          "value": "https://example.net/rdap/rpki1/roa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiRoa/XXXX",
+          "href": "https://example.net/rdap/rpki1/roa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiRoa/XXXX",
+          "value": "https://example.net/rdap/rpki1/roa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8::/48",
           "type": "application/rdap+json"
@@ -383,13 +380,13 @@ Here is an elided example for an IP network object with ROAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiRoa/YYYY",
+          "value": "https://example.net/rdap/rpki1/roa/YYYY",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiRoa/YYYY",
+          "href": "https://example.net/rdap/rpki1/roa/YYYY",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiRoa/YYYY",
+          "value": "https://example.net/rdap/rpki1/roa/YYYY",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8:1::/48",
           "type": "application/rdap+json"
@@ -922,29 +919,8 @@ related resource type is "rpkiBgpsecRouterCert".
 
 # RDAP Conformance
 
-A server that supports the functionality specified in this document MUST include additional string literals in the
-rdapConformance array of its responses, in accordance with the following:
-
-* Any response that includes a ROA lookup link, includes the "rpki1" and "rpkiRoa" literals.
-* Any response for a ROA lookup request includes the "rpki1" and "rpkiRoa" literals.
-* Any response that includes a ROA search link, includes the "rpki1" and "rpkiRoas" literals.
-* Any response for a ROA search request includes the "rpki1", "rpkiRoa", "rpkiRoas", and "rpkiRoaSearchResults"
-  literals.
-* Any response that includes an ASPA lookup link, includes the "rpki1" and "rpkiAspa" literals.
-* Any response for an ASPA lookup request includes the "rpki1" and "rpkiAspa" literals.
-* Any response that includes an ASPA search link, includes the "rpki1" and "rpkiAspas" literals.
-* Any response for an ASPA search request includes the "rpki1", "rpkiAspa", "rpkiAspas", and "rpkiAspaSearchResults"
-  literals.
-* Any response that includes a BGPSec Router Certificate lookup link, includes the "rpki1" and "rpkiBgpsecRouterCert"
-  literals.
-* Any response for a BGPSec Router Certificate lookup request includes the "rpki1" and "rpkiBgpsecRouterCert" literals.
-* Any response that includes a BGPSec Router Certificate search link, includes the "rpki1" and "rpkiBgpsecRouterCerts"
-  literals.
-* Any response for a BGPSec Router Certificate search request includes the "rpki1", "rpkiBgpsecRouterCert",
-  "rpkiBgpsecRouterCerts", and "rpkiBgpsecRouterCertSearchResults" literals.
-* A response to a "/help" request includes the "rpki1", "rpkiRoa", "rpkiRoas", "rpkiRoaSearchResults", "rpkiAspa",
-  "rpkiAspas", "rpkiAspaSearchResults", "rpkiBgpsecRouterCert", "rpkiBgpsecRouterCerts", and
-  "rpkiBgpsecRouterCertSearchResults" literals.
+A server that supports the functionality specified in this document MUST include the "rpki1" string literal in the
+"rdapConformance" array of its responses.
 
 To be in compliance with this specification, a registry with RPKI data would need to implement at the least one of the
 newly defined RDAP object classes ((#roa), (#aspa), (#bgpsec_router_cert)), and if possible, all.
@@ -975,96 +951,6 @@ Contact: IETF <iesg@ietf.org>
 
 Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
 
-Extension identifier: rpkiRoa
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
-Extension identifier: rpkiRoas
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
-Extension identifier: rpkiRoaSearchResults
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
-Extension identifier: rpkiAspa
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
-Extension identifier: rpkiAspas
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
-Extension identifier: rpkiAspaSearchResults
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
-Extension identifier: rpkiBgpsecRouterCert
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
-Extension identifier: rpkiBgpsecRouterCerts
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
-Extension identifier: rpkiBgpsecRouterCertSearchResults
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
-
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
 IANA is requested to register the following entries in the RDAP Reverse Search Registry at
@@ -1072,7 +958,7 @@ https://www.iana.org/assignments/rdap-reverse-search/:
 
 Searchable Resource Type: ips
 
-Related Resource Type: rpkiRoa
+Related Resource Type: rpki1_roa
 
 Property: originAutnum
 
@@ -1086,7 +972,7 @@ Reference: [this document]
 
 Searchable Resource Type: ips
 
-Related Resource Type: rpkiRoa
+Related Resource Type: rpki1_roa
 
 Property: startAddress
 
@@ -1150,7 +1036,7 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 
 Searchable Resource Type: ips
 
-Related Resource Type: rpkiRoa
+Related Resource Type: rpki1_roa
 
 Property: originAutnum
 
@@ -1164,7 +1050,7 @@ Reference: [this document]
 
 Searchable Resource Type: ips
 
-Related Resource Type: rpkiRoa
+Related Resource Type: rpki1_roa
 
 Property: startAddress
 
