@@ -218,9 +218,9 @@ https://example.net/rdap/rpki1/roas?startAddress=2001%3Adb8%3A%3A&&prefixLength=
 
 Searches for ROA information by origin autonomous system number are specified using this form:
 
-rpki1/roas?originAutnum=AAAA
+rpki1/roas?originAutnum=BBBB
 
-AAAA is an autonomous system number representing the "originAutnum" property of a ROA, as described in
+BBBB is an autonomous system number representing the "originAutnum" property of a ROA, as described in
 (#roa_object_class). The following URL would be used to find information for ROAs with origin autonomous system number
 65536:
 
