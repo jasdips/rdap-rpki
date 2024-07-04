@@ -793,9 +793,11 @@ The following search path segments are defined for BGPSec Router Certificate obj
 
 Syntax: rpki1/bgpsec_router_certs?handle=<handle search pattern>
 
-Syntax: rpki1/bgpsec_router_certs?issuer=<certificate issuer search pattern>
+Syntax: rpki1/bgpsec_router_certs?issuer=<issuer search pattern>
 
-Syntax: rpki1/bgpsec_router_certs?subject=<certificate subject search pattern>
+Syntax: rpki1/bgpsec_router_certs?subject=<subject search pattern>
+
+Syntax: rpki1/bgpsec_router_certs?subjectKeyIdentifier=<subject key identifier>
 
 Searches for BGPSec router certificate information by handle are specified using this form:
 
@@ -833,13 +835,25 @@ objects with subject matching the "CN=ROUTER-ASN-655*" pattern:
 https://example.net/rdap/rpki1/bgpsec_router_certs?subject=CN%3DROUTER-ASN-6553*
 ```
 
+Searches for BGPSec router certificate information by subject key identifier are specified using this form:
+
+rpki1/bgpsec_router_certs?subjectKeyIdentifier=BBBB
+
+BBBB is a string representing the "subjectKeyIdentifier" property of a BGPSec Router Certificate object, as described in
+(#bgpsec_router_cert_object_class). The following URL would be used to find a BGPSec Router Certificate object with
+subject key identifier matching the "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=" string:
+
+```
+https://example.net/rdap/rpki1/bgpsec_router_certs?subjectKeyIdentifier=hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
+```
+
 ### Search Results
 
-The BGPSec Router Certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is an
-array of BGPSec Router Certificate objects ((#bgpsec_router_cert_object_class)).
+The BGPSec Router Certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is
+an array of BGPSec Router Certificate objects ((#bgpsec_router_cert_object_class)).
 
 Here is an elided example of the search results when finding information for BGPSec Router Certificate objects with
-subject matching the "CN=ROUTER-ASN-655*" pattern:
+issuer matching the "CN=ISP-C*" pattern:
 
 ```
 {
@@ -1105,6 +1119,7 @@ Reference: [this document]
 # Acknowledgements
 
 Job Snijders suggested accessing the BGPSec Router Certificate registration data as well through this RDAP extension.
+Ties de Kock also provided valuable feedback for this document.
 
 {backmatter}
 
