@@ -706,6 +706,7 @@ The BGPSec Router Certificate object class can contain the following members:
   the following members:
     * publicKeyAlgorithm -- a string representing the algorithm for the public key
     * publicKey -- a string representation of the public key
+* subjectKeyIdentifier -- a string, typically Base64-encoded, representing the unique identifier for the public key.
 * autnum -- an unsigned 32-bit integer representing the autonomous system number that the router emits secure route
   advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
 * notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
@@ -730,8 +731,9 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
   "subjectPublicKeyInfo":
   {
     "publicKeyAlgorithm": "id-ecPublicKey",
-    "publicKey": "...",
-  }
+    "publicKey": "..."
+  },
+  "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A="
   "autnum": 65536,
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z"
@@ -860,8 +862,9 @@ subject matching the "CN=ROUTER-ASN-655*" pattern:
       "subjectPublicKeyInfo":
       {
         "publicKeyAlgorithm": "id-ecPublicKey",
-        "publicKey": "...",
-      }
+        "publicKey": "..."
+      },
+      "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A="
       "autnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z"
