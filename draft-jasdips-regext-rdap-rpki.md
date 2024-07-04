@@ -709,7 +709,7 @@ The BGPSec Router Certificate object class can contain the following members:
   the following members:
     * publicKeyAlgorithm -- a string representing the algorithm for the public key
     * publicKey -- a string representation of the public key
-* subjectKeyIdentifier -- a string, typically Base64-encoded, representing the unique identifier for the public key.
+* subjectKeyIdentifier -- a string, typically Base64-encoded, representing the unique identifier for the public key
 * autnums -- an array of unsigned 32-bit integers, each representing the autonomous system number that the router emits
   secure route advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
 * notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
