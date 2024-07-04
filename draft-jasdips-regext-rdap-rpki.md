@@ -445,13 +445,13 @@ Here is an elided example of an ASPA object in RDAP:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpkiAspa/XXXX",
+      "value": "https://example.net/rdap/rpki1/aspa/XXXX",
       "rel": "self",
-      "href": "https://example.net/rdap/rpkiAspa/XXXX",
+      "href": "https://example.net/rdap/rpki1/aspa/XXXX",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpkiAspa/XXXX",
+      "value": "https://example.net/rdap/rpki1/aspa/XXXX",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
@@ -469,67 +469,67 @@ Here is an elided example of an ASPA object in RDAP:
 
 ## Lookup
 
-The resource type path segment for exact match lookup of an ASPA object is "rpkiAspa".
+The resource type path segment for exact match lookup of an ASPA object is "rpki1/aspa".
 
 The following lookup path segment is defined for an ASPA object:
 
-Syntax: rpkiAspa/<handle>
+Syntax: rpki1/aspa/<handle>
 
 For example:
 
 ```
-https://example.net/rdap/rpkiAspa/YYYY
+https://example.net/rdap/rpki1/aspa/YYYY
 ```
 
 ## Search
 
-The resource type path segment for searching ASPA objects is "rpkiAspas".
+The resource type path segment for searching ASPA objects is "rpki1/aspas".
 
 The following search path segments are defined for ASPA objects:
 
-Syntax: rpkiAspas?name=<name search pattern>
+Syntax: rpki1/aspas?name=<name search pattern>
 
-Syntax: rpkiAspas?autnum=<autonomous system number>
+Syntax: rpki1/aspas?autnum=<autonomous system number>
 
-Syntax: rpkiAspas?providerAutnum=<autonomous system number>
+Syntax: rpki1/aspas?providerAutnum=<autonomous system number>
 
 Searches for ASPA information by name are specified using this form:
 
-rpkiAspas?name=XXXX
+rpki1/aspas?name=XXXX
 
 XXXX is a search pattern representing the "name" property of an ASPA, as described in (#aspa_object_class). The
 following URL would be used to find information for ASPA names matching the "ASPA-*" pattern:
 
 ```
-https://example.net/rdap/rpkiAspas?name=ASPA-*
+https://example.net/rdap/rpki1/aspas?name=ASPA-*
 ```
 
 Searches for ASPA information by autonomous system number are specified using this form:
 
-rpkiAspas?autnum=YYYY
+rpki1/aspas?autnum=YYYY
 
 YYYY is an autonomous system number representing the "autnum" property of an ASPA, as described in (#aspa_object_class).
 The following URL would be used to find information for ASPAs with autonomous system number 65536:
 
 ```
-https://example.net/rdap/rpkiAspas?autnum=65536
+https://example.net/rdap/rpki1/aspas?autnum=65536
 ```
 
 Searches for ASPA information by provider autonomous system number are specified using this form:
 
-rpkiAspas?providerAutnum=ZZZZ
+rpki1/aspas?providerAutnum=ZZZZ
 
 ZZZZ is an autonomous system number representing the "providerAutnum" property of an ASPA, as described in
 (#aspa_object_class). The following URL would be used to find information for ASPAs with provider autonomous system
 number 65542:
 
 ```
-https://example.net/rdap/rpkiAspas?providerAutnum=65542
+https://example.net/rdap/rpki1/aspas?providerAutnum=65542
 ```
 
 ### Search Results
 
-The ASPA search results are returned in the "rpkiAspaSearchResults" member, which is an array of ASPA objects
+The ASPA search results are returned in the "rpki1_aspaSearchResults" member, which is an array of ASPA objects
 ((#aspa_object_class)).
 
 Here is an elided example of the search results when finding information for ASPAs with autonomous system number 65536:
@@ -540,13 +540,10 @@ Here is an elided example of the search results when finding information for ASP
   [
     "rdap_level_0",
     "rpki1",
-    "rpkiAspa",
-    "rpkiAspas",
-    "rpkiAspaSearchResults",
     ...
   ],
   ...
-  "rpkiAspaSearchResults":
+  "rpki1_aspaSearchResults":
   [
     {
       "objectClassName": "rpki1_aspa",
@@ -568,13 +565,13 @@ Here is an elided example of the search results when finding information for ASP
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiAspa/XXXX",
+          "value": "https://example.net/rdap/rpki1/aspa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiAspa/XXXX",
+          "href": "https://example.net/rdap/rpki1/aspa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiAspa/XXXX",
+          "value": "https://example.net/rdap/rpki1/aspa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
@@ -591,20 +588,20 @@ Here is an elided example of the search results when finding information for ASP
 ## Reverse Search
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums"
-([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpkiAspa", and an ASPA property of
+([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_aspa", and an ASPA property of
 "autnum" or "providerAutnum", then the reverse search will be performed on the autonomous system number objects from its
 data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
 autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
-related resource type is "rpkiAspa".
+related resource type is "rpki1_aspa".
 
 ## Relationship with Autonomous System Number Object Class
 
 It would be useful to show all the ASPAs associated with an autonomous system number object. To that end, this extension
-adds a new "rpkiAspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
+adds a new "rpki1_aspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
 
-* rpkiAspas -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number; if the array is too
+* rpki1_aspas -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number; if the array is too
   large, the server MAY truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an autonomous system number object with ASPAs:
@@ -616,7 +613,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
   "startAutnum": 65536,
   "endAutnum": 65541,
   ...
-  "rpkiAspas":
+  "rpki1_aspas":
   [
     {
       "objectClassName": "rpki1_aspa",
@@ -638,13 +635,13 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiAspa/XXXX",
+          "value": "https://example.net/rdap/rpki1/aspa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiAspa/XXXX",
+          "href": "https://example.net/rdap/rpki1/aspa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiAspa/XXXX",
+          "value": "https://example.net/rdap/rpki1/aspa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
@@ -673,13 +670,13 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "value": "https://example.net/rdap/rpki1/aspa/YYYY",
           "rel": "self",
-          "href": "https://example.net/rdap/rpkiAspa/YYYY",
+          "href": "https://example.net/rdap/rpki1/aspa/YYYY",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpkiAspa/YYYY",
+          "value": "https://example.net/rdap/rpki1/aspa/YYYY",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
@@ -987,7 +984,7 @@ Reference: [this document]
 
 Searchable Resource Type: autnums
 
-Related Resource Type: rpkiAspa
+Related Resource Type: rpki1_aspa
 
 Property: autnum
 
@@ -1001,7 +998,7 @@ Reference: [this document]
 
 Searchable Resource Type: autnums
 
-Related Resource Type: rpkiAspa
+Related Resource Type: rpki1_aspa
 
 Property: providerAutnum
 
@@ -1064,7 +1061,7 @@ Reference: [this document]
 
 Searchable Resource Type: autnums
 
-Related Resource Type: rpkiAspa
+Related Resource Type: rpki1_aspa
 
 Property: autnum
 
@@ -1078,7 +1075,7 @@ Reference: [this document]
 
 Searchable Resource Type: autnums
 
-Related Resource Type: rpkiAspa
+Related Resource Type: rpki1_aspa
 
 Property: providerAutnum
 
