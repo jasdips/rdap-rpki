@@ -956,7 +956,7 @@ issuer matching the "CN=ISP-C*" pattern:
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums"
 ([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_bgpsec_router_cert", and a BGPSec
-Router Certificate property of "autnum", then the reverse search will be performed on the autonomous system number
+Router Certificate property of "handle", then the reverse search will be performed on the autonomous system number
 objects from its data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
@@ -1066,8 +1066,8 @@ Related Resource Type: rpki1_bgpsec_router_cert
 
 Property: autnum
 
-Description: The server supports the autnum search based on the autonomous system number of an associated RPKI
-BGPSec Router Certificate object.
+Description: The server supports the autnum search based on the handle of an associated RPKI BGPSec Router Certificate
+object.
 
 Registrant Name: IETF
 
@@ -1140,9 +1140,9 @@ Searchable Resource Type: autnums
 
 Related Resource Type: rpki1_bgpsec_router_cert
 
-Property: autnum
+Property: handle
 
-Property Path: $.autnum
+Property Path: $.handle
 
 Registrant Name: IETF
 
