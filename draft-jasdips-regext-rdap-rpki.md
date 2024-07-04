@@ -51,8 +51,8 @@ end, RPKI defines the following cryptographic profiles:
   autonomous system (AS, [@RFC4271]) for routing that CIDR address block.
 * Autonomous System Provider Authorization (ASPA, [@!I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
   (ASN, [@!RFC5396]) holder cryptographically asserts about the provider AS for that ASN.
-* BGPSec Router Certificate ([@!RFC8209]) where an ASN holder cryptographically asserts that a router holding the
-  corresponding private key is authorized to emit secure route advertisements on behalf of the AS specified in the
+* BGPSec Router Certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the
+  corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es) specified in the
   certificate.
 
 This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data in the Internet Number
