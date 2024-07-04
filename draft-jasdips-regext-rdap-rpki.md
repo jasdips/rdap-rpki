@@ -97,7 +97,7 @@ this document.
 
 The Route Origin Authorization (ROA) object class can contain the following members:
 
-* objectClassName -- the string "rpki roa"
+* objectClassName -- the string "rpki1_roa"
 * handle -- a string representing the RIR-unique identifier of the ROA registration
 * name -- a string representing an identifier assigned to the ROA registration by the registration holder
 * startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
@@ -123,7 +123,7 @@ Here is an elided example of a ROA object in RDAP:
 
 ```
 {
-  "objectClassName": "rpki roa",
+  "objectClassName": "rpki1_roa",
   "handle": "XXXX",
   "name": "ROA-1",
   "startAddress": "2001:db8::",
@@ -251,7 +251,7 @@ Here is an elided example of the search results when finding information for ROA
   "rpkiRoaSearchResults":
   [
     {
-      "objectClassName": "rpki roa",
+      "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
       "startAddress": "2001:db8::",
@@ -324,7 +324,7 @@ Here is an elided example for an IP network object with ROAs:
   "rpkiRoas":
   [
     {
-      "objectClassName": "rpki roa",
+      "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
       "startAddress": "2001:db8::",
@@ -361,7 +361,7 @@ Here is an elided example for an IP network object with ROAs:
       ]
     },
     {
-      "objectClassName": "rpki roa",
+      "objectClassName": "rpki1_roa",
       "handle": "YYYY",
       "name": "ROA-2",
       "startAddress": "2001:db8:1::",
@@ -408,7 +408,7 @@ Here is an elided example for an IP network object with ROAs:
 
 The Autonomous System Provider Authorization (ASPA) object class can contain the following members:
 
-* objectClassName -- the string "rpki aspa"
+* objectClassName -- the string "rpki1_aspa"
 * handle -- a string representing the RIR-unique identifier of the ASPA registration
 * name -- a string representing an identifier assigned to the ASPA registration by the registration holder
 * autnum -- an unsigned 32-bit integer representing the autonomous system number of the registration holder
@@ -429,7 +429,7 @@ Here is an elided example of an ASPA object in RDAP:
 
 ```
 {
-  "objectClassName": "rpki aspa",
+  "objectClassName": "rpki1_aspa",
   "handle": "XXXX",
   "name": "ASPA-1",
   "autnum": 65536,
@@ -552,7 +552,7 @@ Here is an elided example of the search results when finding information for ASP
   "rpkiAspaSearchResults":
   [
     {
-      "objectClassName": "rpki aspa",
+      "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
       "autnum": 65536,
@@ -622,7 +622,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
   "rpkiAspas":
   [
     {
-      "objectClassName": "rpki aspa",
+      "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
       "autnum": 65536,
@@ -657,7 +657,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
       ...
     },
     {
-      "objectClassName": "rpki aspa",
+      "objectClassName": "rpki1_aspa",
       "handle": "YYYY",
       "name": "ASPA-2",
       "autnum": 65537,
@@ -702,7 +702,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
 
 The BGPSec Router Certificate object class can contain the following members:
 
-* objectClassName -- the string "rpki bgpsec router cert"
+* objectClassName -- the string "rpki1_bgpsec_router_cert"
 * handle -- a string representing the RIR-unique identifier of the BGPSec Router Certificate registration
 * serialNumber -- a string representing the unique identifier for the certificate
 * issuer -- a string representing the Certificate Authority (CA) that issued the certificate
@@ -727,7 +727,7 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
 
 ```
 {
-  "objectClassName": "rpki bgpsec router cert",
+  "objectClassName": "rpki1_bgpsec_router_cert",
   "handle": "ABCD",
   "serialNumber": "1234",
   "issuer": "CN=ISP-CA",
@@ -859,7 +859,7 @@ subject matching the "CN=ROUTER-ASN-655*" pattern:
   "rpkiBgpsecRouterCertSearchResults":
   [
     {
-      "objectClassName": "rpki bgpsec router cert",
+      "objectClassName": "rpki1_bgpsec_router_cert",
       "handle": "ABCD",
       "serialNumber": "1234",
       "issuer": "CN=ISP-CA",
