@@ -707,8 +707,8 @@ The BGPSec Router Certificate object class can contain the following members:
     * publicKeyAlgorithm -- a string representing the algorithm for the public key
     * publicKey -- a string representation of the public key
 * subjectKeyIdentifier -- a string, typically Base64-encoded, representing the unique identifier for the public key.
-* autnum -- an unsigned 32-bit integer representing the autonomous system number that the router emits secure route
-  advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
+* autnums -- an array of unsigned 32-bit integers, each representing the autonomous system number that the router emits
+  secure route advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
 * notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
   representing the not-valid-before date of the certificate
 * notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
@@ -727,14 +727,18 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
   "serialNumber": "1234",
   "issuer": "CN=ISP-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
-  "subject": "CN=ROUTER-ASN-65536",
+  "subject": "CN=ROUTER-ISP-ASNS",
   "subjectPublicKeyInfo":
   {
     "publicKeyAlgorithm": "id-ecPublicKey",
     "publicKey": "..."
   },
   "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A="
-  "autnum": 65536,
+  "autnums":
+  [
+    65536,
+    65537
+  ]
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z"
   "events":
@@ -748,15 +752,21 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
+      "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
+      "href": "https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
+      "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65537",
       "type": "application/rdap+json"
     },
     ...
@@ -777,12 +787,12 @@ The resource type path segment for exact match lookup of a BGPSec Router Certifi
 
 The following lookup path segment is defined for a BGPSec Router Certificate object:
 
-Syntax: rpki1/bgpsec_router_cert/<autonomous system number>
+Syntax: rpki1/bgpsec_router_cert/<handle>
 
 For example:
 
 ```
-https://example.net/rdap/rpki1/bgpsec_router_cert/65536
+https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD
 ```
 
 ## Search
@@ -798,6 +808,8 @@ Syntax: rpki1/bgpsec_router_certs?issuer=<issuer search pattern>
 Syntax: rpki1/bgpsec_router_certs?subject=<subject search pattern>
 
 Syntax: rpki1/bgpsec_router_certs?subjectKeyIdentifier=<subject key identifier>
+
+Syntax: rpki1/bgpsec_router_certs?autnum=<autonomous system number>
 
 Searches for BGPSec router certificate information by handle are specified using this form:
 
@@ -847,6 +859,18 @@ subject key identifier matching the "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A
 https://example.net/rdap/rpki1/bgpsec_router_certs?subjectKeyIdentifier=hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
 ```
 
+Searches for BGPSec router certificate information by autonomous system number are specified using this form:
+
+rpki1/bgpsec_router_certs?autnum=CCCC
+
+CCCC is an autonomous system number representing one of the elements of the "autnums" array of a BGPSec Router
+Certificate object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find a BGPSec
+Router Certificate object with autonomous system number 65536:
+
+```
+https://example.net/rdap/rpki1/bgpsec_router_certs?autnum=65536
+```
+
 ### Search Results
 
 The BGPSec Router Certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is
@@ -872,14 +896,18 @@ issuer matching the "CN=ISP-C*" pattern:
       "serialNumber": "1234",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
-      "subject": "CN=ROUTER-ASN-65536",
+      "subject": "CN=ROUTER-ISP-ASNS",
       "subjectPublicKeyInfo":
       {
         "publicKeyAlgorithm": "id-ecPublicKey",
         "publicKey": "..."
       },
       "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A="
-      "autnum": 65536,
+      "autnums":
+      [
+        65536,
+        65537
+      ]
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z"
       "events":
@@ -893,15 +921,21 @@ issuer matching the "CN=ISP-C*" pattern:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
+          "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
+          "href": "https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/65536",
+          "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
         },
         ...
