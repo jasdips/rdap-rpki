@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-07-04T00:00:00Z
+date = 2024-07-05T00:00:00Z
 
 [[author]]
 initials="J."
@@ -94,7 +94,7 @@ protocol.
 "..." in examples is used as shorthand for elements defined outside of
 this document.
 
-# Common Members {#common_members}
+# Common Data Members {#common_data_members}
 
 An RDAP object class for RPKI in (#roa_object_class), (#aspa_object_class), and (#bgpsec_router_cert_object_class) can
 contain one or more of the following common members:
@@ -120,11 +120,11 @@ contain one or more of the following common members:
 
 ## Object Class {#roa_object_class}
 
-The Route Origin Authorization (ROA) object class can contain the following members:
+The Route Origin Authorization (ROA) object class can contain the following data members:
 
 * objectClassName -- the string "rpki1_roa"
-* handle -- see (#common_members)
-* name -- see (#common_members)
+* handle -- see (#common_data_members)
+* name -- see (#common_data_members)
 * startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
   IPv4 or IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
@@ -135,12 +135,12 @@ The Route Origin Authorization (ROA) object class can contain the following memb
   authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number
   ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
-* notValidBefore -- see (#common_members)
-* notValidAfter -- see (#common_members)
-* autoRenewed -- see (#common_members)
-* publicationUri -- see (#common_members)
-* source -- see (#common_members)
-* rpkiType -- see (#common_members)
+* notValidBefore -- see (#common_data_members)
+* notValidAfter -- see (#common_data_members)
+* autoRenewed -- see (#common_data_members)
+* publicationUri -- see (#common_data_members)
+* source -- see (#common_data_members)
+* rpkiType -- see (#common_data_members)
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR (when defined) objects
 * remarks -- see [@!RFC9083, section 4.3]
@@ -402,8 +402,11 @@ Here is an elided example for an IP network object with ROAs:
       "maxLength": 64,
       "originAutnum": 65537,
       "notValidBefore": "2024-04-27T23:59:59Z",
-      "notValidAfter": "2025-04-27T23:59:59Z"
-      "autoRenewed": true,
+      "notValidAfter": "2025-04-27T23:59:59Z",
+      "autoRenewed": false,
+      "publicationUri": "rsync://example.net/path/to/YYYY.roa",
+      "source": "XYZ-RIR",
+      "rpkiType": "hosted",
       "events":
       [
         {
@@ -438,21 +441,21 @@ Here is an elided example for an IP network object with ROAs:
 
 ## Object Class {#aspa_object_class}
 
-The Autonomous System Provider Authorization (ASPA) object class can contain the following members:
+The Autonomous System Provider Authorization (ASPA) object class can contain the following data members:
 
 * objectClassName -- the string "rpki1_aspa"
-* handle -- see (#common_members)
-* name -- see (#common_members)
+* handle -- see (#common_data_members)
+* name -- see (#common_data_members)
 * autnum -- an unsigned 32-bit integer representing the autonomous system number of the registration holder
   ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * providerAutnum -- an unsigned 32-bit integer representing the autonomous system number of the AS that is authorized
   as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
-* notValidBefore -- see (#common_members)
-* notValidAfter -- see (#common_members)
-* autoRenewed -- see (#common_members)
-* publicationUri -- see (#common_members)
-* source -- see (#common_members)
-* rpkiType -- see (#common_members)
+* notValidBefore -- see (#common_data_members)
+* notValidAfter -- see (#common_data_members)
+* autoRenewed -- see (#common_data_members)
+* publicationUri -- see (#common_data_members)
+* source -- see (#common_data_members)
+* rpkiType -- see (#common_data_members)
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR (when defined)
   objects
@@ -703,7 +706,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "providerAutnum": 65543,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
+      "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
       "source": "XYZ-RIR",
       "rpkiType": "hosted",
@@ -742,10 +745,10 @@ Here is an elided example for an autonomous system number object with ASPAs:
 
 ## Object Class {#bgpsec_router_cert_object_class}
 
-The BGPSec Router Certificate object class can contain the following members:
+The BGPSec Router Certificate object class can contain the following data members:
 
 * objectClassName -- the string "rpki1_bgpsec_router_cert"
-* handle -- see (#common_members)
+* handle -- see (#common_data_members)
 * serialNumber -- a string representing the unique identifier for the certificate
 * issuer -- a string representing the Certificate Authority (CA) that issued the certificate
 * signatureAlgorithm -- a string representing the algorithm used by the CA to sign the certificate
@@ -757,12 +760,12 @@ The BGPSec Router Certificate object class can contain the following members:
 * subjectKeyIdentifier -- a string, typically Base64-encoded, representing the unique identifier for the public key
 * autnums -- an array of unsigned 32-bit integers, each representing the autonomous system number that the router emits
   secure route advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
-* notValidBefore -- see (#common_members)
-* notValidAfter -- see (#common_members)
-* autoRenewed -- see (#common_members)
-* publicationUri -- see (#common_members)
-* source -- see (#common_members)
-* rpkiType -- see (#common_members)
+* notValidBefore -- see (#common_data_members)
+* notValidAfter -- see (#common_data_members)
+* autoRenewed -- see (#common_data_members)
+* publicationUri -- see (#common_data_members)
+* source -- see (#common_data_members)
+* rpkiType -- see (#common_data_members)
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to one or more autonomous system number objects
 * remarks -- see [@!RFC9083, section 4.3]
@@ -995,12 +998,7 @@ issuer matching the "CN=ISP-C*" pattern:
         },
         ...
       ],
-      "remarks":
-      [
-        {
-          "description": [ "A BGPSec Router Certificate object in RDAP" ]
-        }
-      ]
+      ...
     },
     ...
   ]
