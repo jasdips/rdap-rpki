@@ -753,7 +753,7 @@ The BGPSec Router Certificate object class can contain the following data member
 * issuer -- a string representing the Certificate Authority (CA) that issued the certificate ([@!RFC6487, section 4])
 * signatureAlgorithm -- a string representing the algorithm used by the CA to sign the certificate
   ([@!RFC6487, section 4])
-* subject -- a string representing the identity of the router ([@!RFC8208, section 3.1])
+* subject -- a string representing the identity of the router ([@!RFC8209, section 3.1.1])
 * subjectPublicKeyInfo -- an object representing the subject's public key information ([@!RFC8208, section 3.1]), with
   the following members:
     * publicKeyAlgorithm -- a string representing the algorithm for the public key
