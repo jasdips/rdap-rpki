@@ -785,12 +785,12 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
     "publicKeyAlgorithm": "id-ecPublicKey",
     "publicKey": "..."
   },
-  "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A="
+  "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
   "autnums":
   [
     65536,
     65537
-  ]
+  ],
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "publicationUri": "rsync://example.net/path/to/ABCD.cer",
@@ -957,12 +957,12 @@ issuer matching the "CN=ISP-C*" pattern:
         "publicKeyAlgorithm": "id-ecPublicKey",
         "publicKey": "..."
       },
-      "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A="
+      "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
       "autnums":
       [
         65536,
         65537
-      ]
+      ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/ABCD.cer",
