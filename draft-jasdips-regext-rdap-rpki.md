@@ -46,9 +46,9 @@ inter-domain routing ([@RFC4271]) on the internet. RPKI enables internet number 
 assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and leaks. To that
 end, RPKI defines the following cryptographic profiles:
 
-* Route Origin Authorization (ROA, [@!RFC6482] and [@!I-D.ietf-sidrops-rfc6482bis] (obsoletes [@!RFC6482])) where a
-  Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block holder cryptographically asserts about the origin
-  autonomous system (AS, [@RFC4271]) for routing that CIDR address block.
+* Route Origin Authorization (ROA, [@!RFC9582]) where a Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block
+  holder cryptographically asserts about the origin autonomous system (AS, [@RFC4271]) for routing that CIDR address
+  block.
 * Autonomous System Provider Authorization (ASPA, [@!I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
   (ASN, [@!RFC5396]) holder cryptographically asserts about the provider AS for that ASN.
 * BGPSec Router Certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the
@@ -126,15 +126,14 @@ The Route Origin Authorization (ROA) object class can contain the following data
 * handle -- see (#common_data_members)
 * name -- see (#common_data_members)
 * startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
-  IPv4 or IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
+  IPv4 or IPv6 ([@!RFC9582, section 4])
 * prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
-  IPv4 and up to 128 for IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
+  IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
 * ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies
-  an IPv6 ROA ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
+  an IPv6 ROA ([@!RFC9582, section 4])
 * maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
-  authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
-* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number
-  ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
+  authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
 * notValidBefore -- see (#common_data_members)
 * notValidAfter -- see (#common_data_members)
 * autoRenewed -- see (#common_data_members)
