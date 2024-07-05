@@ -94,6 +94,28 @@ protocol.
 "..." in examples is used as shorthand for elements defined outside of
 this document.
 
+## Common Members {#common_members}
+
+An RDAP object class for RPKI in (#roa_object_class), (#aspa_object_class), and (#bgpsec_router_cert_object_class) can
+contain one or more of the following common members:
+
+* handle -- a string representing the INR-unique identifier of the RPKI object registration
+* name -- a string representing an identifier assigned to the RPKI object registration by the registration holder
+* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-before date of the end-entity certificate for the RPKI object ([@!RFC6487, section 4])
+* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-after date of the end-entity certificate for the RPKI object ([@!RFC6487, section 4])
+* autoRenewed -- a boolean indicating if the registered RPKI object is auto-renewed or not
+* publicationUri -- a URI string pointing to the location of the RPKI object within the RPKI repository; the URI scheme
+  is "rsync", per [@!RFC6487, section 4]
+* source -- a string representing the INR-unique identifier (handle) of the organization (entity) which is the
+  authoritative source for the RPKI object; it could be an INR or a downstream organization
+* rpkiType -- a string literal representing the type of the RPKI repository, with the following possible values:
+    * "hosted" -- An INR fully hosts the RPKI repository for a downstream organization
+    * "delegated" -- The downstream organization fully hosts its RPKI repository
+    * "hybrid" -- The downstream organization runs the Certificate Authority (CA) for its RPKI repository whereas the
+      INR hosts that organization's RPKI objects
+
 # Route Origin Authorization {#roa}
 
 ## Object Class {#roa_object_class}
@@ -101,8 +123,8 @@ this document.
 The Route Origin Authorization (ROA) object class can contain the following members:
 
 * objectClassName -- the string "rpki1_roa"
-* handle -- a string representing the INR-unique identifier of the ROA registration
-* name -- a string representing an identifier assigned to the ROA registration by the registration holder
+* handle -- see (#common_members)
+* name -- see (#common_members)
 * startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
   IPv4 or IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
@@ -113,11 +135,12 @@ The Route Origin Authorization (ROA) object class can contain the following memb
   authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number
   ([@!I-D.ietf-sidrops-rfc6482bis, section 4])
-* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
-  representing the not-valid-before date of the end-entity certificate for the ROA ([@!RFC6487, section 4])
-* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
-  representing the not-valid-after date of the end-entity certificate for the ROA ([@!RFC6487, section 4])
-* autoRenewed -- a boolean indicating if the registered ROA is auto-renewed or not
+* notValidBefore -- see (#common_members)
+* notValidAfter -- see (#common_members)
+* autoRenewed -- see (#common_members)
+* publicationUri -- see (#common_members)
+* source -- see (#common_members)
+* rpkiType -- see (#common_members)
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR (when defined) objects
 * remarks -- see [@!RFC9083, section 4.3]
@@ -135,8 +158,11 @@ Here is an elided example of a ROA object in RDAP:
   "maxLength": 64,
   "originAutnum": 65536,
   "notValidBefore": "2024-04-27T23:59:59Z",
-  "notValidAfter": "2025-04-27T23:59:59Z"
+  "notValidAfter": "2025-04-27T23:59:59Z",
   "autoRenewed": true,
+  "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+  "source": "XYZ-RIR",
+  "rpkiType": "hosted",
   "events":
   [
     {
@@ -260,8 +286,11 @@ Here is an elided example of the search results when finding information for ROA
       "maxLength": 64,
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
-      "notValidAfter": "2025-04-27T23:59:59Z"
+      "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
+      "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+      "source": "XYZ-RIR",
+      "rpkiType": "hosted",
       "events":
       [
         {
@@ -333,8 +362,11 @@ Here is an elided example for an IP network object with ROAs:
       "maxLength": 64,
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
-      "notValidAfter": "2025-04-27T23:59:59Z"
+      "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
+      "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+      "source": "XYZ-RIR",
+      "rpkiType": "hosted",
       "events":
       [
         {
@@ -409,17 +441,18 @@ Here is an elided example for an IP network object with ROAs:
 The Autonomous System Provider Authorization (ASPA) object class can contain the following members:
 
 * objectClassName -- the string "rpki1_aspa"
-* handle -- a string representing the INR-unique identifier of the ASPA registration
-* name -- a string representing an identifier assigned to the ASPA registration by the registration holder
+* handle -- see (#common_members)
+* name -- see (#common_members)
 * autnum -- an unsigned 32-bit integer representing the autonomous system number of the registration holder
   ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * providerAutnum -- an unsigned 32-bit integer representing the autonomous system number of the AS that is authorized
   as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
-* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
-  representing the not-valid-before date of the end-entity certificate for the ASPA ([@!RFC6487, section 4])
-* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
-  representing the not-valid-after date of the end-entity certificate for the ASPA ([@!RFC6487, section 4])
-* autoRenewed -- a boolean indicating if the registered ASPA is auto-renewed or not
+* notValidBefore -- see (#common_members)
+* notValidAfter -- see (#common_members)
+* autoRenewed -- see (#common_members)
+* publicationUri -- see (#common_members)
+* source -- see (#common_members)
+* rpkiType -- see (#common_members)
 * events -- see [@!RFC9083, section 4.5]
 * links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR (when defined)
   objects
@@ -435,8 +468,11 @@ Here is an elided example of an ASPA object in RDAP:
   "autnum": 65536,
   "providerAutnum": 65542,
   "notValidBefore": "2024-04-27T23:59:59Z",
-  "notValidAfter": "2025-04-27T23:59:59Z"
+  "notValidAfter": "2025-04-27T23:59:59Z",
   "autoRenewed": true,
+  "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+  "source": "XYZ-RIR",
+  "rpkiType": "hosted",
   "events":
   [
     {
@@ -555,8 +591,11 @@ Here is an elided example of the search results when finding information for ASP
       "autnum": 65536,
       "providerAutnum": 65542,
       "notValidBefore": "2024-04-27T23:59:59Z",
-      "notValidAfter": "2025-04-27T23:59:59Z"
+      "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
+      "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+      "source": "XYZ-RIR",
+      "rpkiType": "hosted",
       "events":
       [
         {
@@ -625,8 +664,11 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "autnum": 65536,
       "providerAutnum": 65542,
       "notValidBefore": "2024-04-27T23:59:59Z",
-      "notValidAfter": "2025-04-27T23:59:59Z"
+      "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
+      "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+      "source": "XYZ-RIR",
+      "rpkiType": "hosted",
       "events":
       [
         {
@@ -660,8 +702,11 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "autnum": 65537,
       "providerAutnum": 65543,
       "notValidBefore": "2024-04-27T23:59:59Z",
-      "notValidAfter": "2025-04-27T23:59:59Z"
+      "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
+      "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
+      "source": "XYZ-RIR",
+      "rpkiType": "hosted",
       "events":
       [
         {
@@ -700,7 +745,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
 The BGPSec Router Certificate object class can contain the following members:
 
 * objectClassName -- the string "rpki1_bgpsec_router_cert"
-* handle -- a string representing the INR-unique identifier of the BGPSec Router Certificate registration
+* handle -- see (#common_members)
 * serialNumber -- a string representing the unique identifier for the certificate
 * issuer -- a string representing the Certificate Authority (CA) that issued the certificate
 * signatureAlgorithm -- a string representing the algorithm used by the CA to sign the certificate
@@ -712,13 +757,14 @@ The BGPSec Router Certificate object class can contain the following members:
 * subjectKeyIdentifier -- a string, typically Base64-encoded, representing the unique identifier for the public key
 * autnums -- an array of unsigned 32-bit integers, each representing the autonomous system number that the router emits
   secure route advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
-* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
-  representing the not-valid-before date of the certificate
-* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
-  representing the not-valid-after date of the certificate
+* notValidBefore -- see (#common_members)
+* notValidAfter -- see (#common_members)
+* autoRenewed -- see (#common_members)
+* publicationUri -- see (#common_members)
+* source -- see (#common_members)
+* rpkiType -- see (#common_members)
 * events -- see [@!RFC9083, section 4.5]
-* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR (when defined)
-  objects
+* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to one or more autonomous system number objects
 * remarks -- see [@!RFC9083, section 4.3]
 
 Here is an elided example of a BGPSec Router Certificate object in RDAP:
@@ -743,7 +789,10 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
     65537
   ]
   "notValidBefore": "2024-04-27T23:59:59Z",
-  "notValidAfter": "2025-04-27T23:59:59Z"
+  "notValidAfter": "2025-04-27T23:59:59Z",
+  "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+  "source": "XYZ-RIR",
+  "rpkiType": "hosted",
   "events":
   [
     {
@@ -912,7 +961,10 @@ issuer matching the "CN=ISP-C*" pattern:
         65537
       ]
       "notValidBefore": "2024-04-27T23:59:59Z",
-      "notValidAfter": "2025-04-27T23:59:59Z"
+      "notValidAfter": "2025-04-27T23:59:59Z",
+      "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+      "source": "XYZ-RIR",
+      "rpkiType": "hosted",
       "events":
       [
         {
