@@ -749,15 +749,17 @@ The BGPSec Router Certificate object class can contain the following data member
 
 * objectClassName -- the string "rpki1_bgpsec_router_cert"
 * handle -- see (#common_data_members)
-* serialNumber -- a string representing the unique identifier for the certificate
-* issuer -- a string representing the Certificate Authority (CA) that issued the certificate
+* serialNumber -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4])
+* issuer -- a string representing the Certificate Authority (CA) that issued the certificate ([@!RFC6487, section 4])
 * signatureAlgorithm -- a string representing the algorithm used by the CA to sign the certificate
-* subject -- a string representing the identity of the router
+  ([@!RFC6487, section 4])
+* subject -- a string representing the identity of the router ([@!RFC8208, section 3.1])
 * subjectPublicKeyInfo -- an object representing the subject's public key information ([@!RFC8208, section 3.1]), with
   the following members:
     * publicKeyAlgorithm -- a string representing the algorithm for the public key
     * publicKey -- a string representation of the public key
 * subjectKeyIdentifier -- a string, typically Base64-encoded, representing the unique identifier for the public key
+  ([@!RFC6487, section 4])
 * autnums -- an array of unsigned 32-bit integers, each representing the autonomous system number that the router emits
   secure route advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
 * notValidBefore -- see (#common_data_members)
