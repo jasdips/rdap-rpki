@@ -94,7 +94,7 @@ protocol.
 "..." in examples is used as shorthand for elements defined outside of
 this document.
 
-## Common Members {#common_members}
+# Common Members {#common_members}
 
 An RDAP object class for RPKI in (#roa_object_class), (#aspa_object_class), and (#bgpsec_router_cert_object_class) can
 contain one or more of the following common members:
