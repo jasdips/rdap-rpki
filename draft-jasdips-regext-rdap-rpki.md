@@ -233,8 +233,6 @@ Searches for ROA information by CIDR are specified using this form:
 
 rpki1/roas?startAddress=YYYY&&prefixLength=ZZZZ
 
-A> See note above.
-
 YYYY is an IP address representing the "startAddress" property of a ROA and ZZZZ is a CIDR length representing its
 "prefixLength" property, as described in (#roa_object_class). The following URL would be used to find information for
 the most-specific ROA matching the "2001:db8::/64" CIDR:
