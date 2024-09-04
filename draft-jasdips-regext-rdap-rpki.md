@@ -34,15 +34,15 @@ email = "andy@hxr.us"
 
 The Resource Public Key Infrastructure (RPKI) is used to secure inter-domain routing on the internet. This document
 defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for accessing the RPKI registration data in
-the Internet Number Registries (INRs) through RDAP. An Internet Number Registry (INR) could be a Regional Internet
-Registry (RIR), a National Internet Registry (NIR), or a Local Internet Registry (LIR).
+the Internet Number Registry System (INRS) through RDAP.  The Internet Number Registry System (INRS) is composed of
+Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 
 {mainmatter}
 
 # Introduction
 
 The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI, [@!RFC6480]) to secure
-inter-domain routing ([@RFC4271]) on the internet. RPKI enables internet number resource holders to cryptographically
+inter-domain routing ([@RFC4271]) on the internet. RPKI enables Internet Number Resource (INR) holders to cryptographically
 assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and leaks. To that
 end, RPKI defines the following cryptographic profiles:
 
@@ -55,12 +55,12 @@ end, RPKI defines the following cryptographic profiles:
   corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es) specified in the
   certificate.
 
-This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data in the Internet Number
-Registries (INRs) for aforementioned RPKI profiles through RDAP. An Internet Number Registry (INR) could be a Regional
-Internet Registry (RIR), a National Internet Registry (NIR), or a Local Internet Registry (LIR).
+This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data within the Internet Number
+Registry System (INRS) for aforementioned RPKI profiles through RDAP.  The Internet Number Registry System (INRS) is composed of
+Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 
 The motivation here is that such RDAP data could complement the existing RPKI diagnostic tools when troubleshooting a
-route hijack or leak, by conveniently providing access to registration information from an INR's database beside what's
+route hijack or leak, by conveniently providing access to registration information from a registry's database beside what is
 inherently available from an RPKI profile object. There is registration metadata that is often needed for
 troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
 
@@ -74,7 +74,8 @@ Furthermore, correlating registered RPKI data with registered IP networks and au
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
 
 Beside the troubleshooting context, the ability to conveniently look up and search registered RPKI data through RDAP
-would inform users irrespective of their RPKI expertise level.
+would inform users irrespective of their RPKI expertise level, as is demonstrated in the [@?RDAP-GUIDE](https://rdap.rcode3.com/misc/uses.html). 
+Past deployments of 3rd party services such as [@?JDR](https://blog.nlnetlabs.nl/introducing-jdr/) has shown a need for this type of service.
 
 This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA, ASPA, and
 BGPSec Router Certificate registration data.
@@ -99,22 +100,20 @@ this document.
 An RDAP object class for RPKI in (#roa_object_class), (#aspa_object_class), and (#bgpsec_router_cert_object_class) can
 contain one or more of the following common members:
 
-* handle -- a string representing the INR-unique identifier of the RPKI object registration
+* handle -- a string representing the registry unique identifier of the RPKI object registration
 * name -- a string representing an identifier assigned to the RPKI object registration by the registration holder
-* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]), 
   representing the not-valid-before date of the end-entity certificate for the RPKI object ([@!RFC6487, section 4])
-* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]), 
   representing the not-valid-after date of the end-entity certificate for the RPKI object ([@!RFC6487, section 4])
-* autoRenewed -- a boolean indicating if the registered RPKI object is auto-renewed or not
-* publicationUri -- a URI string pointing to the location of the RPKI object within the RPKI repository; the URI scheme
-  is "rsync", per [@!RFC6487, section 4]
-* source -- a string representing the INR-unique identifier (handle) of the organization (entity) which is the
-  authoritative source for the RPKI object; it could be an INR or a downstream organization
+* autoRenewed -- a boolean indicating if the registered RPKI object is auto-renewed if true
+* publicationUri -- a URI string pointing to the location of the RPKI object within the RPKI repository; 
+  the URI scheme is "rsync", per [@!RFC6487, section 4]
+* source -- a string representing the registry-unique identifier (handle) of the organization (entity) which is the authoritative source for the RPKI object
 * rpkiType -- a string literal representing the type of the RPKI repository, with the following possible values:
-    * "hosted" -- An INR fully hosts the RPKI repository for a downstream organization
-    * "delegated" -- The downstream organization fully hosts its RPKI repository
-    * "hybrid" -- The downstream organization runs the Certificate Authority (CA) for its RPKI repository whereas the
-      INR hosts that organization's RPKI objects
+    * "hosted" -- The Certificate Authority (CA) and the RPKI repository are operated by a registry for an organization with allocated resources
+    * "delegated" -- A repository and CA operated by an organization with resources allocated by a registry
+    * "hybrid" -- A repository operated by a registry for an organization with allocated resources in which the organization operates its own CA.
 
 # Route Origin Authorization {#roa}
 
@@ -125,14 +124,10 @@ The Route Origin Authorization (ROA) object class can contain the following data
 * objectClassName -- the string "rpki1_roa"
 * handle -- see (#common_data_members)
 * name -- see (#common_data_members)
-* startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
-  IPv4 or IPv6 ([@!RFC9582, section 4])
-* prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
-  IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
-* ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies
-  an IPv6 ROA ([@!RFC9582, section 4])
-* maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
-  authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+* startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either IPv4 or IPv6 ([@!RFC9582, section 4])
+* prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+* ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies an IPv6 ROA ([@!RFC9582, section 4])
+* maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
 * notValidBefore -- see (#common_data_members)
 * notValidAfter -- see (#common_data_members)
@@ -217,7 +212,9 @@ The following search path segments are defined for ROA objects:
 
 Syntax: rpki1/roas?name=<name search pattern>
 
-Syntax: rpki1/roas?startAddress=<IP address>&&prefixLength=<CIDR length>
+Syntax: rpki1/roas?startAddress=<IP address>&prefixLength=<CIDR length>
+
+A> Can this be rpki1/roas/startAddress/length as in rpki1/roas/192.16.0.0/16?
 
 Syntax: rpki1/roas?originAutnum=<autonomous system number>
 
@@ -235,6 +232,8 @@ https://example.net/rdap/rpki1/roas?name=ROA-*
 Searches for ROA information by CIDR are specified using this form:
 
 rpki1/roas?startAddress=YYYY&&prefixLength=ZZZZ
+
+A> See note above.
 
 YYYY is an IP address representing the "startAddress" property of a ROA and ZZZZ is a CIDR length representing its
 "prefixLength" property, as described in (#roa_object_class). The following URL would be used to find information for
@@ -1041,168 +1040,104 @@ specifications ([@RFC7481], [@RFC9560]).
 IANA is requested to register the following values in the RDAP Extensions Registry at
 https://www.iana.org/assignments/rdap-extensions/:
 
-Extension identifier: rpki1
-
-Registry operator: Any
-
-Published specification: [this document]
-
-Contact: IETF <iesg@ietf.org>
-
-Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+* Extension identifier: rpki1
+* Registry operator: Any
+* Published specification: [this document]
+* Contact: IETF <iesg@ietf.org>
+* Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
 IANA is requested to register the following entries in the RDAP Reverse Search Registry at
 https://www.iana.org/assignments/rdap-reverse-search/:
 
-Searchable Resource Type: ips
+* Searchable Resource Type: ips
+* Related Resource Type: rpki1_roa
+* Property: originAutnum
+* Description: The server supports the IP search based on the origin autonomous system number of an associated RPKI ROA.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
-Related Resource Type: rpki1_roa
+* Searchable Resource Type: ips
+* Related Resource Type: rpki1_roa
+* Property: startAddress
+* Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of the CIDR address
+  block of an associated RPKI ROA.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
-Property: originAutnum
+* Searchable Resource Type: autnums
+* Related Resource Type: rpki1_aspa
+* Property: autnum
+* Description: The server supports the autnum search based on the autonomous system number of an associated RPKI ASPA.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
-Description: The server supports the IP search based on the origin autonomous system number of an associated RPKI ROA.
+* Searchable Resource Type: autnums
+* Related Resource Type: rpki1_aspa
+* Property: providerAutnum
+* Description: The server supports the autnum search based on the provider autonomous system number of an associated RPKI
+  ASPA.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
-
-Searchable Resource Type: ips
-
-Related Resource Type: rpki1_roa
-
-Property: startAddress
-
-Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of the CIDR address
-block of an associated RPKI ROA.
-
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
-
-Searchable Resource Type: autnums
-
-Related Resource Type: rpki1_aspa
-
-Property: autnum
-
-Description: The server supports the autnum search based on the autonomous system number of an associated RPKI ASPA.
-
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
-
-Searchable Resource Type: autnums
-
-Related Resource Type: rpki1_aspa
-
-Property: providerAutnum
-
-Description: The server supports the autnum search based on the provider autonomous system number of an associated RPKI
-ASPA.
-
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
-
-Searchable Resource Type: autnums
-
-Related Resource Type: rpki1_bgpsec_router_cert
-
-Property: autnum
-
-Description: The server supports the autnum search based on the handle of an associated RPKI BGPSec Router Certificate
-object.
-
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
+* Searchable Resource Type: autnums
+* Related Resource Type: rpki1_bgpsec_router_cert
+* Property: autnum
+* Description: The server supports the autnum search based on the handle of an associated RPKI BGPSec Router Certificate
+  object.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
 ## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
 
 IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry at
 https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 
-Searchable Resource Type: ips
+* Searchable Resource Type: ips
+* Related Resource Type: rpki1_roa
+* Property: originAutnum
+* Property Path: $.originAutnum
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
-Related Resource Type: rpki1_roa
+* Searchable Resource Type: ips
+* Related Resource Type: rpki1_roa
+* Property: startAddress
+* Property Path: $.startAddress
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
-Property: originAutnum
+* Searchable Resource Type: autnums
+* Related Resource Type: rpki1_aspa
+* Property: autnum
+* Property Path: $.autnum
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
-Property Path: $.originAutnum
+* Searchable Resource Type: autnums
+* Related Resource Type: rpki1_aspa
+* Property: providerAutnum
+* Property Path: $.providerAutnum
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
-
-Searchable Resource Type: ips
-
-Related Resource Type: rpki1_roa
-
-Property: startAddress
-
-Property Path: $.startAddress
-
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
-
-Searchable Resource Type: autnums
-
-Related Resource Type: rpki1_aspa
-
-Property: autnum
-
-Property Path: $.autnum
-
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
-
-Searchable Resource Type: autnums
-
-Related Resource Type: rpki1_aspa
-
-Property: providerAutnum
-
-Property Path: $.providerAutnum
-
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
-
-Searchable Resource Type: autnums
-
-Related Resource Type: rpki1_bgpsec_router_cert
-
-Property: handle
-
-Property Path: $.handle
-
-Registrant Name: IETF
-
-Registrant Contact Information: iesg@ietf.org
-
-Reference: [this document]
+* Searchable Resource Type: autnums
+* Related Resource Type: rpki1_bgpsec_router_cert
+* Property: handle
+* Property Path: $.handle
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: [this document]
 
 # Acknowledgements
 
