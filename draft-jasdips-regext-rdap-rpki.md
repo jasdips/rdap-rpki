@@ -73,9 +73,11 @@ troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Paylo
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
 
-Beside the troubleshooting context, the ability to conveniently look up and search registered RPKI data through RDAP
-would inform users irrespective of their RPKI expertise level, as is demonstrated in the [@?RDAP-GUIDE](https://rdap.rcode3.com/misc/uses.html). 
-Past deployments of 3rd party services such as [@?JDR](https://blog.nlnetlabs.nl/introducing-jdr/) has shown a need for this type of service.
+In addition to troubleshooting, serving RPKI meta-data over RDAP offers a convenience to network operators
+through a simple lookup mechanism. As is demonstrated in the [@?RDAP-GUIDE](https://rdap.rcode3.com/misc/uses.html),
+constructing custom RDAP scripts is relatively easy and beneficial to network operators for the purposes of
+reporting. Systems such as [@?JDR](https://blog.nlnetlabs.nl/introducing-jdr/) have shown the utility of such
+an approach. 
 
 This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA, ASPA, and
 BGPSec Router Certificate registration data.
@@ -214,8 +216,6 @@ Syntax: rpki1/roas?name=<name search pattern>
 
 Syntax: rpki1/roas?startAddress=<IP address>&prefixLength=<CIDR length>
 
-A> Can this be rpki1/roas/startAddress/length as in rpki1/roas/192.16.0.0/16?
-
 Syntax: rpki1/roas?originAutnum=<autonomous system number>
 
 Searches for ROA information by name are specified using this form:
@@ -232,8 +232,6 @@ https://example.net/rdap/rpki1/roas?name=ROA-*
 Searches for ROA information by CIDR are specified using this form:
 
 rpki1/roas?startAddress=YYYY&&prefixLength=ZZZZ
-
-A> See note above.
 
 YYYY is an IP address representing the "startAddress" property of a ROA and ZZZZ is a CIDR length representing its
 "prefixLength" property, as described in (#roa_object_class). The following URL would be used to find information for
