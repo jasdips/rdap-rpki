@@ -80,7 +80,7 @@ relatively easy and beneficial to network operators for the purposes of reportin
 utility of such an approach.
 
 For these purposes, this specification defines RDAP object classes, as well as lookup and search path segments, for the
-ROA, ASPA, and BGPSec Router Certificate registration data.
+ROA, ASPA, and BGPSec router certificate registration data.
 
 ## Requirements Language
 
@@ -914,7 +914,7 @@ Searches for BGPSec router certificate information by handle are specified using
 
 rpki1/bgpsec_router_certs?handle=XXXX
 
-XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of a BGPSec Router Certificate
+XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of a BGPSec router certificate
 object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find information for
 BGPSec router certificate objects with handle matching the "ABC*" pattern:
 
@@ -926,7 +926,7 @@ Searches for BGPSec router certificate information by certificate issuer are spe
 
 rpki1/bgpsec_router_certs?issuer=YYYY
 
-YYYY is a search pattern per [@!RFC9082, section 4.1], representing the "issuer" property of a BGPSec Router Certificate
+YYYY is a search pattern per [@!RFC9082, section 4.1], representing the "issuer" property of a BGPSec router certificate
 object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find information for
 BGPSec router certificate objects with issuer matching the "CN=ISP-*" pattern:
 
@@ -972,7 +972,7 @@ https://example.net/rdap/rpki1/bgpsec_router_certs?autnum=65536
 
 ### Search Results
 
-The BGPSec Router Certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is
+The BGPSec router certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is
 an array of BGPSec router certificate objects ((#bgpsec_router_cert_object_class)).
 
 Here is an elided example of the search results when finding information for BGPSec router certificate objects with
@@ -1207,7 +1207,7 @@ Autonomous system number search by the handle of a BGPSec router certificate:
 
 # Acknowledgements
 
-Job Snijders suggested accessing the BGPSec Router Certificate registration data as well through this RDAP extension.
+Job Snijders suggested accessing the BGPSec router certificate registration data as well through this RDAP extension.
 Ties de Kock and Mark Kosters provided valuable feedback for this document.
 
 {backmatter}
