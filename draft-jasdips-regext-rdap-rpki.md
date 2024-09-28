@@ -351,8 +351,8 @@ type is "rpki1_roa".
 It would be useful to show all the ROAs associated with an IP network object. To that end, this extension adds a new
 "rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
-* "rpki1_roas": an array of ROA objects ((#roa_object_class)) for the IP network; if the array is too large, the server
-  MAY truncate it, per [@!RFC9083, section 9]
+* "rpki1_roas" -- an array of ROA objects ((#roa_object_class)) for the IP network; if the array is too large, the
+  server MAY truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an IP network object with ROAs:
 
@@ -476,6 +476,8 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
   ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "providerAutnum" -- an unsigned 32-bit integer representing the autonomous system number of an AS that is authorized
   as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
+* "providerAutnums" -- an array of unsigned 32-bit integers, each representing the autonomous system number of an AS
+  that is authorized as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
 * "autoRenewed" -- see (#common_data_members)
@@ -495,7 +497,11 @@ Here is an elided example of an ASPA object in RDAP:
   "handle": "XXXX",
   "name": "ASPA-1",
   "autnum": 65536,
-  "providerAutnum": 65542,
+  "providerAutnums":
+  [
+    65542,
+    ...
+  ],
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "autoRenewed": true,
@@ -587,7 +593,7 @@ Searches for ASPA information by provider autonomous system number are specified
 
 rpki1/aspas?providerAutnum=ZZZZ
 
-ZZZZ is an autonomous system number representing the "providerAutnum" property of an ASPA, as described in
+ZZZZ is an autonomous system number within the "providerAutnum" property of an ASPA, as described in
 (#aspa_object_class). The following URL would be used to find information for ASPAs with provider autonomous system
 number 65542:
 
@@ -618,7 +624,11 @@ Here is an elided example of the search results when finding information for ASP
       "handle": "XXXX",
       "name": "ASPA-1",
       "autnum": 65536,
-      "providerAutnum": 65542,
+      "providerAutnums":
+      [
+        65542,
+        ...
+      ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
@@ -1090,7 +1100,7 @@ https://www.iana.org/assignments/rdap-reverse-search/:
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
 * Property: startAddress
-* Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of the CIDR
+* Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of a CIDR
   address block of an associated RPKI ROA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
@@ -1107,7 +1117,7 @@ https://www.iana.org/assignments/rdap-reverse-search/:
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: providerAutnum
-* Description: The server supports the autnum search based on the provider autonomous system number of an associated
+* Description: The server supports the autnum search based on a provider autonomous system number of an associated
   RPKI ASPA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
@@ -1115,7 +1125,7 @@ https://www.iana.org/assignments/rdap-reverse-search/:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_bgpsec_router_cert
-* Property: autnum
+* Property: handle
 * Description: The server supports the autnum search based on the handle of an associated RPKI BGPSec Router Certificate
   object.
 * Registrant Name: IETF
@@ -1138,7 +1148,7 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
 * Property: startAddress
-* Property Path: $.startAddress
+* Property Path: $.roaIpAddresses[*].startAddress
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: [this document]
@@ -1154,7 +1164,7 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: providerAutnum
-* Property Path: $.providerAutnum
+* Property Path: $.providerAutnums[*]
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: [this document]
