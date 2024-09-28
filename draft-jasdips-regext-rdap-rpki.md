@@ -34,7 +34,7 @@ email = "andy@hxr.us"
 
 The Resource Public Key Infrastructure (RPKI) is used to secure inter-domain routing on the internet. This document
 defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for accessing the RPKI registration data in
-the Internet Number Registry System (INRS) through RDAP.  The Internet Number Registry System (INRS) is composed of
+the Internet Number Registry System (INRS) through RDAP. The Internet Number Registry System (INRS) is composed of
 Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 
 {mainmatter}
@@ -56,7 +56,7 @@ leaks. To that end, RPKI defines the following cryptographic profiles:
   certificate.
 
 This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data within the Internet Number
-Registry System (INRS) for aforementioned RPKI profiles through RDAP.  The Internet Number Registry System (INRS) is
+Registry System (INRS) for aforementioned RPKI profiles through RDAP. The Internet Number Registry System (INRS) is
 composed of Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries
 (LIRs).
 
@@ -80,7 +80,7 @@ relatively easy and beneficial to network operators for the purposes of reportin
 utility of such an approach.
 
 For these purposes, this specification defines RDAP object classes, as well as lookup and search path segments, for the
-ROA,  ASPA, and BGPSec Router Certificate registration data.
+ROA, ASPA, and BGPSec Router Certificate registration data.
 
 ## Requirements Language
 
@@ -100,14 +100,14 @@ can contain one or more of the following common members:
 
 * handle -- a string representing the registry unique identifier of an RPKI object registration
 * name -- a string representing the identifier assigned to an RPKI object registration by the registration holder
-* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]), 
+* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
   representing the not-valid-before date of the end-entity certificate for an RPKI object ([@!RFC6487, section 4])
-* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]), 
+* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
   representing the not-valid-after date of the end-entity certificate for an RPKI object ([@!RFC6487, section 4])
 * autoRenewed -- a boolean indicating if a registered RPKI object is auto-renewed or not
-* publicationUri -- a URI string pointing to the location of an RPKI object within the RPKI repository; 
+* publicationUri -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
-* source -- a string representing the registry-unique identifier (handle) of the organization (entity) which is the
+* source -- a string representing the registry-unique identifier (handle) of an organization (entity) which is the
   authoritative source for an RPKI object
 * rpkiType -- a string literal representing various combinations of an RPKI repository and a Certificate Authority (CA),
   with the following possible values:
@@ -120,19 +120,21 @@ can contain one or more of the following common members:
 
 ## Object Class {#roa_object_class}
 
-The Route Origin Authorization (ROA) object class can contain the following data members:
+The Route Origin Authorization (ROA) object class can contain the following members:
 
 * objectClassName -- the string "rpki1_roa"
 * handle -- see (#common_data_members)
 * name -- see (#common_data_members)
-* startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
-  IPv4 or IPv6 ([@!RFC9582, section 4])
-* prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
-  IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
-* ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies an
-  IPv6 ROA ([@!RFC9582, section 4])
-* maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
-  authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+* roaIpAddresses - an array of objects representing CIDR address blocks within a ROA; such an object can contain the
+  following members:
+    * startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of a CIDR address block, either
+      IPv4 or IPv6 ([@!RFC9582, section 4])
+    * prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of a CIDR address block; up to 32 for
+      IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+    * ipVersion -- a string signifying the IP protocol version of a CIDR address block: "v4" for IPv4 and "v6" for IPv6
+      ([@!RFC9582, section 4])
+    * maxLength -- a number representing the maximum prefix length of a CIDR address block that the origin AS is
+      authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
 * notValidBefore -- see (#common_data_members)
 * notValidAfter -- see (#common_data_members)
@@ -141,7 +143,7 @@ The Route Origin Authorization (ROA) object class can contain the following data
 * source -- see (#common_data_members)
 * rpkiType -- see (#common_data_members)
 * events -- see [@!RFC9083, section 4.5]
-* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR (when defined) objects
+* links -- "self" link, and "related" links for IP network and IRR (when defined) objects ([@!RFC9083, section 4.2])
 * remarks -- see [@!RFC9083, section 4.3]
 
 Here is an elided example of a ROA object in RDAP:
@@ -151,10 +153,16 @@ Here is an elided example of a ROA object in RDAP:
   "objectClassName": "rpki1_roa",
   "handle": "XXXX",
   "name": "ROA-1",
-  "startAddress": "2001:db8::",
-  "prefixLength": 48,
-  "ipVersion": "v6",
-  "maxLength": 64,
+  "roaIpAddresses":
+  [
+    {
+      "startAddress": "2001:db8::",
+      "prefixLength": 48,
+      "ipVersion": "v6",
+      "maxLength": 64
+    },
+    ...
+  ],
   "originAutnum": 65536,
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
@@ -279,10 +287,16 @@ Here is an elided example of the search results when finding information for ROA
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "startAddress": "2001:db8::",
-      "prefixLength": 48,
-      "ipVersion": "v6",
-      "maxLength": 64,
+      "roaIpAddresses":
+      [
+        {
+          "startAddress": "2001:db8::",
+          "prefixLength": 48,
+          "ipVersion": "v6",
+          "maxLength": 64
+        },
+        ...
+      ],
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
@@ -355,10 +369,16 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "startAddress": "2001:db8::",
-      "prefixLength": 48,
-      "ipVersion": "v6",
-      "maxLength": 64,
+      "roaIpAddresses":
+      [
+        {
+          "startAddress": "2001:db8::",
+          "prefixLength": 48,
+          "ipVersion": "v6",
+          "maxLength": 64
+        },
+        ...
+      ],
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
@@ -1063,8 +1083,8 @@ https://www.iana.org/assignments/rdap-reverse-search/:
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
 * Property: startAddress
-* Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of the CIDR address
-  block of an associated RPKI ROA.
+* Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of the CIDR
+  address block of an associated RPKI ROA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: [this document]
@@ -1080,8 +1100,8 @@ https://www.iana.org/assignments/rdap-reverse-search/:
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: providerAutnum
-* Description: The server supports the autnum search based on the provider autonomous system number of an associated RPKI
-  ASPA.
+* Description: The server supports the autnum search based on the provider autonomous system number of an associated
+  RPKI ASPA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: [this document]
