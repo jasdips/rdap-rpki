@@ -591,7 +591,7 @@ Searches for ASPA information by provider autonomous system number are specified
 
 rpki1/aspas?providerAutnum=ZZZZ
 
-ZZZZ is an autonomous system number within the "providerAutnum" property of an ASPA, as described in
+ZZZZ is an autonomous system number within the "providerAutnums" property of an ASPA, as described in
 (#aspa_object_class). The following URL would be used to find information for ASPAs with provider autonomous system
 number 65542:
 
@@ -699,7 +699,11 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "handle": "XXXX",
       "name": "ASPA-1",
       "autnum": 65536,
-      "providerAutnum": 65542,
+      "providerAutnums":
+      [
+        65542,
+        ...
+      ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
@@ -737,7 +741,11 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "handle": "YYYY",
       "name": "ASPA-2",
       "autnum": 65537,
-      "providerAutnum": 65543,
+      "providerAutnums":
+      [
+        65543,
+        ...
+      ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": false,
