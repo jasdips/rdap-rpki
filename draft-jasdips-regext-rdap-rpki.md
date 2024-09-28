@@ -128,7 +128,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "name" -- see (#common_data_members)
 * "roaIpAddresses" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
   following members:
-    * "startAddress" -- a string representing the starting IP address (a.k.a. CIDR prefix) of a CIDR address block,
+    * "startAddress" -- a string representing the start IP address (a.k.a. CIDR prefix) of a CIDR address block,
       either IPv4 or IPv6 ([@!RFC9582, section 4])
     * "prefixLength" -- a number representing the prefix length (a.k.a. CIDR length) of a CIDR address block; up to 32
       for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
@@ -1065,14 +1065,14 @@ related resource type is "rpki1_bgpsec_router_cert".
 A server that supports the functionality specified in this document MUST include the "rpki1" string literal in the
 "rdapConformance" array of its responses.
 
-To be in compliance with this specification, a registry with RPKI data would need to implement at the least one of the
+To be in compliance with this specification, a registry with RPKI data would need to implement at least one of the
 newly defined RDAP object classes ((#roa), (#aspa), (#bgpsec_router_cert)), and if possible, all.
 
 # Security Considerations
 
-The RDAP extension in this document MUST NOT be used to directly influence Internet routing. Neither RDAP nor this
+The RDAP extension in this document MUST NOT be used to directly influence internet routing. Neither RDAP nor this
 extension define the necessary security properties or distribution mechanisms required to securely add, remove, or
-modify Internet routes.
+modify internet routes.
 
 This document does not introduce any new security considerations past those already discussed in the RDAP protocol
 specifications ([@RFC7481], [@RFC9560]).
@@ -1086,7 +1086,7 @@ https://www.iana.org/assignments/rdap-extensions/:
 
 * Extension identifier: rpki1
 * Registry operator: Any
-* Published specification: [this document]
+* Published specification: This document.
 * Contact: IETF <iesg@ietf.org>
 * Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
 
@@ -1095,53 +1095,67 @@ https://www.iana.org/assignments/rdap-extensions/:
 IANA is requested to register the following entries in the RDAP Reverse Search Registry at
 https://www.iana.org/assignments/rdap-reverse-search/:
 
+IP network search by the origin autonomous system number of a ROA:
+
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
 * Property: originAutnum
-* Description: The server supports the IP search based on the origin autonomous system number of an associated RPKI ROA.
+* Description: The server supports the IP network search by the origin autonomous system number of an associated RPKI
+  ROA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+IP network search by the start IP address of a CIDR address block of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
 * Property: startAddress
-* Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of a CIDR
-  address block of an associated RPKI ROA.
+* Description: The server supports the IP network search by the start IP address (a.k.a. CIDR prefix) of a CIDR address
+  block of an associated RPKI ROA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by the autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: autnum
-* Description: The server supports the autnum search based on the autonomous system number of an associated RPKI ASPA.
+* Description: The server supports the autonomous system number search by the autonomous system number of an associated
+  RPKI ASPA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by a provider autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: providerAutnum
-* Description: The server supports the autnum search based on a provider autonomous system number of an associated
-  RPKI ASPA.
+* Description: The server supports the autonomous system number search by a provider autonomous system number of an
+  associated RPKI ASPA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by the handle of a BGPSec router certificate:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_bgpsec_router_cert
 * Property: handle
-* Description: The server supports the autnum search based on the handle of an associated RPKI BGPSec Router Certificate
-  object.
+* Description: The server supports the autonomous system number search by the handle of an associated RPKI BGPSec router
+  certificate.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
 
 ## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
 
 IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry at
 https://www.iana.org/assignments/rdap-reverse-search-mapping/:
+
+IP network search by the origin autonomous system number of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
@@ -1149,7 +1163,9 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Property Path: $.originAutnum
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+IP network search by the start IP address of a CIDR address block of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
@@ -1157,7 +1173,9 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Property Path: $.roaIpAddresses[*].startAddress
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by the autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
@@ -1165,7 +1183,9 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Property Path: $.autnum
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by a provider autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
@@ -1173,7 +1193,9 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Property Path: $.providerAutnums[*]
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by the handle of a BGPSec router certificate:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_bgpsec_router_cert
@@ -1181,7 +1203,7 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Property Path: $.handle
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
 
 # Acknowledgements
 
