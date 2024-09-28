@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-07-05T00:00:00Z
+date = 2024-09-28T00:00:00Z
 
 [[author]]
 initials="J."
@@ -74,10 +74,9 @@ Furthermore, correlating registered RPKI data with registered IP networks and au
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
 
 In addition to troubleshooting, serving RPKI meta-data over RDAP offers a convenience to network operators
-through a simple lookup mechanism. As is demonstrated in the [@?RDAP-GUIDE](https://rdap.rcode3.com/misc/uses.html),
-constructing custom RDAP scripts is relatively easy and beneficial to network operators for the purposes of
-reporting. Systems such as [@?JDR](https://blog.nlnetlabs.nl/introducing-jdr/) have shown the utility of such
-an approach. 
+through a simple lookup mechanism. As is demonstrated in the [@RDAP-GUIDE] constructing custom RDAP scripts is
+relatively easy and beneficial to network operators for the purposes of reporting. Systems such as [@JDR] have shown the
+utility of such an approach.
 
 This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA, ASPA, and
 BGPSec Router Certificate registration data.
@@ -1144,3 +1143,22 @@ Ties de Kock also provided valuable feedback for this document.
 
 {backmatter}
 
+<reference anchor='RDAP-GUIDE' target='https://rdap.rcode3.com/misc/uses.html'>
+    <front>
+        <title>RDAP Guide</title>
+        <author>
+            <organization>Newton, A.</organization>
+        </author>
+        <date year='2024'/>
+    </front>
+</reference>
+
+<reference anchor='JDR' target='https://blog.nlnetlabs.nl/introducing-jdr/'>
+    <front>
+        <title>JDR</title>
+        <author>
+            <organization>NLNet Labs</organization>
+        </author>
+        <date year='2020'/>
+    </front>
+</reference>
