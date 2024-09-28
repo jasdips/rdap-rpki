@@ -42,9 +42,9 @@ Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Lo
 # Introduction
 
 The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI, [@!RFC6480]) to secure
-inter-domain routing ([@RFC4271]) on the internet. RPKI enables Internet Number Resource (INR) holders to cryptographically
-assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and leaks. To that
-end, RPKI defines the following cryptographic profiles:
+inter-domain routing ([@RFC4271]) on the internet. RPKI enables Internet Number Resource (INR) holders to
+cryptographically assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and
+leaks. To that end, RPKI defines the following cryptographic profiles:
 
 * Route Origin Authorization (ROA, [@!RFC9582]) where a Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block
   holder cryptographically asserts about the origin autonomous system (AS, [@RFC4271]) for routing that CIDR address
@@ -56,12 +56,13 @@ end, RPKI defines the following cryptographic profiles:
   certificate.
 
 This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data within the Internet Number
-Registry System (INRS) for aforementioned RPKI profiles through RDAP.  The Internet Number Registry System (INRS) is composed of
-Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
+Registry System (INRS) for aforementioned RPKI profiles through RDAP.  The Internet Number Registry System (INRS) is
+composed of Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries
+(LIRs).
 
 The motivation here is that such RDAP data could complement the existing RPKI diagnostic tools when troubleshooting a
-route hijack or leak, by conveniently providing access to registration information from a registry's database beside what is
-inherently available from an RPKI profile object. There is registration metadata that is often needed for
+route hijack or leak, by conveniently providing access to registration information from a registry's database beside
+what is inherently available from an RPKI profile object. There is registration metadata that is often needed for
 troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
 
 * Is it an auto-renewing ROA or not?
@@ -74,47 +75,46 @@ Furthermore, correlating registered RPKI data with registered IP networks and au
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
 
 In addition to troubleshooting, serving RPKI meta-data over RDAP offers a convenience to network operators
-through a simple lookup mechanism. As is demonstrated in the [@RDAP-GUIDE] constructing custom RDAP scripts is
+through a simple lookup mechanism. As is demonstrated in [@RDAP-GUIDE], constructing custom RDAP scripts is
 relatively easy and beneficial to network operators for the purposes of reporting. Systems such as [@JDR] have shown the
 utility of such an approach.
 
-This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA, ASPA, and
-BGPSec Router Certificate registration data.
+For these purposes, this specification defines RDAP object classes, as well as lookup and search path segments, for the
+ROA,  ASPA, and BGPSec Router Certificate registration data.
 
 ## Requirements Language
 
-The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-"OPTIONAL" in this document are to be interpreted as described in BCP
-14 [@!RFC2119] [@!RFC8174] when, and only when, they appear in all
-capitals, as shown here.
+The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",
+"NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [@!BCP14] when, and only
+when, they appear in all capitals, as shown here.
 
-Indentation and whitespace in examples are provided only to illustrate
-element relationships, and are not a REQUIRED feature of this
-protocol.
+Indentation and whitespace in examples are provided only to illustrate element relationships, and are not a REQUIRED
+feature of this protocol.
 
-"..." in examples is used as shorthand for elements defined outside of
-this document.
+"..." in examples is used as shorthand for elements defined outside of this document.
 
 # Common Data Members {#common_data_members}
 
-An RDAP object class for RPKI in (#roa_object_class), (#aspa_object_class), and (#bgpsec_router_cert_object_class) can
-contain one or more of the following common members:
+The RDAP object classes for RPKI in (#roa_object_class), (#aspa_object_class), and (#bgpsec_router_cert_object_class)
+can contain one or more of the following common members:
 
-* handle -- a string representing the registry unique identifier of the RPKI object registration
-* name -- a string representing an identifier assigned to the RPKI object registration by the registration holder
+* handle -- a string representing the registry unique identifier of an RPKI object registration
+* name -- a string representing the identifier assigned to an RPKI object registration by the registration holder
 * notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]), 
-  representing the not-valid-before date of the end-entity certificate for the RPKI object ([@!RFC6487, section 4])
+  representing the not-valid-before date of the end-entity certificate for an RPKI object ([@!RFC6487, section 4])
 * notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]), 
-  representing the not-valid-after date of the end-entity certificate for the RPKI object ([@!RFC6487, section 4])
-* autoRenewed -- a boolean indicating if the registered RPKI object is auto-renewed if true
-* publicationUri -- a URI string pointing to the location of the RPKI object within the RPKI repository; 
+  representing the not-valid-after date of the end-entity certificate for an RPKI object ([@!RFC6487, section 4])
+* autoRenewed -- a boolean indicating if a registered RPKI object is auto-renewed or not
+* publicationUri -- a URI string pointing to the location of an RPKI object within the RPKI repository; 
   the URI scheme is "rsync", per [@!RFC6487, section 4]
-* source -- a string representing the registry-unique identifier (handle) of the organization (entity) which is the authoritative source for the RPKI object
-* rpkiType -- a string literal representing the type of the RPKI repository, with the following possible values:
-    * "hosted" -- The Certificate Authority (CA) and the RPKI repository are operated by a registry for an organization with allocated resources
-    * "delegated" -- A repository and CA operated by an organization with resources allocated by a registry
-    * "hybrid" -- A repository operated by a registry for an organization with allocated resources in which the organization operates its own CA.
+* source -- a string representing the registry-unique identifier (handle) of the organization (entity) which is the
+  authoritative source for an RPKI object
+* rpkiType -- a string literal representing various combinations of an RPKI repository and a Certificate Authority (CA),
+  with the following possible values:
+    * "hosted" -- Both the repository and CA are operated by a registry for an organization with allocated resources
+    * "delegated" -- Both the repository and CA are operated by an organization with resources allocated by a registry
+    * "hybrid" -- The repository is operated by a registry for an organization with allocated resources whereas the
+      organization operates its own CA.
 
 # Route Origin Authorization {#roa}
 
@@ -125,10 +125,14 @@ The Route Origin Authorization (ROA) object class can contain the following data
 * objectClassName -- the string "rpki1_roa"
 * handle -- see (#common_data_members)
 * name -- see (#common_data_members)
-* startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either IPv4 or IPv6 ([@!RFC9582, section 4])
-* prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
-* ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies an IPv6 ROA ([@!RFC9582, section 4])
-* maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+* startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either
+  IPv4 or IPv6 ([@!RFC9582, section 4])
+* prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for
+  IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+* ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies an
+  IPv6 ROA ([@!RFC9582, section 4])
+* maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
+  authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
 * originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
 * notValidBefore -- see (#common_data_members)
 * notValidAfter -- see (#common_data_members)
