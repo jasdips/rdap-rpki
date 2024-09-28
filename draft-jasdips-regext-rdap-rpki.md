@@ -95,8 +95,8 @@ feature of this protocol.
 
 # Common Data Members {#common_data_members}
 
-The RDAP object classes for RPKI in (#roa_object_class), (#aspa_object_class), and (#bgpsec_router_cert_object_class)
-can contain one or more of the following common members:
+The RDAP object classes for RPKI ((#roa_object_class), (#aspa_object_class), (#bgpsec_router_cert_object_class)) can
+contain one or more of the following common members:
 
 * "handle" -- a string representing the registry unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
