@@ -108,8 +108,8 @@ contain one or more of the following common members:
 * "autoRenewed" -- a boolean indicating if a registered RPKI object is auto-renewed or not
 * "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
-* "source" -- a string representing the registry-unique identifier (handle) of an organization (entity) which is the
-  authoritative source for an RPKI object
+* "entities" -- an array of entity objects ([@!RFC9083, section 5.1]), including the organization (entity) registered as
+  the authoritative source for an RPKI object
 * "rpkiType" -- a string literal representing various combinations of an RPKI repository and a Certificate Authority
   (CA), with the following possible values:
     * "hosted" -- both the repository and CA are operated by a registry for an organization with allocated resources
@@ -141,7 +141,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "notValidAfter" -- see (#common_data_members)
 * "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
-* "source" -- see (#common_data_members)
+* "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
 * "links" -- "self" link, and "related" links for IP network and IRR (when defined) objects ([@!RFC9083, section 4.2])
@@ -169,7 +169,15 @@ Here is an elided example of a ROA object in RDAP:
   "notValidAfter": "2025-04-27T23:59:59Z",
   "autoRenewed": true,
   "publicationUri": "rsync://example.net/path/to/XXXX.roa",
-  "source": "XYZ-RIR",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "XYZ-RIR",
+      ...
+    },
+    ...
+  ],
   "rpkiType": "hosted",
   "events":
   [
@@ -303,7 +311,15 @@ Here is an elided example of the search results when finding information for ROA
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -385,7 +401,15 @@ Here is an elided example for an IP network object with ROAs:
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -431,7 +455,15 @@ Here is an elided example for an IP network object with ROAs:
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.roa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -480,7 +512,7 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * "notValidAfter" -- see (#common_data_members)
 * "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
-* "source" -- see (#common_data_members)
+* "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
 * "links" -- "self" link, and "related" links for autonomous system number and IRR (when defined) objects
@@ -504,7 +536,15 @@ Here is an elided example of an ASPA object in RDAP:
   "notValidAfter": "2025-04-27T23:59:59Z",
   "autoRenewed": true,
   "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
-  "source": "XYZ-RIR",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "XYZ-RIR",
+      ...
+    },
+    ...
+  ],
   "rpkiType": "hosted",
   "events":
   [
@@ -631,7 +671,15 @@ Here is an elided example of the search results when finding information for ASP
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -708,7 +756,15 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -750,7 +806,15 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -808,7 +872,7 @@ The BGPSec router certificate object class can contain the following members:
 * "notValidAfter" -- see (#common_data_members)
 * "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
-* "source" -- see (#common_data_members)
+* "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
 * "links" -- "self" link, and "related" links for autonomous system number objects ([@!RFC9083, section 4.2])
@@ -838,7 +902,15 @@ Here is an elided example of a BGPSec router certificate object in RDAP:
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "publicationUri": "rsync://example.net/path/to/ABCD.cer",
-  "source": "XYZ-RIR",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "XYZ-RIR",
+      ...
+    },
+    ...
+  ],
   "rpkiType": "hosted",
   "events":
   [
@@ -1010,7 +1082,15 @@ issuer matching the "CN=ISP-*" pattern:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/ABCD.cer",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
