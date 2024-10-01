@@ -214,16 +214,50 @@ Here is an elided example of a ROA object in RDAP:
 
 ## Lookup
 
-The resource type path segment for exact match lookup of a ROA object is "rpki1/roa".
+The resource type path segment for exact or closest match lookup of a ROA object is "rpki1/roa".
 
-The following lookup path segment is defined for a ROA object:
+The following lookup path segments are defined for a ROA object:
 
 Syntax: rpki1/roa/<handle>
+
+Syntax: rpki1/roa/<IP address>
+
+Syntax: rpki1/roa/<CIDR prefix>/<CIDR length>
+
+A lookup query for ROA information by handle is specified using this form:
+
+rpki1/roa/XXXX
+
+XXXX is a string representing the "handle" property of a ROA, as described in (#common_data_members). The following URL
+would be used to find information for a ROA that exactly matches the "8a848ab0729f0f4f0173ba2013bc5eb3" handle:
 
 For example:
 
 ```
-https://example.net/rdap/rpki1/roa/XXXX
+https://example.net/rdap/rpki1/roa/8a848ab0729f0f4f0173ba2013bc5eb3
+```
+
+A lookup query for ROA information by IP address is specified using this form:
+
+rpki1/roa/YYYY
+
+YYYY is a string representing either an IPv4 dotted decimal or an IPv6 [@!RFC9582, section 4] address. The following URL
+would be used to find information for a ROA that completely encompasses the "2001:db8::" IP address:
+
+```
+https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A
+```
+
+A lookup query for ROA information by CIDR is specified using this form:
+
+rpki1/roa/YYYY/ZZZZ
+
+YYYY is an IP address representing the "startAddress" property of a CIDR address block within a ROA and ZZZZ is a CIDR
+length representing its "prefixLength" property, as described in (#roa_object_class). The following URL would be used to
+find information for the most-specific ROA matching the "2001:db8::/64" CIDR:
+
+```
+https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A/64
 ```
 
 ## Search
@@ -233,8 +267,6 @@ The resource type path segment for searching ROA objects is "rpki1/roas".
 The following search path segments are defined for ROA objects:
 
 Syntax: rpki1/roas?name=<name search pattern>
-
-Syntax: rpki1/roas?startAddress=<IP address>&prefixLength=<CIDR length>
 
 Syntax: rpki1/roas?originAutnum=<autonomous system number>
 
@@ -247,18 +279,6 @@ XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "name" p
 
 ```
 https://example.net/rdap/rpki1/roas?name=ROA-*
-```
-
-Searches for ROA information by CIDR are specified using this form:
-
-rpki1/roas?startAddress=YYYY&&prefixLength=ZZZZ
-
-YYYY is an IP address representing the "startAddress" property of a CIDR address block within a ROA and ZZZZ is a CIDR
-length representing its "prefixLength" property, as described in (#roa_object_class). The following URL would be used to
-find information for the most-specific ROA matching the "2001:db8::/64" CIDR:
-
-```
-https://example.net/rdap/rpki1/roas?startAddress=2001%3Adb8%3A%3A&&prefixLength=64
 ```
 
 Searches for ROA information by origin autonomous system number are specified using this form:
