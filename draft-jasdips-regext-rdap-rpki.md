@@ -76,8 +76,9 @@ access to the latter's contact information through RDAP entity objects, which sh
 
 In addition to troubleshooting, serving RPKI meta-data over RDAP offers a convenience to network operators
 through a simple lookup mechanism. As is demonstrated in [@RDAP-GUIDE], constructing custom RDAP scripts is
-relatively easy and beneficial to network operators for the purposes of reporting. Systems such as [@JDR] have shown the
-utility of such an approach.
+relatively easy and beneficial to network operators for the purposes of reporting. Though not RDAP-based, systems such
+as [@JDR] and [@CLOUDFLARE] have shown the utility of an approach that allows users to explore the RPKI hierarchy in a
+visual fashion, without interacting with the signed objects directly.
 
 For these purposes, this specification defines RDAP object classes, as well as lookup and search path segments, for the
 ROA, ASPA, and BGPSec router certificate registration data.
@@ -1337,6 +1338,16 @@ Ties de Kock and Mark Kosters provided valuable feedback for this document.
         <title>JDR</title>
         <author>
             <organization>NLNet Labs</organization>
+        </author>
+        <date year='2020'/>
+    </front>
+</reference>
+
+<reference anchor='CLOUDFLARE' target='https://rpki.cloudflare.com/'>
+    <front>
+        <title>RPKI Portal</title>
+        <author>
+            <organization>Cloudflare</organization>
         </author>
         <date year='2020'/>
     </front>
