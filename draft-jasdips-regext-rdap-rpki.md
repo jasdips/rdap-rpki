@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-07-05T00:00:00Z
+date = 2024-10-01T00:00:00Z
 
 [[author]]
 initials="J."
@@ -34,7 +34,7 @@ email = "andy@hxr.us"
 
 The Resource Public Key Infrastructure (RPKI) is used to secure inter-domain routing on the internet. This document
 defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for accessing the RPKI registration data in
-the Internet Number Registry System (INRS) through RDAP.  The Internet Number Registry System (INRS) is composed of
+the Internet Number Registry System (INRS) through RDAP. The Internet Number Registry System (INRS) is composed of
 Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 
 {mainmatter}
@@ -42,9 +42,9 @@ Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Lo
 # Introduction
 
 The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI, [@!RFC6480]) to secure
-inter-domain routing ([@RFC4271]) on the internet. RPKI enables Internet Number Resource (INR) holders to cryptographically
-assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and leaks. To that
-end, RPKI defines the following cryptographic profiles:
+inter-domain routing ([@RFC4271]) on the internet. RPKI enables Internet Number Resource (INR) holders to
+cryptographically assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and
+leaks. To that end, RPKI defines the following cryptographic profiles:
 
 * Route Origin Authorization (ROA, [@!RFC9582]) where a Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block
   holder cryptographically asserts about the origin autonomous system (AS, [@RFC4271]) for routing that CIDR address
@@ -56,12 +56,13 @@ end, RPKI defines the following cryptographic profiles:
   certificate.
 
 This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data within the Internet Number
-Registry System (INRS) for aforementioned RPKI profiles through RDAP.  The Internet Number Registry System (INRS) is composed of
-Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
+Registry System (INRS) for aforementioned RPKI profiles through RDAP. The Internet Number Registry System (INRS) is
+composed of Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries
+(LIRs).
 
 The motivation here is that such RDAP data could complement the existing RPKI diagnostic tools when troubleshooting a
-route hijack or leak, by conveniently providing access to registration information from a registry's database beside what is
-inherently available from an RPKI profile object. There is registration metadata that is often needed for
+route hijack or leak, by conveniently providing access to registration information from a registry's database beside
+what is inherently available from an RPKI profile object. There is registration metadata that is often needed for
 troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
 
 * Is it an auto-renewing ROA or not?
@@ -74,72 +75,78 @@ Furthermore, correlating registered RPKI data with registered IP networks and au
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
 
 In addition to troubleshooting, serving RPKI meta-data over RDAP offers a convenience to network operators
-through a simple lookup mechanism. As is demonstrated in the [@?RDAP-GUIDE](https://rdap.rcode3.com/misc/uses.html),
-constructing custom RDAP scripts is relatively easy and beneficial to network operators for the purposes of
-reporting. Systems such as [@?JDR](https://blog.nlnetlabs.nl/introducing-jdr/) have shown the utility of such
-an approach. 
+through a simple lookup mechanism. As is demonstrated in [@RDAP-GUIDE], constructing custom RDAP scripts is
+relatively easy and beneficial to network operators for the purposes of reporting. Though not RDAP-based, systems such
+as [@JDR] and [@CLOUDFLARE] have shown the utility of an approach that allows users to explore the RPKI hierarchy in a
+visual fashion, without interacting with the signed objects directly.
 
-This specification next defines RDAP object classes, as well as lookup and search path segments, for the ROA, ASPA, and
-BGPSec Router Certificate registration data.
+For these purposes, this specification defines RDAP object classes, as well as lookup and search path segments, for the
+ROA, ASPA, and BGPSec router certificate registration data.
 
 ## Requirements Language
 
-The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-"SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-"OPTIONAL" in this document are to be interpreted as described in BCP
-14 [@!RFC2119] [@!RFC8174] when, and only when, they appear in all
-capitals, as shown here.
+The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",
+"NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [@!BCP14] when, and only
+when, they appear in all capitals, as shown here.
 
-Indentation and whitespace in examples are provided only to illustrate
-element relationships, and are not a REQUIRED feature of this
-protocol.
+Indentation and whitespace in examples are provided only to illustrate element relationships, and are not a REQUIRED
+feature of this protocol.
 
-"..." in examples is used as shorthand for elements defined outside of
-this document.
+"..." in examples is used as shorthand for elements defined outside of this document.
 
 # Common Data Members {#common_data_members}
 
-An RDAP object class for RPKI in (#roa_object_class), (#aspa_object_class), and (#bgpsec_router_cert_object_class) can
+The RDAP object classes for RPKI ((#roa_object_class), (#aspa_object_class), (#bgpsec_router_cert_object_class)) can
 contain one or more of the following common members:
 
-* handle -- a string representing the registry unique identifier of the RPKI object registration
-* name -- a string representing an identifier assigned to the RPKI object registration by the registration holder
-* notValidBefore -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]), 
-  representing the not-valid-before date of the end-entity certificate for the RPKI object ([@!RFC6487, section 4])
-* notValidAfter -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]), 
-  representing the not-valid-after date of the end-entity certificate for the RPKI object ([@!RFC6487, section 4])
-* autoRenewed -- a boolean indicating if the registered RPKI object is auto-renewed if true
-* publicationUri -- a URI string pointing to the location of the RPKI object within the RPKI repository; 
+* "handle" -- a string representing the registry unique identifier of an RPKI object registration
+* "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
+* "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
+  ([@!RFC3339]), representing the not-valid-before date of the end-entity certificate for an RPKI object
+  ([@!RFC6487, section 4])
+* "notValidAfter" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+  representing the not-valid-after date of the end-entity certificate for an RPKI object ([@!RFC6487, section 4])
+* "autoRenewed" -- a boolean indicating if a registered RPKI object is auto-renewed or not
+* "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
-* source -- a string representing the registry-unique identifier (handle) of the organization (entity) which is the authoritative source for the RPKI object
-* rpkiType -- a string literal representing the type of the RPKI repository, with the following possible values:
-    * "hosted" -- The Certificate Authority (CA) and the RPKI repository are operated by a registry for an organization with allocated resources
-    * "delegated" -- A repository and CA operated by an organization with resources allocated by a registry
-    * "hybrid" -- A repository operated by a registry for an organization with allocated resources in which the organization operates its own CA.
+* "entities" -- an array of entity objects ([@!RFC9083, section 5.1]), including the organization (entity) registered as
+  the authoritative source for an RPKI object
+* "rpkiType" -- a string literal representing various combinations of an RPKI repository and a Certification Authority
+  (CA), with the following possible values:
+    * "hosted" -- both the repository and CA are operated by a registry for an organization with allocated resources
+    * "delegated" -- both the repository and CA are operated by an organization with resources allocated by a registry
+    * "hybrid" -- the repository is operated by a registry for an organization with allocated resources whereas the CA
+      is operated by the organization itself
 
 # Route Origin Authorization {#roa}
 
 ## Object Class {#roa_object_class}
 
-The Route Origin Authorization (ROA) object class can contain the following data members:
+The Route Origin Authorization (ROA) object class can contain the following members:
 
-* objectClassName -- the string "rpki1_roa"
-* handle -- see (#common_data_members)
-* name -- see (#common_data_members)
-* startAddress -- a string representing the starting IP address (a.k.a. CIDR prefix) of the CIDR address block, either IPv4 or IPv6 ([@!RFC9582, section 4])
-* prefixLength -- a number representing the prefix length (a.k.a. CIDR length) of the CIDR address block; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
-* ipVersion -- a string signifying the IP protocol version of the ROA: "v4" signifies an IPv4 ROA, and "v6" signifies an IPv6 ROA ([@!RFC9582, section 4])
-* maxLength -- a number representing the maximum prefix length of the CIDR address block that the origin AS is authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
-* originAutnum -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
-* notValidBefore -- see (#common_data_members)
-* notValidAfter -- see (#common_data_members)
-* autoRenewed -- see (#common_data_members)
-* publicationUri -- see (#common_data_members)
-* source -- see (#common_data_members)
-* rpkiType -- see (#common_data_members)
-* events -- see [@!RFC9083, section 4.5]
-* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to IP network and IRR (when defined) objects
-* remarks -- see [@!RFC9083, section 4.3]
+* "objectClassName" -- the string "rpki1_roa"
+* "handle" -- see (#common_data_members)
+* "name" -- see (#common_data_members)
+* "roaIpAddresses" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
+  following members:
+    * "startAddress" -- a string representing the start IP address (a.k.a. CIDR prefix) of a CIDR address block,
+      either IPv4 or IPv6 ([@!RFC9582, section 4])
+    * "prefixLength" -- a number representing the prefix length (a.k.a. CIDR length) of a CIDR address block; up to 32
+      for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+    * "ipVersion" -- a string signifying the IP protocol version of a CIDR address block: "v4" for IPv4 and "v6" for
+      IPv6 ([@!RFC9582, section 4])
+    * "maxLength" -- a number representing the maximum prefix length of a CIDR address block that the origin AS is
+      authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
+* "originAutnum" -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
+* "notValidBefore" -- see (#common_data_members)
+* "notValidAfter" -- see (#common_data_members)
+* "autoRenewed" -- see (#common_data_members)
+* "publicationUri" -- see (#common_data_members)
+* "entities" -- see (#common_data_members)
+* "rpkiType" -- see (#common_data_members)
+* "events" -- see [@!RFC9083, section 4.5]
+* "links" -- "self" link, and "related" links for IP network and IRR (when defined) objects ([@!RFC9083, section 4.2])
+* "remarks" -- see [@!RFC9083, section 4.3]
 
 Here is an elided example of a ROA object in RDAP:
 
@@ -148,16 +155,30 @@ Here is an elided example of a ROA object in RDAP:
   "objectClassName": "rpki1_roa",
   "handle": "XXXX",
   "name": "ROA-1",
-  "startAddress": "2001:db8::",
-  "prefixLength": 48,
-  "ipVersion": "v6",
-  "maxLength": 64,
+  "roaIpAddresses":
+  [
+    {
+      "startAddress": "2001:db8::",
+      "prefixLength": 48,
+      "ipVersion": "v6",
+      "maxLength": 64
+    },
+    ...
+  ],
   "originAutnum": 65536,
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "autoRenewed": true,
   "publicationUri": "rsync://example.net/path/to/XXXX.roa",
-  "source": "XYZ-RIR",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "XYZ-RIR",
+      ...
+    },
+    ...
+  ],
   "rpkiType": "hosted",
   "events":
   [
@@ -194,17 +215,52 @@ Here is an elided example of a ROA object in RDAP:
 
 ## Lookup
 
-The resource type path segment for exact match lookup of a ROA object is "rpki1/roa".
+The resource type path segment for exact or closest match lookup of a ROA object is "rpki1/roa".
 
-The following lookup path segment is defined for a ROA object:
+The following lookup path segments are defined for a ROA object:
 
 Syntax: rpki1/roa/<handle>
 
-For example:
+Syntax: rpki1/roa/<IP address>
+
+Syntax: rpki1/roa/<CIDR prefix>/<CIDR length>
+
+A lookup query for ROA information by handle is specified using this form:
+
+rpki1/roa/XXXX
+
+XXXX is a string representing the "handle" property of a ROA, as described in (#roa_object_class). The following URL
+would be used to find information for a ROA that exactly matches the "8a848ab0729f0f4f0173ba2013bc5eb3" handle:
 
 ```
-https://example.net/rdap/rpki1/roa/XXXX
+https://example.net/rdap/rpki1/roa/8a848ab0729f0f4f0173ba2013bc5eb3
 ```
+
+A lookup query for ROA information by IP address is specified using this form:
+
+rpki1/roa/YYYY
+
+YYYY is a string representing an IPv4 or IPv6 address. The following URL would be used to find information for a ROA
+that completely encompasses the "192.0.2.0" IP address:
+
+```
+https://example.net/rdap/rpki1/roa/192.0.2.0
+```
+
+A lookup query for ROA information by CIDR is specified using this form:
+
+rpki1/roa/YYYY/ZZZZ
+
+YYYY is an IP address representing the "startAddress" property of a CIDR address block within a ROA and ZZZZ is a CIDR
+length representing its "prefixLength" property, as described in (#roa_object_class). The following URL would be used to
+find information for the most-specific ROA matching the "2001:db8::/64" CIDR:
+
+```
+https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A/64
+```
+
+In the "links" array of a ROA object, the context URI ("value" member) of each link should be the lookup URL by handle,
+and if that's not available, then the lookup URL by IP address.
 
 ## Search
 
@@ -213,8 +269,6 @@ The resource type path segment for searching ROA objects is "rpki1/roas".
 The following search path segments are defined for ROA objects:
 
 Syntax: rpki1/roas?name=<name search pattern>
-
-Syntax: rpki1/roas?startAddress=<IP address>&prefixLength=<CIDR length>
 
 Syntax: rpki1/roas?originAutnum=<autonomous system number>
 
@@ -227,18 +281,6 @@ XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "name" p
 
 ```
 https://example.net/rdap/rpki1/roas?name=ROA-*
-```
-
-Searches for ROA information by CIDR are specified using this form:
-
-rpki1/roas?startAddress=YYYY&&prefixLength=ZZZZ
-
-YYYY is an IP address representing the "startAddress" property of a ROA and ZZZZ is a CIDR length representing its
-"prefixLength" property, as described in (#roa_object_class). The following URL would be used to find information for
-the most-specific ROA matching the "2001:db8::/64" CIDR:
-
-```
-https://example.net/rdap/rpki1/roas?startAddress=2001%3Adb8%3A%3A&&prefixLength=64
 ```
 
 Searches for ROA information by origin autonomous system number are specified using this form:
@@ -276,16 +318,30 @@ Here is an elided example of the search results when finding information for ROA
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "startAddress": "2001:db8::",
-      "prefixLength": 48,
-      "ipVersion": "v6",
-      "maxLength": 64,
+      "roaIpAddresses":
+      [
+        {
+          "startAddress": "2001:db8::",
+          "prefixLength": 48,
+          "ipVersion": "v6",
+          "maxLength": 64
+        },
+        ...
+      ],
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -333,8 +389,8 @@ type is "rpki1_roa".
 It would be useful to show all the ROAs associated with an IP network object. To that end, this extension adds a new
 "rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
-* rpki1_roas -- an array of ROA objects ((#roa_object_class)) for the IP network; if the array is too large, the server
-  MAY truncate it, per [@!RFC9083, section 9]
+* "rpki1_roas" -- an array of ROA objects ((#roa_object_class)) for the IP network; if the array is too large, the
+  server MAY truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an IP network object with ROAs:
 
@@ -352,16 +408,30 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "startAddress": "2001:db8::",
-      "prefixLength": 48,
-      "ipVersion": "v6",
-      "maxLength": 64,
+      "roaIpAddresses":
+      [
+        {
+          "startAddress": "2001:db8::",
+          "prefixLength": 48,
+          "ipVersion": "v6",
+          "maxLength": 64
+        },
+        ...
+      ],
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -392,16 +462,30 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "YYYY",
       "name": "ROA-2",
-      "startAddress": "2001:db8:1::",
-      "prefixLength": 48,
-      "ipVersion": "v6",
-      "maxLength": 64,
+      "roaIpAddresses":
+      [
+        {
+          "startAddress": "2001:db8:1::",
+          "prefixLength": 48,
+          "ipVersion": "v6",
+          "maxLength": 64
+        },
+        ...
+      ],
       "originAutnum": 65537,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.roa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -437,25 +521,25 @@ Here is an elided example for an IP network object with ROAs:
 
 ## Object Class {#aspa_object_class}
 
-The Autonomous System Provider Authorization (ASPA) object class can contain the following data members:
+The Autonomous System Provider Authorization (ASPA) object class can contain the following members:
 
-* objectClassName -- the string "rpki1_aspa"
-* handle -- see (#common_data_members)
-* name -- see (#common_data_members)
-* autnum -- an unsigned 32-bit integer representing the autonomous system number of the registration holder
+* "objectClassName" -- the string "rpki1_aspa"
+* "handle" -- see (#common_data_members)
+* "name" -- see (#common_data_members)
+* "autnum" -- an unsigned 32-bit integer representing an autonomous system number of the registration holder
   ([@!I-D.ietf-sidrops-aspa-profile, section 3])
-* providerAutnum -- an unsigned 32-bit integer representing the autonomous system number of the AS that is authorized
-  as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
-* notValidBefore -- see (#common_data_members)
-* notValidAfter -- see (#common_data_members)
-* autoRenewed -- see (#common_data_members)
-* publicationUri -- see (#common_data_members)
-* source -- see (#common_data_members)
-* rpkiType -- see (#common_data_members)
-* events -- see [@!RFC9083, section 4.5]
-* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to autonomous system number and IRR (when defined)
-  objects
-* remarks -- see [@!RFC9083, section 4.3]
+* "providerAutnums" -- an array of unsigned 32-bit integers, each representing the autonomous system number of an AS
+  that is authorized as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
+* "notValidBefore" -- see (#common_data_members)
+* "notValidAfter" -- see (#common_data_members)
+* "autoRenewed" -- see (#common_data_members)
+* "publicationUri" -- see (#common_data_members)
+* "entities" -- see (#common_data_members)
+* "rpkiType" -- see (#common_data_members)
+* "events" -- see [@!RFC9083, section 4.5]
+* "links" -- "self" link, and "related" links for autonomous system number and IRR (when defined) objects
+  ([@!RFC9083, section 4.2])
+* "remarks" -- see [@!RFC9083, section 4.3]
 
 Here is an elided example of an ASPA object in RDAP:
 
@@ -465,12 +549,24 @@ Here is an elided example of an ASPA object in RDAP:
   "handle": "XXXX",
   "name": "ASPA-1",
   "autnum": 65536,
-  "providerAutnum": 65542,
+  "providerAutnums":
+  [
+    65542,
+    ...
+  ],
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "autoRenewed": true,
   "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
-  "source": "XYZ-RIR",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "XYZ-RIR",
+      ...
+    },
+    ...
+  ],
   "rpkiType": "hosted",
   "events":
   [
@@ -509,15 +605,36 @@ Here is an elided example of an ASPA object in RDAP:
 
 The resource type path segment for exact match lookup of an ASPA object is "rpki1/aspa".
 
-The following lookup path segment is defined for an ASPA object:
+The following lookup path segments are defined for an ASPA object:
 
 Syntax: rpki1/aspa/<handle>
 
-For example:
+Syntax: rpki1/aspa/<autonomous system number>
+
+A lookup query for ASPA information by handle is specified using this form:
+
+rpki1/aspa/XXXX
+
+XXXX is a string representing the "handle" property of an ASPA, as described in (#aspa_object_class). The following URL
+would be used to find information for an ASPA that exactly matches the "47ab80ed8693f25d0187d93a07db4484" handle:
 
 ```
-https://example.net/rdap/rpki1/aspa/YYYY
+https://example.net/rdap/rpki1/aspa/47ab80ed8693f25d0187d93a07db4484
 ```
+
+A lookup query for ASPA information by autonomous system number is specified using this form:
+
+rpki1/aspa/YYYY
+
+YYYY is an autonomous system number representing the "autnum" property of an ASPA, as described in (#aspa_object_class).
+The following URL would be used to find information for an ASPA with autonomous system number 65536:
+
+```
+https://example.net/rdap/rpki1/aspa/65536
+```
+
+In the "links" array of an ASPA object, the context URI ("value" member) of each link should be the lookup URL by
+handle, and if that's not available, then the lookup URL by autonomous system number.
 
 ## Search
 
@@ -526,8 +643,6 @@ The resource type path segment for searching ASPA objects is "rpki1/aspas".
 The following search path segments are defined for ASPA objects:
 
 Syntax: rpki1/aspas?name=<name search pattern>
-
-Syntax: rpki1/aspas?autnum=<autonomous system number>
 
 Syntax: rpki1/aspas?providerAutnum=<autonomous system number>
 
@@ -542,22 +657,11 @@ XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "name" p
 https://example.net/rdap/rpki1/aspas?name=ASPA-*
 ```
 
-Searches for ASPA information by autonomous system number are specified using this form:
-
-rpki1/aspas?autnum=YYYY
-
-YYYY is an autonomous system number representing the "autnum" property of an ASPA, as described in (#aspa_object_class).
-The following URL would be used to find information for ASPAs with autonomous system number 65536:
-
-```
-https://example.net/rdap/rpki1/aspas?autnum=65536
-```
-
 Searches for ASPA information by provider autonomous system number are specified using this form:
 
-rpki1/aspas?providerAutnum=ZZZZ
+rpki1/aspas?providerAutnum=YYYY
 
-ZZZZ is an autonomous system number representing the "providerAutnum" property of an ASPA, as described in
+YYYY is an autonomous system number within the "providerAutnums" property of an ASPA, as described in
 (#aspa_object_class). The following URL would be used to find information for ASPAs with provider autonomous system
 number 65542:
 
@@ -570,7 +674,8 @@ https://example.net/rdap/rpki1/aspas?providerAutnum=65542
 The ASPA search results are returned in the "rpki1_aspaSearchResults" member, which is an array of ASPA objects
 ((#aspa_object_class)).
 
-Here is an elided example of the search results when finding information for ASPAs with autonomous system number 65536:
+Here is an elided example of the search results when finding information for ASPAs with provider autonomous system
+number 65542:
 
 ```
 {
@@ -588,12 +693,24 @@ Here is an elided example of the search results when finding information for ASP
       "handle": "XXXX",
       "name": "ASPA-1",
       "autnum": 65536,
-      "providerAutnum": 65542,
+      "providerAutnums":
+      [
+        65542,
+        ...
+      ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -642,8 +759,8 @@ related resource type is "rpki1_aspa".
 It would be useful to show all the ASPAs associated with an autonomous system number object. To that end, this extension
 adds a new "rpki1_aspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
 
-* rpki1_aspas -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number; if the array is too
-  large, the server MAY truncate it, per [@!RFC9083, section 9]
+* "rpki1_aspas" -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number range in the
+  autonomous system number object; if the array is too large, the server MAY truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an autonomous system number object with ASPAs:
 
@@ -661,12 +778,24 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "handle": "XXXX",
       "name": "ASPA-1",
       "autnum": 65536,
-      "providerAutnum": 65542,
+      "providerAutnums":
+      [
+        65542,
+        ...
+      ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -699,12 +828,24 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "handle": "YYYY",
       "name": "ASPA-2",
       "autnum": 65537,
-      "providerAutnum": 65543,
+      "providerAutnums":
+      [
+        65543,
+        ...
+      ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -741,34 +882,34 @@ Here is an elided example for an autonomous system number object with ASPAs:
 
 ## Object Class {#bgpsec_router_cert_object_class}
 
-The BGPSec Router Certificate object class can contain the following data members:
+The BGPSec router certificate object class can contain the following members:
 
-* objectClassName -- the string "rpki1_bgpsec_router_cert"
-* handle -- see (#common_data_members)
-* serialNumber -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4])
-* issuer -- a string representing the Certificate Authority (CA) that issued the certificate ([@!RFC6487, section 4])
-* signatureAlgorithm -- a string representing the algorithm used by the CA to sign the certificate
+* "objectClassName" -- the string "rpki1_bgpsec_router_cert"
+* "handle" -- see (#common_data_members)
+* "serialNumber" -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4])
+* "issuer" -- a string representing the CA that issued the certificate ([@!RFC6487, section 4])
+* "signatureAlgorithm" -- a string representing the algorithm used by the CA to sign the certificate
   ([@!RFC6487, section 4])
-* subject -- a string representing the identity of the router ([@!RFC8209, section 3.1.1])
-* subjectPublicKeyInfo -- an object representing the subject's public key information ([@!RFC8208, section 3.1]), with
+* "subject" -- a string representing the identity of the router ([@!RFC8209, section 3.1.1])
+* "subjectPublicKeyInfo" -- an object representing the subject's public key information ([@!RFC8208, section 3.1]), with
   the following members:
-    * publicKeyAlgorithm -- a string representing the algorithm for the public key
-    * publicKey -- a string representation of the public key
-* subjectKeyIdentifier -- a string, typically Base64-encoded, representing the unique identifier for the public key
+    * "publicKeyAlgorithm" -- a string representing the algorithm for the public key
+    * "publicKey" -- a string representation of the public key
+* "subjectKeyIdentifier" -- a string, typically Base64-encoded, representing the unique identifier for the public key
   ([@!RFC6487, section 4])
-* autnums -- an array of unsigned 32-bit integers, each representing the autonomous system number that the router emits
-  secure route advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
-* notValidBefore -- see (#common_data_members)
-* notValidAfter -- see (#common_data_members)
-* autoRenewed -- see (#common_data_members)
-* publicationUri -- see (#common_data_members)
-* source -- see (#common_data_members)
-* rpkiType -- see (#common_data_members)
-* events -- see [@!RFC9083, section 4.5]
-* links -- links ([@!RFC9083, section 4.2]) for "self", and "related" to one or more autonomous system number objects
-* remarks -- see [@!RFC9083, section 4.3]
+* "autnums" -- an array of unsigned 32-bit integers, each representing the autonomous system number that the router
+  emits secure route advertisements on behalf of ([@!RFC8209, section 3.1.3.5])
+* "notValidBefore" -- see (#common_data_members)
+* "notValidAfter" -- see (#common_data_members)
+* "autoRenewed" -- see (#common_data_members)
+* "publicationUri" -- see (#common_data_members)
+* "entities" -- see (#common_data_members)
+* "rpkiType" -- see (#common_data_members)
+* "events" -- see [@!RFC9083, section 4.5]
+* "links" -- "self" link, and "related" links for autonomous system number objects ([@!RFC9083, section 4.2])
+* "remarks" -- see [@!RFC9083, section 4.3]
 
-Here is an elided example of a BGPSec Router Certificate object in RDAP:
+Here is an elided example of a BGPSec router certificate object in RDAP:
 
 ```
 {
@@ -792,7 +933,15 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "publicationUri": "rsync://example.net/path/to/ABCD.cer",
-  "source": "XYZ-RIR",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "XYZ-RIR",
+      ...
+    },
+    ...
+  ],
   "rpkiType": "hosted",
   "events":
   [
@@ -827,7 +976,7 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
   "remarks":
   [
     {
-      "description": [ "A BGPSec Router Certificate object in RDAP" ]
+      "description": [ "A BGPSec router certificate object in RDAP" ]
     }
   ]
 }
@@ -835,10 +984,10 @@ Here is an elided example of a BGPSec Router Certificate object in RDAP:
 
 ## Lookup
 
-The resource type path segment for exact match lookup of a BGPSec Router Certificate object is
+The resource type path segment for exact match lookup of a BGPSec router certificate object is
 "rpki1/bgpsec_router_cert".
 
-The following lookup path segment is defined for a BGPSec Router Certificate object:
+The following lookup path segment is defined for a BGPSec router certificate object:
 
 Syntax: rpki1/bgpsec_router_cert/<handle>
 
@@ -850,9 +999,9 @@ https://example.net/rdap/rpki1/bgpsec_router_cert/ABCD
 
 ## Search
 
-The resource type path segment for searching BGPSec Router Certificate objects is "rpki1/bgpsec_router_certs".
+The resource type path segment for searching BGPSec router certificate objects is "rpki1/bgpsec_router_certs".
 
-The following search path segments are defined for BGPSec Router Certificate objects:
+The following search path segments are defined for BGPSec router certificate objects:
 
 Syntax: rpki1/bgpsec_router_certs?handle=<handle search pattern>
 
@@ -868,9 +1017,9 @@ Searches for BGPSec router certificate information by handle are specified using
 
 rpki1/bgpsec_router_certs?handle=XXXX
 
-XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of a BGPSec Router Certificate
+XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of a BGPSec router certificate
 object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find information for
-BGPSec Router Certificate objects with handle matching the "ABC*" pattern:
+BGPSec router certificate objects with handle matching the "ABC*" pattern:
 
 ```
 https://example.net/rdap/rpki1/bgpsec_router_certs?handle=ABC*
@@ -880,12 +1029,12 @@ Searches for BGPSec router certificate information by certificate issuer are spe
 
 rpki1/bgpsec_router_certs?issuer=YYYY
 
-YYYY is a search pattern per [@!RFC9082, section 4.1], representing the "issuer" property of a BGPSec Router Certificate
+YYYY is a search pattern per [@!RFC9082, section 4.1], representing the "issuer" property of a BGPSec router certificate
 object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find information for
-BGPSec Router Certificate objects with issuer matching the "CN=ISP-C*" pattern:
+BGPSec router certificate objects with issuer matching the "CN=ISP-*" pattern:
 
 ```
-https://example.net/rdap/rpki1/bgpsec_router_certs?issuer=CN%3DISP-C*
+https://example.net/rdap/rpki1/bgpsec_router_certs?issuer=CN%3DISP-*
 ```
 
 Searches for BGPSec router certificate information by certificate subject are specified using this form:
@@ -894,18 +1043,18 @@ rpki1/bgpsec_router_certs?subject=ZZZZ
 
 ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of a BGPSec Router
 Certificate object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find
-information for BGPSec Router Certificate objects with subject matching the "CN=ROUTER-ASN-655*" pattern:
+information for BGPSec router certificate objects with subject matching the "CN=ROUTER-ISP-*" pattern:
 
 ```
-https://example.net/rdap/rpki1/bgpsec_router_certs?subject=CN%3DROUTER-ASN-6553*
+https://example.net/rdap/rpki1/bgpsec_router_certs?subject=CN%3DROUTER-ISP-*
 ```
 
 Searches for BGPSec router certificate information by subject key identifier are specified using this form:
 
 rpki1/bgpsec_router_certs?subjectKeyIdentifier=BBBB
 
-BBBB is a string representing the "subjectKeyIdentifier" property of a BGPSec Router Certificate object, as described in
-(#bgpsec_router_cert_object_class). The following URL would be used to find a BGPSec Router Certificate object with
+BBBB is a string representing the "subjectKeyIdentifier" property of a BGPSec router certificate object, as described in
+(#bgpsec_router_cert_object_class). The following URL would be used to find a BGPSec router certificate object with
 subject key identifier matching the "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=" string:
 
 ```
@@ -916,9 +1065,9 @@ Searches for BGPSec router certificate information by autonomous system number a
 
 rpki1/bgpsec_router_certs?autnum=CCCC
 
-CCCC is an autonomous system number representing one of the elements of the "autnums" array of a BGPSec Router
-Certificate object, as described in (#bgpsec_router_cert_object_class). The following URL would be used to find a BGPSec
-Router Certificate object with autonomous system number 65536:
+CCCC is an autonomous system number within the "autnums" property of a BGPSec router certificate object, as described in
+(#bgpsec_router_cert_object_class). The following URL would be used to find a BGPSec router certificate object with
+autonomous system number 65536:
 
 ```
 https://example.net/rdap/rpki1/bgpsec_router_certs?autnum=65536
@@ -926,11 +1075,11 @@ https://example.net/rdap/rpki1/bgpsec_router_certs?autnum=65536
 
 ### Search Results
 
-The BGPSec Router Certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is
-an array of BGPSec Router Certificate objects ((#bgpsec_router_cert_object_class)).
+The BGPSec router certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is
+an array of BGPSec router certificate objects ((#bgpsec_router_cert_object_class)).
 
-Here is an elided example of the search results when finding information for BGPSec Router Certificate objects with
-issuer matching the "CN=ISP-C*" pattern:
+Here is an elided example of the search results when finding information for BGPSec router certificate objects with
+issuer matching the "CN=ISP-*" pattern:
 
 ```
 {
@@ -964,7 +1113,15 @@ issuer matching the "CN=ISP-C*" pattern:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/ABCD.cer",
-      "source": "XYZ-RIR",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
       "rpkiType": "hosted",
       "events":
       [
@@ -1019,14 +1176,14 @@ related resource type is "rpki1_bgpsec_router_cert".
 A server that supports the functionality specified in this document MUST include the "rpki1" string literal in the
 "rdapConformance" array of its responses.
 
-To be in compliance with this specification, a registry with RPKI data would need to implement at the least one of the
+To be in compliance with this specification, a registry with RPKI data would need to implement at least one of the
 newly defined RDAP object classes ((#roa), (#aspa), (#bgpsec_router_cert)), and if possible, all.
 
 # Security Considerations
 
-The RDAP extension in this document MUST NOT be used to directly influence Internet routing. Neither RDAP nor this
+The RDAP extension in this document MUST NOT be used to directly influence internet routing. Neither RDAP nor this
 extension define the necessary security properties or distribution mechanisms required to securely add, remove, or
-modify Internet routes.
+modify internet routes.
 
 This document does not introduce any new security considerations past those already discussed in the RDAP protocol
 specifications ([@RFC7481], [@RFC9560]).
@@ -1040,7 +1197,7 @@ https://www.iana.org/assignments/rdap-extensions/:
 
 * Extension identifier: rpki1
 * Registry operator: Any
-* Published specification: [this document]
+* Published specification: This document.
 * Contact: IETF <iesg@ietf.org>
 * Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
 
@@ -1049,53 +1206,67 @@ https://www.iana.org/assignments/rdap-extensions/:
 IANA is requested to register the following entries in the RDAP Reverse Search Registry at
 https://www.iana.org/assignments/rdap-reverse-search/:
 
+IP network search by the origin autonomous system number of a ROA:
+
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
 * Property: originAutnum
-* Description: The server supports the IP search based on the origin autonomous system number of an associated RPKI ROA.
+* Description: The server supports the IP network search by the origin autonomous system number of an associated RPKI
+  ROA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+IP network search by the start IP address of a CIDR address block of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
 * Property: startAddress
-* Description: The server supports the IP search based on the starting IP address (a.k.a. CIDR prefix) of the CIDR address
+* Description: The server supports the IP network search by the start IP address (a.k.a. CIDR prefix) of a CIDR address
   block of an associated RPKI ROA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by the autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: autnum
-* Description: The server supports the autnum search based on the autonomous system number of an associated RPKI ASPA.
+* Description: The server supports the autonomous system number search by the autonomous system number of an associated
+  RPKI ASPA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by a provider autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: providerAutnum
-* Description: The server supports the autnum search based on the provider autonomous system number of an associated RPKI
-  ASPA.
+* Description: The server supports the autonomous system number search by a provider autonomous system number of an
+  associated RPKI ASPA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by the handle of a BGPSec router certificate:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_bgpsec_router_cert
-* Property: autnum
-* Description: The server supports the autnum search based on the handle of an associated RPKI BGPSec Router Certificate
-  object.
+* Property: handle
+* Description: The server supports the autonomous system number search by the handle of an associated RPKI BGPSec router
+  certificate.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
 
 ## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
 
 IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry at
 https://www.iana.org/assignments/rdap-reverse-search-mapping/:
+
+IP network search by the origin autonomous system number of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
@@ -1103,15 +1274,19 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Property Path: $.originAutnum
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+IP network search by the start IP address of a CIDR address block of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
 * Property: startAddress
-* Property Path: $.startAddress
+* Property Path: $.roaIpAddresses[*].startAddress
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by the autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
@@ -1119,15 +1294,19 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Property Path: $.autnum
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by a provider autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: providerAutnum
-* Property Path: $.providerAutnum
+* Property Path: $.providerAutnums[*]
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
+
+Autonomous system number search by the handle of a BGPSec router certificate:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_bgpsec_router_cert
@@ -1135,12 +1314,41 @@ https://www.iana.org/assignments/rdap-reverse-search-mapping/:
 * Property Path: $.handle
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: [this document]
+* Reference: This document.
 
 # Acknowledgements
 
-Job Snijders suggested accessing the BGPSec Router Certificate registration data as well through this RDAP extension.
-Ties de Kock also provided valuable feedback for this document.
+Job Snijders suggested accessing the BGPSec router certificate registration data as well through this RDAP extension.
+Ties de Kock and Mark Kosters provided valuable feedback for this document.
 
 {backmatter}
 
+<reference anchor='RDAP-GUIDE' target='https://rdap.rcode3.com/misc/uses.html'>
+    <front>
+        <title>RDAP Guide</title>
+        <author>
+            <organization>Newton, A.</organization>
+        </author>
+        <date year='2024'/>
+    </front>
+</reference>
+
+<reference anchor='JDR' target='https://blog.nlnetlabs.nl/introducing-jdr/'>
+    <front>
+        <title>JDR</title>
+        <author>
+            <organization>NLNet Labs</organization>
+        </author>
+        <date year='2020'/>
+    </front>
+</reference>
+
+<reference anchor='CLOUDFLARE' target='https://rpki.cloudflare.com/'>
+    <front>
+        <title>RPKI Portal</title>
+        <author>
+            <organization>Cloudflare</organization>
+        </author>
+        <date year='2020'/>
+    </front>
+</reference>
