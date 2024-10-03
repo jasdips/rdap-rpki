@@ -884,7 +884,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
 
 ## Object Class {#x509_resource_cert_object_class}
 
-The BGPSec router certificate object class can contain the following members:
+The X.509 resource certificate object class can contain the following members:
 
 * "objectClassName" -- the string "rpki1_x509_resource_cert"
 * "handle" -- see (#common_data_members)
@@ -899,8 +899,8 @@ The BGPSec router certificate object class can contain the following members:
     * "publicKey" -- a string representation of the public key
 * "subjectKeyIdentifier" -- a string, typically Base64-encoded, representing the unique identifier for the public key
   ([@!RFC6487, section 4])
-* "ips" -- an array of strings, each representing an IPv4 or IPv6 CIDR address block with "<CIDR prefix>/<CIDR length>"
-  format
+* "ips" -- an array of strings, each representing an IPv4 or IPv6 CIDR address block with the
+  "<CIDR prefix>/<CIDR length>" format ([@!RFC6487, section 4.8.10])
 * "autnums" -- an array of unsigned 32-bit integers, each representing an autonomous system number
   ([@!RFC6487, section 4.8.11])
 * "notValidBefore" -- see (#common_data_members)
@@ -911,16 +911,16 @@ The BGPSec router certificate object class can contain the following members:
 * "certType" -- a string literal representing the type of resource certificate, with the following possible values:
     * "orgCa" -- a CA certificate that a registry issues to an organization for its allocated IP addresses and/or
       autonomous system numbers, authorizing the organization CA to issue end-entity certificates
-      ([@!RFC6487, section 4.8.8])
+      ([@!RFC6487, section 4.8.8]); it can have both "ips" and "autnums" members
     * "bgpsecRouter" -- an end-entity certificate issued by an organization CA to assert that a router holding the
       corresponding private key is authorized to emit secure route advertisements on behalf of the listed autonomous
-      system numbers ([@!RFC8209, section 3.1.3.5])
+      system numbers ([@!RFC8209, section 3.1.3.5]); it can only have "autnums" member, and no "ips" member
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
 * "links" -- "self" link, and "related" links for autonomous system number objects ([@!RFC9083, section 4.2])
 * "remarks" -- see [@!RFC9083, section 4.3]
 
-Here is an elided example of a BGPSec router certificate object in RDAP:
+Here is an elided example of an X.509 resource certificate object in RDAP, representing a BGPSec router certificate:
 
 ```
 {
@@ -953,6 +953,7 @@ Here is an elided example of a BGPSec router certificate object in RDAP:
     },
     ...
   ],
+  "certType": "bgpsecRouter",
   "rpkiType": "hosted",
   "events":
   [
@@ -987,7 +988,7 @@ Here is an elided example of a BGPSec router certificate object in RDAP:
   "remarks":
   [
     {
-      "description": [ "A BGPSec router certificate object in RDAP" ]
+      "description": [ "An X.509 resource certificate object in RDAP" ]
     }
   ]
 }
@@ -995,10 +996,10 @@ Here is an elided example of a BGPSec router certificate object in RDAP:
 
 ## Lookup
 
-The resource type path segment for exact match lookup of a BGPSec router certificate object is
+The resource type path segment for exact match lookup of an X.509 resource certificate object is
 "rpki1/x509_resource_cert".
 
-The following lookup path segment is defined for a BGPSec router certificate object:
+The following lookup path segment is defined for an X.509 resource certificate object:
 
 Syntax: rpki1/x509_resource_cert/<handle>
 
@@ -1010,9 +1011,9 @@ https://example.net/rdap/rpki1/x509_resource_cert/ABCD
 
 ## Search
 
-The resource type path segment for searching BGPSec router certificate objects is "rpki1/x509_resource_certs".
+The resource type path segment for searching X.509 resource certificate objects is "rpki1/x509_resource_certs".
 
-The following search path segments are defined for BGPSec router certificate objects:
+The following search path segments are defined for an X.509 resource certificate objects:
 
 Syntax: rpki1/x509_resource_certs?handle=<handle search pattern>
 
@@ -1022,62 +1023,64 @@ Syntax: rpki1/x509_resource_certs?subject=<subject search pattern>
 
 Syntax: rpki1/x509_resource_certs?subjectKeyIdentifier=<subject key identifier>
 
+Syntax: rpki1/x509_resource_certs?ip=<IP address or CIDR>
+
 Syntax: rpki1/x509_resource_certs?autnum=<autonomous system number>
 
-Searches for BGPSec router certificate information by handle are specified using this form:
+Searches for X.509 resource certificate information by handle are specified using this form:
 
 rpki1/x509_resource_certs?handle=XXXX
 
-XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of a BGPSec router certificate
-object, as described in (#x509_resource_cert_object_class). The following URL would be used to find information for
-BGPSec router certificate objects with handle matching the "ABC*" pattern:
+XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of an X.509 resource
+certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
+information for X.509 resource certificate objects with handle matching the "ABC*" pattern:
 
 ```
 https://example.net/rdap/rpki1/x509_resource_certs?handle=ABC*
 ```
 
-Searches for BGPSec router certificate information by certificate issuer are specified using this form:
+Searches for X.509 resource certificate information by certificate issuer are specified using this form:
 
 rpki1/x509_resource_certs?issuer=YYYY
 
-YYYY is a search pattern per [@!RFC9082, section 4.1], representing the "issuer" property of a BGPSec router certificate
-object, as described in (#x509_resource_cert_object_class). The following URL would be used to find information for
-BGPSec router certificate objects with issuer matching the "CN=ISP-*" pattern:
+YYYY is a search pattern per [@!RFC9082, section 4.1], representing the "issuer" property of an X.509 resource
+certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
+information for X.509 resource certificate objects with issuer matching the "CN=ISP-*" pattern:
 
 ```
 https://example.net/rdap/rpki1/x509_resource_certs?issuer=CN%3DISP-*
 ```
 
-Searches for BGPSec router certificate information by certificate subject are specified using this form:
+Searches for X.509 resource certificate information by certificate subject are specified using this form:
 
 rpki1/x509_resource_certs?subject=ZZZZ
 
-ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of a BGPSec Router
+ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of an X.509 resource
 Certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
-information for BGPSec router certificate objects with subject matching the "CN=ROUTER-ISP-*" pattern:
+information for X.509 resource certificate objects with subject matching the "CN=ROUTER-ISP-*" pattern:
 
 ```
 https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DROUTER-ISP-*
 ```
 
-Searches for BGPSec router certificate information by subject key identifier are specified using this form:
+Searches for X.509 resource certificate information by subject key identifier are specified using this form:
 
 rpki1/x509_resource_certs?subjectKeyIdentifier=BBBB
 
-BBBB is a string representing the "subjectKeyIdentifier" property of a BGPSec router certificate object, as described in
-(#x509_resource_cert_object_class). The following URL would be used to find a BGPSec router certificate object with
+BBBB is a string representing the "subjectKeyIdentifier" property of an X.509 resource certificate object, as described
+in (#x509_resource_cert_object_class). The following URL would be used to find an X.509 resource certificate object with
 subject key identifier matching the "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=" string:
 
 ```
 https://example.net/rdap/rpki1/x509_resource_certs?subjectKeyIdentifier=hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
 ```
 
-Searches for BGPSec router certificate information by autonomous system number are specified using this form:
+Searches for X.509 resource certificate information by autonomous system number are specified using this form:
 
 rpki1/x509_resource_certs?autnum=CCCC
 
-CCCC is an autonomous system number within the "autnums" property of a BGPSec router certificate object, as described in
-(#x509_resource_cert_object_class). The following URL would be used to find a BGPSec router certificate object with
+CCCC is an autonomous system number within the "autnums" property of an X.509 resource certificate object, as described
+in (#x509_resource_cert_object_class). The following URL would be used to find an X.509 resource certificate object with
 autonomous system number 65536:
 
 ```
@@ -1086,10 +1089,10 @@ https://example.net/rdap/rpki1/x509_resource_certs?autnum=65536
 
 ### Search Results
 
-The BGPSec router certificate search results are returned in the "rpki1_bgpsecRouterCertSearchResults" member, which is
-an array of BGPSec router certificate objects ((#x509_resource_cert_object_class)).
+The X.509 resource certificate search results are returned in the "rpki1_x509ResourceCertSearchResults" member, which is
+an array of X.509 resource certificate objects ((#x509_resource_cert_object_class)).
 
-Here is an elided example of the search results when finding information for BGPSec router certificate objects with
+Here is an elided example of the search results when finding information for X.509 resource certificate objects with
 issuer matching the "CN=ISP-*" pattern:
 
 ```
@@ -1101,7 +1104,7 @@ issuer matching the "CN=ISP-*" pattern:
     ...
   ],
   ...
-  "rpki1_bgpsecRouterCertSearchResults":
+  "rpki1_x509ResourceCertSearchResults":
   [
     {
       "objectClassName": "rpki1_x509_resource_cert",
@@ -1133,6 +1136,7 @@ issuer matching the "CN=ISP-*" pattern:
         },
         ...
       ],
+      "certType": "bgpsecRouter",
       "rpkiType": "hosted",
       "events":
       [
@@ -1258,13 +1262,13 @@ Autonomous system number search by a provider autonomous system number of an ASP
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-Autonomous system number search by the handle of a BGPSec router certificate:
+Autonomous system number search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_x509_resource_cert
 * Property: handle
-* Description: The server supports the autonomous system number search by the handle of an associated RPKI BGPSec router
-  certificate.
+* Description: The server supports the autonomous system number search by the handle of an associated RPKI X.509
+  resource certificate.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
@@ -1314,7 +1318,7 @@ Autonomous system number search by a provider autonomous system number of an ASP
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-Autonomous system number search by the handle of a BGPSec router certificate:
+Autonomous system number search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_x509_resource_cert
