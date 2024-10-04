@@ -101,10 +101,10 @@ contain one or more of the following common members:
 * "handle" -- a string representing the registry unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
-  ([@!RFC3339]), representing the not-valid-before date of the end-entity certificate for an RPKI object
+  ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
 * "notValidAfter" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
-  representing the not-valid-after date of the end-entity certificate for an RPKI object ([@!RFC6487, section 4])
+  representing the not-valid-after date of an X.509 resource certificate for an RPKI object ([@!RFC6487, section 4])
 * "autoRenewed" -- a boolean indicating if a registered RPKI object is auto-renewed or not
 * "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
@@ -147,7 +147,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "links" -- "self" link, and "related" links for IP network and IRR (when defined) objects ([@!RFC9083, section 4.2])
 * "remarks" -- see [@!RFC9083, section 4.3]
 
-Here is an elided example of a ROA object in RDAP:
+Here is an elided example of a ROA object:
 
 ```
 {
@@ -258,8 +258,8 @@ find information for the most-specific ROA matching the "2001:db8::/64" CIDR:
 https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A/64
 ```
 
-In the "links" array of a ROA object, the context URI ("value" member) of each link should be the lookup URL by handle,
-and if that's not available, then the lookup URL by IP address.
+In the "links" array of a ROA object, the context URI ("value" member) of each link should be the lookup URL by its
+handle, and if that's not available, then the lookup URL by one of its IP addresses.
 
 ## Search
 
@@ -379,17 +379,17 @@ Per [@!RFC9536, section 2], if a server receives a reverse search query with a s
 "originAutnum" or "startAddress", then the reverse search will be performed on the IP network objects from its data
 store.
 
-(#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for IP
-network searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource
-type is "rpki1_roa".
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for IP network
+searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource type is
+"rpki1_roa".
 
 ## Relationship with IP Network Object Class
 
 It would be useful to show all the ROAs associated with an IP network object. To that end, this extension adds a new
 "rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
-* "rpki1_roas" -- an array of ROA objects ((#roa_object_class)) for the IP network; if the array is too large, the
-  server MAY truncate it, per [@!RFC9083, section 9]
+* "rpki1_roas" -- an array of ROA objects ((#roa_object_class)) associated with an IP network object; if the array is
+  too large, the server MAY truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an IP network object with ROAs:
 
@@ -540,7 +540,7 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
   ([@!RFC9083, section 4.2])
 * "remarks" -- see [@!RFC9083, section 4.3]
 
-Here is an elided example of an ASPA object in RDAP:
+Here is an elided example of an ASPA object:
 
 ```
 {
@@ -632,8 +632,8 @@ The following URL would be used to find information for an ASPA with autonomous 
 https://example.net/rdap/rpki1/aspa/65536
 ```
 
-In the "links" array of an ASPA object, the context URI ("value" member) of each link should be the lookup URL by
-handle, and if that's not available, then the lookup URL by autonomous system number.
+In the "links" array of an ASPA object, the context URI ("value" member) of each link should be the lookup URL by its
+handle, and if that's not available, then the lookup URL by its autonomous system number.
 
 ## Search
 
@@ -749,9 +749,9 @@ Per [@!RFC9536, section 2], if a server receives a reverse search query with a s
 "autnum" or "providerAutnum", then the reverse search will be performed on the autonomous system number objects from its
 data store.
 
-(#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
-autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
-related resource type is "rpki1_aspa".
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for autonomous system
+number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource
+type is "rpki1_aspa".
 
 ## Relationship with Autonomous System Number Object Class
 
@@ -885,17 +885,17 @@ The X.509 resource certificate object class can contain the following members:
 
 * "objectClassName" -- the string "rpki1_x509_resource_cert"
 * "handle" -- see (#common_data_members)
-* "serialNumber" -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4])
-* "issuer" -- a string representing the CA that issued the certificate ([@!RFC6487, section 4])
+* "serialNumber" -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4.2])
+* "issuer" -- a string representing the CA that issued the certificate ([@!RFC6487, section 4.4])
 * "signatureAlgorithm" -- a string representing the algorithm used by the CA to sign the certificate
-  ([@!RFC6487, section 4])
-* "subject" -- a string representing the identity of the router ([@!RFC8209, section 3.1.1])
-* "subjectPublicKeyInfo" -- an object representing the subject's public key information ([@!RFC8208, section 3.1]), with
+  ([@!RFC6487, section 4.3])
+* "subject" -- a string representing the identity of the subject the certificate is issued to ([@!RFC6487, section 4.5])
+* "subjectPublicKeyInfo" -- an object representing the subject's public key information ([@!RFC6487, section 4.7]), with
   the following members:
     * "publicKeyAlgorithm" -- a string representing the algorithm for the public key
     * "publicKey" -- a string representation of the public key
 * "subjectKeyIdentifier" -- a string, typically Base64-encoded, representing the unique identifier for the public key
-  ([@!RFC6487, section 4])
+  ([@!RFC6487, section 4.8.2])
 * "ips" -- an array of strings, each representing an IPv4 or IPv6 CIDR address block with the
   "<CIDR prefix>/<CIDR length>" format ([@!RFC6487, section 4.8.10])
 * "autnums" -- an array of unsigned 32-bit integers, each representing an autonomous system number
@@ -911,7 +911,9 @@ The X.509 resource certificate object class can contain the following members:
   ([@!RFC9083, section 4.2])
 * "remarks" -- see [@!RFC9083, section 4.3]
 
-Here is an elided example of an X.509 resource certificate object in RDAP:
+Here is an elided example of an X.509 resource certificate object -- specifically, a BGPSec router certificate
+([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the corresponding private key is
+authorized to emit secure route advertisements on behalf of the AS(es) specified in the certificate:
 
 ```
 {
@@ -1200,9 +1202,9 @@ Similarly, if a server receives a reverse search query with a searchable resourc
 type of "rpki1_x509_resource_cert", and an X.509 Resource Certificate property of "handle", then the reverse search will
 be performed on the autonomous system number objects.
 
-(#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
-IP network and autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA
-registries when the related resource type is "rpki1_x509_resource_cert".
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for IP network and
+autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
+related resource type is "rpki1_x509_resource_cert".
 
 ## Relationship with Other Object Classes
 
@@ -1216,9 +1218,9 @@ Autonomous System Number ([@!RFC9083, section 5.5]), and Entity ([@!RFC9083, sec
   object, or an entity (organization) object; if the array is too large, the server MAY truncate it, per
   [@!RFC9083, section 9]
 
-Here is an elided example for an entity (organization) object with an X.509 resource certificate -- a CA certificate
-that a registry issues to an organization for its allocated IP addresses and/or autonomous system numbers, authorizing
-the organization CA to issue end-entity certificates:
+Here is an elided example for an entity (organization) object with an X.509 resource certificate -- specifically, a CA
+certificate that a registry issues to an organization for its allocated IP addresses and/or autonomous system numbers,
+authorizing the organization CA to issue end-entity certificates:
 
 ```
 {
