@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-10-03T00:00:00Z
+date = 2024-10-04T00:00:00Z
 
 [[author]]
 initials="J."
@@ -1003,7 +1003,7 @@ https://example.net/rdap/rpki1/x509_resource_cert/ABCD
 
 The resource type path segment for searching X.509 resource certificate objects is "rpki1/x509_resource_certs".
 
-The following search path segments are defined for an X.509 resource certificate objects:
+The following search path segments are defined for X.509 resource certificate objects:
 
 Syntax: rpki1/x509_resource_certs?handle=<handle search pattern>
 
@@ -1049,10 +1049,10 @@ rpki1/x509_resource_certs?subject=ZZZZ
 
 ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of an X.509 resource
 Certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
-information for X.509 resource certificate objects with subject matching the "CN=ROUTER-ISP-*" pattern:
+information for X.509 resource certificate objects with subject matching the "CN=BGPSEC-ROUTE*" pattern:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DROUTER-ISP-*
+https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DBGPSEC-ROUTE*
 ```
 
 Searches for X.509 resource certificate information by subject key identifier are specified using this form:
@@ -1082,7 +1082,7 @@ Searches for X.509 resource certificate information by a CIDR are specified usin
 
 rpki1/x509_resource_certs?cidr=CCCC/DDDD
 
-"CCCC/DDDD" is a string representing an IPv4 or IPv6 CIDR, with CCCC being the CIDR prefix and DDDD the CIDR length. The
+"CCCC/DDDD" is a string representing an IPv4 or IPv6 CIDR, with CCCC as the CIDR prefix and DDDD as the CIDR length. The
 following URL would be used to find information for X.509 resource certificate objects with the "ips" member
 encompassing the "2001:db8::/64" CIDR:
 
@@ -1095,8 +1095,8 @@ Searches for X.509 resource certificate information by an autonomous system numb
 rpki1/x509_resource_certs?autnum=EEEE
 
 EEEE is an autonomous system number within the "autnums" property of an X.509 resource certificate object, as described
-in (#x509_resource_cert_object_class). The following URL would be used to find an X.509 resource certificate object with
-the "autnums" member including autonomous system number 65536:
+in (#x509_resource_cert_object_class). The following URL would be used to find information for X.509 resource
+certificate objects with the "autnums" member including autonomous system number 65536:
 
 ```
 https://example.net/rdap/rpki1/x509_resource_certs?autnum=65536
@@ -1203,6 +1203,114 @@ be performed on the autonomous system number objects.
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include requests to register new entries for
 IP network and autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA
 registries when the related resource type is "rpki1_x509_resource_cert".
+
+## Relationship with Other Object Classes
+
+It would be useful to show all the X.509 resource certificates associated with an object of another RDAP class; in
+particular, with an IP network object, an autonomous system number object, or an entity (organization) object. To that
+end, this extension adds a new "rpki1_x509_resource_certs" member to the IP Network ([@!RFC9083, section 5.4]),
+Autonomous System Number ([@!RFC9083, section 5.5]), and Entity ([@!RFC9083, section 5.1]) object classes:
+
+* "rpki1_x509_resource_certs" -- an array of X.509 resource certificate objects ((#x509_resource_cert_object_class)) for
+  the IP address range in an IP network object, the autonomous system number range in an autonomous system number
+  object, or an entity (organization) object; if the array is too large, the server MAY truncate it, per
+  [@!RFC9083, section 9]
+
+Here is an elided example for an entity (organization) object with an X.509 resource certificate -- a CA certificate
+that a registry issues to an organization for its allocated IP addresses and/or autonomous system numbers, authorizing
+the organization CA to issue end-entity certificates:
+
+```
+{
+  "objectClassName" : "entity",
+  "handle":"XXXX",
+  ...
+  "rpki1_x509_resource_certs":
+  [
+    {
+      "objectClassName": "rpki1_x509_resource_cert",
+      "handle": "ABCD",
+      "serialNumber": "1234",
+      "issuer": "CN=RIR-CA",
+      "signatureAlgorithm": "ecdsa-with-SHA256",
+      "subject": "CN=XXXX-CA",
+      "subjectPublicKeyInfo":
+      {
+        "publicKeyAlgorithm": "id-ecPublicKey",
+        "publicKey": "..."
+      },
+      "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+      "ips":
+      [
+        "192.0.2.0/24",
+        "2001:db8::/48"
+      ],
+      "autnums":
+      [
+        65536,
+        65537
+      ],
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z",
+      "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
+      "rpkiType": "hosted",
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "rel": "related",
+          "href": "https://example.net/rdap/ip/192.0.2.0/24",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "rel": "related",
+          "href": "https://example.net/rdap/ip/2001:db8::/48",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65536",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65537",
+          "type": "application/rdap+json"
+        },
+        ...
+      ],
+      ...
+    },
+    ...
+  ]
+}
+```
 
 # RDAP Conformance
 
