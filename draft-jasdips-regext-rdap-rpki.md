@@ -255,7 +255,7 @@ length representing its "prefixLength" property, as described in (#roa_object_cl
 find information for the most-specific ROA matching the "2001:db8::/64" CIDR:
 
 ```
-https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A/64
+https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A%2F64
 ```
 
 In the "links" array of a ROA object, the context URI ("value" member) of each link should be the lookup URL by its
