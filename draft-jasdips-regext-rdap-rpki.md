@@ -1080,16 +1080,28 @@ resource certificate objects with the "ips" member encompassing the "192.0.2.0" 
 https://example.net/rdap/rpki1/x509_resource_certs?ip=192.0.2.0
 ```
 
+Similarly, for the "2001:db8::" IP address:
+
+```
+https://example.net/rdap/rpki1/x509_resource_certs?ip=2001%3Adb8%3A%3A
+```
+
 Searches for X.509 resource certificate information by a CIDR are specified using this form:
 
 rpki1/x509_resource_certs?cidr=CCCC/DDDD
 
 "CCCC/DDDD" is a string representing an IPv4 or IPv6 CIDR, with CCCC as the CIDR prefix and DDDD as the CIDR length. The
 following URL would be used to find information for X.509 resource certificate objects with the "ips" member
-encompassing the "2001:db8::/64" CIDR:
+encompassing the "192.0.2.0/25" CIDR:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?cidr=2001%3Adb8%3A%3A/64
+https://example.net/rdap/rpki1/x509_resource_certs?cidr=192.0.2.0%2F25
+```
+
+Similarly, for the "2001:db8::/64" CIDR:
+
+```
+https://example.net/rdap/rpki1/x509_resource_certs?cidr=2001%3Adb8%3A%3A%2F64
 ```
 
 Searches for X.509 resource certificate information by an autonomous system number are specified using this form:
