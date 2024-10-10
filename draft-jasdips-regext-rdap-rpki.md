@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2024-10-04T00:00:00Z
+date = 2024-10-10T00:00:00Z
 
 [[author]]
 initials="J."
@@ -246,16 +246,28 @@ that completely encompasses the "192.0.2.0" IP address:
 https://example.net/rdap/rpki1/roa/192.0.2.0
 ```
 
+Similarly, for the "2001:db8::" IP address:
+
+```
+https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A
+```
+
 A lookup query for ROA information by CIDR is specified using this form:
 
 rpki1/roa/YYYY/ZZZZ
 
 YYYY is an IP address representing the "startAddress" property of a CIDR address block within a ROA and ZZZZ is a CIDR
 length representing its "prefixLength" property, as described in (#roa_object_class). The following URL would be used to
-find information for the most-specific ROA matching the "2001:db8::/64" CIDR:
+find information for the most-specific ROA matching the "192.0.2.0/25" CIDR:
 
 ```
-https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A%2F64
+https://example.net/rdap/rpki1/roa/192.0.2.0/25
+```
+
+Similarly, for the "2001:db8::/64" CIDR:
+
+```
+https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A/64
 ```
 
 In the "links" array of a ROA object, the context URI ("value" member) of each link should be the lookup URL by its

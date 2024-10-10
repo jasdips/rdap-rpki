@@ -5,8 +5,8 @@
 Registration Protocols Extensions (regext)                      J. Singh
 Internet-Draft                                                      ARIN
 Intended status: Standards Track                               A. Newton
-Expires: 10 April 2025                                             ICANN
-                                                          7 October 2024
+Expires: 13 April 2025                                             ICANN
+                                                         10 October 2024
 
 
               An RDAP Extension for RPKI Registration Data
@@ -37,7 +37,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 10 April 2025.
+   This Internet-Draft will expire on 13 April 2025.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Singh & Newton            Expires 10 April 2025                 [Page 1]
+Singh & Newton            Expires 13 April 2025                 [Page 1]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Singh & Newton            Expires 10 April 2025                 [Page 2]
+Singh & Newton            Expires 13 April 2025                 [Page 2]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -165,7 +165,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                 [Page 3]
+Singh & Newton            Expires 13 April 2025                 [Page 3]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -221,7 +221,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                 [Page 4]
+Singh & Newton            Expires 13 April 2025                 [Page 4]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -277,7 +277,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                 [Page 5]
+Singh & Newton            Expires 13 April 2025                 [Page 5]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -333,7 +333,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                 [Page 6]
+Singh & Newton            Expires 13 April 2025                 [Page 6]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -389,7 +389,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                 [Page 7]
+Singh & Newton            Expires 13 April 2025                 [Page 7]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -405,6 +405,10 @@ Internet-Draft                  rdap-rpki                   October 2024
 
    https://example.net/rdap/rpki1/roa/192.0.2.0
 
+   Similarly, for the "2001:db8::" IP address:
+
+   https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A
+
    A lookup query for ROA information by CIDR is specified using this
    form:
 
@@ -414,9 +418,13 @@ Internet-Draft                  rdap-rpki                   October 2024
    CIDR address block within a ROA and ZZZZ is a CIDR length
    representing its "prefixLength" property, as described in
    Section 3.1.  The following URL would be used to find information for
-   the most-specific ROA matching the "2001:db8::/64" CIDR:
+   the most-specific ROA matching the "192.0.2.0/25" CIDR:
 
-   https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A%2F64
+   https://example.net/rdap/rpki1/roa/192.0.2.0/25
+
+   Similarly, for the "2001:db8::/64" CIDR:
+
+   https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A/64
 
    In the "links" array of a ROA object, the context URI ("value"
    member) of each link should be the lookup URL by its handle, and if
@@ -435,20 +443,19 @@ Internet-Draft                  rdap-rpki                   October 2024
 
    Searches for ROA information by name are specified using this form:
 
+
+
+Singh & Newton            Expires 13 April 2025                 [Page 8]
+
+Internet-Draft                  rdap-rpki                   October 2024
+
+
    rpki1/roas?name=XXXX
 
    XXXX is a search pattern per Section 4.1 of [RFC9082], representing
    the "name" property of a ROA, as described in Section 3.1.  The
    following URL would be used to find information for ROA names
    matching the "ROA-*" pattern:
-
-
-
-
-Singh & Newton            Expires 10 April 2025                 [Page 8]
-
-Internet-Draft                  rdap-rpki                   October 2024
-
 
    https://example.net/rdap/rpki1/roas?name=ROA-*
 
@@ -491,6 +498,14 @@ Internet-Draft                  rdap-rpki                   October 2024
            {
              "startAddress": "2001:db8::",
              "prefixLength": 48,
+
+
+
+Singh & Newton            Expires 13 April 2025                 [Page 9]
+
+Internet-Draft                  rdap-rpki                   October 2024
+
+
              "ipVersion": "v6",
              "maxLength": 64
            },
@@ -498,14 +513,6 @@ Internet-Draft                  rdap-rpki                   October 2024
          ],
          "originAutnum": 65536,
          "notValidBefore": "2024-04-27T23:59:59Z",
-
-
-
-Singh & Newton            Expires 10 April 2025                 [Page 9]
-
-Internet-Draft                  rdap-rpki                   October 2024
-
-
          "notValidAfter": "2025-04-27T23:59:59Z",
          "autoRenewed": true,
          "publicationUri": "rsync://example.net/path/to/XXXX.roa",
@@ -550,14 +557,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-
-
-
-
-
-
-
-Singh & Newton            Expires 10 April 2025                [Page 10]
+Singh & Newton            Expires 13 April 2025                [Page 10]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -613,7 +613,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 11]
+Singh & Newton            Expires 13 April 2025                [Page 11]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -669,7 +669,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 12]
+Singh & Newton            Expires 13 April 2025                [Page 12]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -725,7 +725,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 13]
+Singh & Newton            Expires 13 April 2025                [Page 13]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -781,7 +781,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 14]
+Singh & Newton            Expires 13 April 2025                [Page 14]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -837,7 +837,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 15]
+Singh & Newton            Expires 13 April 2025                [Page 15]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -893,7 +893,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 16]
+Singh & Newton            Expires 13 April 2025                [Page 16]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -949,7 +949,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 17]
+Singh & Newton            Expires 13 April 2025                [Page 17]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1005,7 +1005,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 18]
+Singh & Newton            Expires 13 April 2025                [Page 18]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1061,7 +1061,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 19]
+Singh & Newton            Expires 13 April 2025                [Page 19]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1117,7 +1117,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 20]
+Singh & Newton            Expires 13 April 2025                [Page 20]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1173,7 +1173,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 21]
+Singh & Newton            Expires 13 April 2025                [Page 21]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1229,7 +1229,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 22]
+Singh & Newton            Expires 13 April 2025                [Page 22]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1285,7 +1285,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 23]
+Singh & Newton            Expires 13 April 2025                [Page 23]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1341,7 +1341,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 24]
+Singh & Newton            Expires 13 April 2025                [Page 24]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1397,7 +1397,7 @@ https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DBGPSEC-ROUTE*
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 25]
+Singh & Newton            Expires 13 April 2025                [Page 25]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1453,7 +1453,7 @@ https://example.net/rdap/rpki1/x509_resource_certs?cidr=2001%3Adb8%3A%3A%2F64
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 26]
+Singh & Newton            Expires 13 April 2025                [Page 26]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1509,7 +1509,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 27]
+Singh & Newton            Expires 13 April 2025                [Page 27]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1565,7 +1565,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 28]
+Singh & Newton            Expires 13 April 2025                [Page 28]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1621,7 +1621,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 29]
+Singh & Newton            Expires 13 April 2025                [Page 29]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1677,7 +1677,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 30]
+Singh & Newton            Expires 13 April 2025                [Page 30]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1733,7 +1733,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 31]
+Singh & Newton            Expires 13 April 2025                [Page 31]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1789,7 +1789,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 32]
+Singh & Newton            Expires 13 April 2025                [Page 32]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1845,7 +1845,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 33]
+Singh & Newton            Expires 13 April 2025                [Page 33]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1901,7 +1901,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 34]
+Singh & Newton            Expires 13 April 2025                [Page 34]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -1957,7 +1957,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 35]
+Singh & Newton            Expires 13 April 2025                [Page 35]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -2013,7 +2013,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 36]
+Singh & Newton            Expires 13 April 2025                [Page 36]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -2069,7 +2069,7 @@ Internet-Draft                  rdap-rpki                   October 2024
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 37]
+Singh & Newton            Expires 13 April 2025                [Page 37]
 
 Internet-Draft                  rdap-rpki                   October 2024
 
@@ -2125,4 +2125,4 @@ Authors' Addresses
 
 
 
-Singh & Newton            Expires 10 April 2025                [Page 38]
+Singh & Newton            Expires 13 April 2025                [Page 38]
