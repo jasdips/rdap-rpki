@@ -1475,7 +1475,8 @@ Autonomous system number search by the handle of an X.509 resource certificate:
 
 # Acknowledgements
 
-Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, and Bart Bakker provided valuable feedback for this document.
+Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, and Frank Hill provided valuable feedback for
+this document.
 
 {backmatter}
 
