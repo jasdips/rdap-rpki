@@ -897,24 +897,35 @@ The X.509 resource certificate object class can contain the following members:
   ([@!RFC9083, section 4.2])
 * "remarks" -- see [@!RFC9083, section 4.3]
 
-Here is an elided example of an X.509 resource certificate object -- specifically, a BGPSec router certificate
-([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the corresponding private key is
-authorized to emit secure route advertisements on behalf of the AS(es) specified in the certificate:
+The following types of certificates can be represented using this object class:
+
+* a CA certificate that a registry issues to an organization for its allocated IP addresses and/or autonomous system
+  numbers, authorizing the organization CA to issue end-entity certificates
+* a BGPSec router certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the
+  corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es) specified in the
+  certificate
+
+Here is an elided example of an X.509 resource certificate object for a CA certificate:
 
 ```
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "ABCD",
   "serialNumber": "1234",
-  "issuer": "CN=ISP-CA",
+  "issuer": "CN=RIR-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
-  "subject": "CN=BGPSEC-ROUTER",
+  "subject": "CN=ISP-CA",
   "subjectPublicKeyInfo":
   {
     "publicKeyAlgorithm": "id-ecPublicKey",
     "publicKey": "..."
   },
   "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+  "ips":
+  [
+    "192.0.2.0/24",
+    "2001:db8::/48"
+  ],
   "autnums":
   [
     65536,
@@ -927,7 +938,7 @@ authorized to emit secure route advertisements on behalf of the AS(es) specified
   [
     {
       "objectClassName": "entity",
-      "handle": "XYZ-RIR",
+      "handle": "ISP-RIR",
       ...
     },
     ...
@@ -952,6 +963,18 @@ authorized to emit secure route advertisements on behalf of the AS(es) specified
     {
       "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
       "rel": "related",
+      "href": "https://example.net/rdap/ip/192.0.2.0/24",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "rel": "related",
+      "href": "https://example.net/rdap/ip/2001:db8::/48",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
     },
@@ -966,7 +989,80 @@ authorized to emit secure route advertisements on behalf of the AS(es) specified
   "remarks":
   [
     {
-      "description": [ "An X.509 resource certificate object in RDAP" ]
+      "description": [ "An X.509 resource certificate object for a CA certificate in RDAP" ]
+    }
+  ]
+}
+```
+
+Here is an elided example of an X.509 resource certificate object for a BGPSec router certificate:
+
+```
+{
+  "objectClassName": "rpki1_x509ResourceCert",
+  "handle": "EFGH",
+  "serialNumber": "5678",
+  "issuer": "CN=ISP-CA",
+  "signatureAlgorithm": "ecdsa-with-SHA256",
+  "subject": "CN=ISP-BGPSEC-ROUTER",
+  "subjectPublicKeyInfo":
+  {
+    "publicKeyAlgorithm": "id-ecPublicKey",
+    "publicKey": "..."
+  },
+  "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+  "autnums":
+  [
+    65536,
+    65537
+  ],
+  "notValidBefore": "2024-04-27T23:59:59Z",
+  "notValidAfter": "2025-04-27T23:59:59Z",
+  "publicationUri": "rsync://example.net/path/to/EFGH.cer",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "ISP-RIR",
+      ...
+    },
+    ...
+  ],
+  "rpkiType": "hosted",
+  "events":
+  [
+    {
+      "eventAction": "registration",
+      "eventDate": "2024-01-01T23:59:59Z"
+    },
+    ...
+  ],
+  "links":
+  [
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "rel": "self",
+      "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65536",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65537",
+      "type": "application/rdap+json"
+    },
+    ...
+  ],
+  "remarks":
+  [
+    {
+      "description": [ "An X.509 resource certificate object for a BGPSec router certificate in RDAP" ]
     }
   ]
 }
@@ -1013,10 +1109,10 @@ rpki1/x509_resource_certs?handle=XXXX
 
 XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of an X.509 resource
 certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
-information for X.509 resource certificate objects with handle matching the "ABC*" pattern:
+information for X.509 resource certificate objects with handle matching the "EFG*" pattern:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?handle=ABC*
+https://example.net/rdap/rpki1/x509_resource_certs?handle=EFG*
 ```
 
 Searches for X.509 resource certificate information by certificate issuer are specified using this form:
@@ -1037,10 +1133,10 @@ rpki1/x509_resource_certs?subject=ZZZZ
 
 ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of an X.509 resource
 Certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
-information for X.509 resource certificate objects with subject matching the "CN=BGPSEC-ROUTE*" pattern:
+information for X.509 resource certificate objects with subject matching the "CN=ISP-BGPSEC-ROUTE*" pattern:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DBGPSEC-ROUTE*
+https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DISP-BGPSEC-ROUTE*
 ```
 
 Searches for X.509 resource certificate information by subject key identifier are specified using this form:
@@ -1049,10 +1145,10 @@ rpki1/x509_resource_certs?subjectKeyIdentifier=BBBB
 
 BBBB is a string representing the "subjectKeyIdentifier" property of an X.509 resource certificate object, as described
 in (#x509_resource_cert_object_class). The following URL would be used to find an X.509 resource certificate object with
-subject key identifier matching the "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=" string:
+subject key identifier matching the "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=" string:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?subjectKeyIdentifier=hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
+https://example.net/rdap/rpki1/x509_resource_certs?subjectKeyIdentifier=iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
 ```
 
 Searches for X.509 resource certificate information by an IP address are specified using this form:
@@ -1123,17 +1219,17 @@ issuer matching the "CN=ISP-*" pattern:
   [
     {
       "objectClassName": "rpki1_x509ResourceCert",
-      "handle": "ABCD",
-      "serialNumber": "1234",
+      "handle": "EFGH",
+      "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
-      "subject": "CN=BGPSEC-ROUTER",
+      "subject": "CN=ISP-BGPSEC-ROUTER",
       "subjectPublicKeyInfo":
       {
         "publicKeyAlgorithm": "id-ecPublicKey",
         "publicKey": "..."
       },
-      "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+      "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
       "autnums":
       [
         65536,
@@ -1146,7 +1242,7 @@ issuer matching the "CN=ISP-*" pattern:
       [
         {
           "objectClassName": "entity",
-          "handle": "XYZ-RIR",
+          "handle": "ISP-RIR",
           ...
         },
         ...
@@ -1163,19 +1259,19 @@ issuer matching the "CN=ISP-*" pattern:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
@@ -1216,14 +1312,12 @@ Autonomous System Number ([@!RFC9083, section 5.5]), and Entity ([@!RFC9083, sec
   object, or an entity (organization) object; if the array is too large, the server MAY truncate it, per
   [@!RFC9083, section 9]
 
-Here is an elided example for an entity (organization) object with an X.509 resource certificate -- specifically, a CA
-certificate that a registry issues to an organization for its allocated IP addresses and/or autonomous system numbers,
-authorizing the organization CA to issue end-entity certificates:
+Here is an elided example for an entity (organization) object with X.509 resource certificates:
 
 ```
 {
   "objectClassName" : "entity",
-  "handle":"XXXX",
+  "handle":"ISP-RIR",
   ...
   "rpki1_x509ResourceCerts":
   [
@@ -1233,7 +1327,7 @@ authorizing the organization CA to issue end-entity certificates:
       "serialNumber": "1234",
       "issuer": "CN=RIR-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
-      "subject": "CN=XXXX-CA",
+      "subject": "CN=ISP-CA",
       "subjectPublicKeyInfo":
       {
         "publicKeyAlgorithm": "id-ecPublicKey",
@@ -1257,7 +1351,7 @@ authorizing the organization CA to issue end-entity certificates:
       [
         {
           "objectClassName": "entity",
-          "handle": "XYZ-RIR",
+          "handle": "ISP-RIR",
           ...
         },
         ...
@@ -1299,6 +1393,69 @@ authorizing the organization CA to issue end-entity certificates:
         },
         {
           "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65537",
+          "type": "application/rdap+json"
+        },
+        ...
+      ],
+      ...
+    },
+    {
+      "objectClassName": "rpki1_x509ResourceCert",
+      "handle": "EFGH",
+      "serialNumber": "5678",
+      "issuer": "CN=ISP-CA",
+      "signatureAlgorithm": "ecdsa-with-SHA256",
+      "subject": "CN=ISP-BGPSEC-ROUTER",
+      "subjectPublicKeyInfo":
+      {
+        "publicKeyAlgorithm": "id-ecPublicKey",
+        "publicKey": "..."
+      },
+      "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+      "autnums":
+      [
+        65536,
+        65537
+      ],
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z",
+      "publicationUri": "rsync://example.net/path/to/EFGH.cer",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "ISP-RIR",
+          ...
+        },
+        ...
+      ],
+      "rpkiType": "hosted",
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65536",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
