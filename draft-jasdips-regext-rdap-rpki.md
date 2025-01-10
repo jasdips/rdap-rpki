@@ -196,7 +196,7 @@ Here is an elided example of a ROA object:
   "remarks":
   [
     {
-      "description": [ "A ROA object in RDAP" ]
+      "description": [ "ROA" ]
     }
   ]
 }
@@ -584,7 +584,7 @@ Here is an elided example of an ASPA object:
   "remarks":
   [
     {
-      "description": [ "An ASPA object in RDAP" ]
+      "description": [ "ASPA" ]
     }
   ]
 }
@@ -989,7 +989,7 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
   "remarks":
   [
     {
-      "description": [ "An X.509 resource certificate object for a CA certificate in RDAP" ]
+      "description": [ "CA certificate" ]
     }
   ]
 }
@@ -1062,7 +1062,7 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
   "remarks":
   [
     {
-      "description": [ "An X.509 resource certificate object for a BGPSec router certificate in RDAP" ]
+      "description": [ "BGPSec router certificate" ]
     }
   ]
 }
