@@ -459,7 +459,7 @@ Here is an elided example for an IP network object with ROAs:
       "roaIps":
       [
         {
-          "startAddress": "2001:db8:1::/48",
+          "ip": "2001:db8:1::/48",
           "maxLength": 64
         },
         ...
