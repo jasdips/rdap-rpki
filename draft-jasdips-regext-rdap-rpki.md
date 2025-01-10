@@ -870,7 +870,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
 
 The X.509 resource certificate object class can contain the following members:
 
-* "objectClassName" -- the string "rpki1_x509_resource_cert"
+* "objectClassName" -- the string "rpki1_x509ResourceCert"
 * "handle" -- see (#common_data_members)
 * "serialNumber" -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4.2])
 * "issuer" -- a string representing the CA that issued the certificate ([@!RFC6487, section 4.4])
@@ -903,7 +903,7 @@ authorized to emit secure route advertisements on behalf of the AS(es) specified
 
 ```
 {
-  "objectClassName": "rpki1_x509_resource_cert",
+  "objectClassName": "rpki1_x509ResourceCert",
   "handle": "ABCD",
   "serialNumber": "1234",
   "issuer": "CN=ISP-CA",
@@ -1076,7 +1076,7 @@ Searches for X.509 resource certificate information by a CIDR are specified usin
 
 rpki1/x509_resource_certs?cidr=CCCC/DDDD
 
-"CCCC/DDDD" is a string representing an IPv4 or IPv6 CIDR, with CCCC as the CIDR prefix and DDDD as the CIDR length. The
+CCCC/DDDD is a string representing an IPv4 or IPv6 CIDR, with CCCC as the CIDR prefix and DDDD as the CIDR length. The
 following URL would be used to find information for X.509 resource certificate objects with the "ips" member
 encompassing the "192.0.2.0/25" CIDR:
 
@@ -1122,7 +1122,7 @@ issuer matching the "CN=ISP-*" pattern:
   "rpki1_x509ResourceCertSearchResults":
   [
     {
-      "objectClassName": "rpki1_x509_resource_cert",
+      "objectClassName": "rpki1_x509ResourceCert",
       "handle": "ABCD",
       "serialNumber": "1234",
       "issuer": "CN=ISP-CA",
@@ -1192,26 +1192,26 @@ issuer matching the "CN=ISP-*" pattern:
 ## Reverse Search
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips"
-([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_x509_resource_cert", and an X.509
+([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_x509ResourceCert", and an X.509
 Resource Certificate property of "handle", then the reverse search will be performed on the IP network objects from its
 data store.
 
 Similarly, if a server receives a reverse search query with a searchable resource type of "autnums", a related resource
-type of "rpki1_x509_resource_cert", and an X.509 Resource Certificate property of "handle", then the reverse search will
+type of "rpki1_x509ResourceCert", and an X.509 Resource Certificate property of "handle", then the reverse search will
 be performed on the autonomous system number objects.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for IP network and
 autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
-related resource type is "rpki1_x509_resource_cert".
+related resource type is "rpki1_x509ResourceCert".
 
 ## Relationship with Other Object Classes
 
 It would be useful to show all the X.509 resource certificates associated with an object of another RDAP class; in
 particular, with an IP network object, an autonomous system number object, or an entity (organization) object. To that
-end, this extension adds a new "rpki1_x509_resource_certs" member to the IP Network ([@!RFC9083, section 5.4]),
+end, this extension adds a new "rpki1_x509ResourceCerts" member to the IP Network ([@!RFC9083, section 5.4]),
 Autonomous System Number ([@!RFC9083, section 5.5]), and Entity ([@!RFC9083, section 5.1]) object classes:
 
-* "rpki1_x509_resource_certs" -- an array of X.509 resource certificate objects ((#x509_resource_cert_object_class)) for
+* "rpki1_x509ResourceCerts" -- an array of X.509 resource certificate objects ((#x509_resource_cert_object_class)) for
   the IP address range in an IP network object, the autonomous system number range in an autonomous system number
   object, or an entity (organization) object; if the array is too large, the server MAY truncate it, per
   [@!RFC9083, section 9]
@@ -1225,10 +1225,10 @@ authorizing the organization CA to issue end-entity certificates:
   "objectClassName" : "entity",
   "handle":"XXXX",
   ...
-  "rpki1_x509_resource_certs":
+  "rpki1_x509ResourceCerts":
   [
     {
-      "objectClassName": "rpki1_x509_resource_cert",
+      "objectClassName": "rpki1_x509ResourceCert",
       "handle": "ABCD",
       "serialNumber": "1234",
       "issuer": "CN=RIR-CA",
@@ -1390,7 +1390,7 @@ Autonomous system number search by a provider autonomous system number of an ASP
 IP network search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: ips
-* Related Resource Type: rpki1_x509_resource_cert
+* Related Resource Type: rpki1_x509ResourceCert
 * Property: handle
 * Description: The server supports the IP network search by the handle of an associated RPKI X.509 resource certificate.
 * Registrant Name: IETF
@@ -1400,7 +1400,7 @@ IP network search by the handle of an X.509 resource certificate:
 Autonomous system number search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: autnums
-* Related Resource Type: rpki1_x509_resource_cert
+* Related Resource Type: rpki1_x509ResourceCert
 * Property: handle
 * Description: The server supports the autonomous system number search by the handle of an associated RPKI X.509
   resource certificate.
@@ -1456,7 +1456,7 @@ Autonomous system number search by a provider autonomous system number of an ASP
 IP network search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: ips
-* Related Resource Type: rpki1_x509_resource_cert
+* Related Resource Type: rpki1_x509ResourceCert
 * Property: handle
 * Property Path: $.handle
 * Registrant Name: IETF
@@ -1466,7 +1466,7 @@ IP network search by the handle of an X.509 resource certificate:
 Autonomous system number search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: autnums
-* Related Resource Type: rpki1_x509_resource_cert
+* Related Resource Type: rpki1_x509ResourceCert
 * Property: handle
 * Property Path: $.handle
 * Registrant Name: IETF
