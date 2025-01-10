@@ -124,15 +124,11 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "objectClassName" -- the string "rpki1_roa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
-* "roaIpAddresses" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
+* "roaIps" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
   following members:
-    * "startAddress" -- a string representing the start IP address (a.k.a. CIDR prefix) of a CIDR address block,
-      either IPv4 or IPv6 ([@!RFC9582, section 4])
-    * "prefixLength" -- a number representing the prefix length (a.k.a. CIDR length) of a CIDR address block; up to 32
-      for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
-    * "ipVersion" -- a string signifying the IP protocol version of a CIDR address block: "v4" for IPv4 and "v6" for
-      IPv6 ([@!RFC9582, section 4])
-    * "maxLength" -- a number representing the maximum prefix length of a CIDR address block that the origin AS is
+    * "ip" -- a string representing an IPv4 or IPv6 CIDR address block with the "<CIDR prefix>/<CIDR length>" format
+      ([@!RFC9582, section 4])
+    * "maxLength" -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
       authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
 * "originAutnum" -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
 * "notValidBefore" -- see (#common_data_members)
@@ -151,12 +147,10 @@ Here is an elided example of a ROA object:
   "objectClassName": "rpki1_roa",
   "handle": "XXXX",
   "name": "ROA-1",
-  "roaIpAddresses":
+  "roaIps":
   [
     {
-      "startAddress": "2001:db8::",
-      "prefixLength": 48,
-      "ipVersion": "v6",
+      "ip": "2001:db8::/48",
       "maxLength": 64
     },
     ...
@@ -252,9 +246,9 @@ A lookup query for ROA information by CIDR is specified using this form:
 
 rpki1/roa/YYYY/ZZZZ
 
-YYYY is an IP address representing the "startAddress" property of a CIDR address block within a ROA and ZZZZ is a CIDR
-length representing its "prefixLength" property, as described in (#roa_object_class). The following URL would be used to
-find information for the most-specific ROA matching the "192.0.2.0/25" CIDR:
+YYYY/ZZZZ is a string representing the "ip" property of a CIDR address block within a ROA, as described in
+(#roa_object_class). The following URL would be used to find information for the most-specific ROA matching the
+"192.0.2.0/25" CIDR:
 
 ```
 https://example.net/rdap/rpki1/roa/192.0.2.0/25
@@ -325,12 +319,10 @@ Here is an elided example of the search results when finding information for ROA
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "roaIpAddresses":
+      "roaIps":
       [
         {
-          "startAddress": "2001:db8::",
-          "prefixLength": 48,
-          "ipVersion": "v6",
+          "ip": "2001:db8::/48",
           "maxLength": 64
         },
         ...
@@ -383,8 +375,7 @@ Here is an elided example of the search results when finding information for ROA
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips"
 ([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_roa", and a ROA property of
-"originAutnum" or "startAddress", then the reverse search will be performed on the IP network objects from its data
-store.
+"originAutnum" or "ip", then the reverse search will be performed on the IP network objects from its data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for IP network
 searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource type is
@@ -414,12 +405,10 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "roaIpAddresses":
+      "roaIps":
       [
         {
-          "startAddress": "2001:db8::",
-          "prefixLength": 48,
-          "ipVersion": "v6",
+          "ip": "2001:db8::/48",
           "maxLength": 64
         },
         ...
@@ -467,12 +456,10 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "YYYY",
       "name": "ROA-2",
-      "roaIpAddresses":
+      "roaIps":
       [
         {
-          "startAddress": "2001:db8:1::",
-          "prefixLength": 48,
-          "ipVersion": "v6",
+          "startAddress": "2001:db8:1::/48",
           "maxLength": 64
         },
         ...
@@ -1368,13 +1355,12 @@ IP network search by the origin autonomous system number of a ROA:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-IP network search by the start IP address of a CIDR address block of a ROA:
+IP network search by a CIDR address block of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
-* Property: startAddress
-* Description: The server supports the IP network search by the start IP address (a.k.a. CIDR prefix) of a CIDR address
-  block of an associated RPKI ROA.
+* Property: ip
+* Description: The server supports the IP network search by a CIDR address block of an associated RPKI ROA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
@@ -1437,12 +1423,12 @@ IP network search by the origin autonomous system number of a ROA:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-IP network search by the start IP address of a CIDR address block of a ROA:
+IP network search by a CIDR address block of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
-* Property: startAddress
-* Property Path: $.roaIpAddresses[*].startAddress
+* Property: ip
+* Property Path: $.roaIps[*].ip
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
