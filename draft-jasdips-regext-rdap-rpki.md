@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-jasdips-regext-rdap-rpki-00"
+value = "draft-jasdips-regext-rdap-rpki-01"
 stream = "IETF"
 status = "standard"
-date = 2024-10-10T00:00:00Z
+date = 2025-01-10T00:00:00Z
 
 [[author]]
 initials="J."
@@ -73,7 +73,7 @@ troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Paylo
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
 
-In addition to troubleshooting, serving RPKI meta-data over RDAP offers a convenience to network operators
+In addition to troubleshooting, serving RPKI metadata over RDAP offers a convenience to network operators
 through a simple lookup mechanism. As is demonstrated in [@RDAP-GUIDE], constructing custom RDAP scripts is
 relatively easy and beneficial to network operators for the purposes of reporting. Though not RDAP-based, systems such
 as [@JDR] and [@CLOUDFLARE] have shown the utility of an approach that allows users to explore the RPKI hierarchy in a
@@ -98,7 +98,7 @@ feature of this protocol.
 The RDAP object classes for RPKI ((#roa_object_class), (#aspa_object_class), (#x509_resource_cert_object_class)) can
 contain one or more of the following common members:
 
-* "handle" -- a string representing the registry unique identifier of an RPKI object registration
+* "handle" -- a string representing the registry-unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
   ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
@@ -1363,7 +1363,7 @@ https://www.iana.org/assignments/rdap-extensions/:
 * Registry operator: Any
 * Published specification: This document.
 * Contact: IETF <iesg@ietf.org>
-* Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+* Intended usage: This extension is used for accessing the RPKI registration data through RDAP.
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
