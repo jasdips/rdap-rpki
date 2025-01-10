@@ -64,7 +64,6 @@ route hijack or leak, by conveniently providing access to registration informati
 what is inherently available from an RPKI profile object. There is registration metadata that is often needed for
 troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
 
-* Is it an auto-renewing ROA or not?
 * When did the initial version of a ROA get published?
 * Was a ROA created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route?
 * Which IRR route is related with a ROA?
@@ -105,7 +104,6 @@ contain one or more of the following common members:
   ([@!RFC6487, section 4])
 * "notValidAfter" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
   representing the not-valid-after date of an X.509 resource certificate for an RPKI object ([@!RFC6487, section 4])
-* "autoRenewed" -- a boolean indicating if a registered RPKI object is auto-renewed or not
 * "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
 * "entities" -- an array of entity objects ([@!RFC9083, section 5.1]), including the organization (entity) registered as
@@ -139,7 +137,6 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "originAutnum" -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
-* "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
@@ -167,7 +164,6 @@ Here is an elided example of a ROA object:
   "originAutnum": 65536,
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
-  "autoRenewed": true,
   "publicationUri": "rsync://example.net/path/to/XXXX.roa",
   "entities":
   [
@@ -342,7 +338,6 @@ Here is an elided example of the search results when finding information for ROA
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
       "entities":
       [
@@ -432,7 +427,6 @@ Here is an elided example for an IP network object with ROAs:
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
       "entities":
       [
@@ -486,7 +480,6 @@ Here is an elided example for an IP network object with ROAs:
       "originAutnum": 65537,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.roa",
       "entities":
       [
@@ -543,7 +536,6 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
   that is authorized as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
-* "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
@@ -567,7 +559,6 @@ Here is an elided example of an ASPA object:
   ],
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
-  "autoRenewed": true,
   "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
   "entities":
   [
@@ -711,7 +702,6 @@ number 65542:
       ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
       "entities":
       [
@@ -796,7 +786,6 @@ Here is an elided example for an autonomous system number object with ASPAs:
       ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
       "entities":
       [
@@ -846,7 +835,6 @@ Here is an elided example for an autonomous system number object with ASPAs:
       ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
       "entities":
       [
@@ -914,7 +902,6 @@ The X.509 resource certificate object class can contain the following members:
   ([@!RFC6487, section 4.8.11])
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
-* "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
