@@ -938,7 +938,7 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
   [
     {
       "objectClassName": "entity",
-      "handle": "ISP-RIR",
+      "handle": "XYZ-RIR",
       ...
     },
     ...
@@ -1023,7 +1023,7 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
   [
     {
       "objectClassName": "entity",
-      "handle": "ISP-RIR",
+      "handle": "XYZ-RIR",
       ...
     },
     ...
@@ -1242,7 +1242,7 @@ issuer matching the "CN=ISP-*" pattern:
       [
         {
           "objectClassName": "entity",
-          "handle": "ISP-RIR",
+          "handle": "XYZ-RIR",
           ...
         },
         ...
@@ -1317,7 +1317,7 @@ Here is an elided example for an entity (organization) object with X.509 resourc
 ```
 {
   "objectClassName" : "entity",
-  "handle":"ISP-RIR",
+  "handle":"XYZ-RIR",
   ...
   "rpki1_x509ResourceCerts":
   [
@@ -1351,7 +1351,7 @@ Here is an elided example for an entity (organization) object with X.509 resourc
       [
         {
           "objectClassName": "entity",
-          "handle": "ISP-RIR",
+          "handle": "XYZ-RIR",
           ...
         },
         ...
@@ -1426,7 +1426,7 @@ Here is an elided example for an entity (organization) object with X.509 resourc
       [
         {
           "objectClassName": "entity",
-          "handle": "ISP-RIR",
+          "handle": "XYZ-RIR",
           ...
         },
         ...
