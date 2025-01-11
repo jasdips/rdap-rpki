@@ -107,7 +107,7 @@ contain one or more of the following common members:
 * "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
 * "notificationUri" -- an HTTPS URI string pointing to the location of the RPKI Repository Delta Protocol (RRDP) update
-  notification file for an RPKI repository ([@!RFC8182, section 3.2, section 3.5.1])
+  notification file for an RPKI repository ([@!RFC8182, section 3])
 * "entities" -- an array of entity objects ([@!RFC9083, section 5.1]), including the organization (entity) registered as
   the authoritative source for an RPKI object
 * "rpkiType" -- a string literal representing various combinations of an RPKI repository and a Certification Authority
