@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-01"
 stream = "IETF"
 status = "standard"
-date = 2025-01-10T00:00:00Z
+date = 2025-01-11T00:00:00Z
 
 [[author]]
 initials="J."
@@ -106,6 +106,8 @@ contain one or more of the following common members:
   representing the not-valid-after date of an X.509 resource certificate for an RPKI object ([@!RFC6487, section 4])
 * "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
+* "notificationUri" -- an HTTPS URI string pointing to the location of the RPKI Repository Delta Protocol (RRDP) update
+  notification file for an RPKI repository ([@!RFC8182, section 3.2, section 3.5.1])
 * "entities" -- an array of entity objects ([@!RFC9083, section 5.1]), including the organization (entity) registered as
   the authoritative source for an RPKI object
 * "rpkiType" -- a string literal representing various combinations of an RPKI repository and a Certification Authority
@@ -134,6 +136,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
+* "notificationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
@@ -159,6 +162,7 @@ Here is an elided example of a ROA object:
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+  "notificationUri": "https://example.net/path/to/notification.xml",
   "entities":
   [
     {
@@ -331,6 +335,7 @@ Here is an elided example of the search results when finding information for ROA
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -417,6 +422,7 @@ Here is an elided example for an IP network object with ROAs:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -468,6 +474,7 @@ Here is an elided example for an IP network object with ROAs:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/YYYY.roa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -524,6 +531,7 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
+* "notificationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
@@ -547,6 +555,7 @@ Here is an elided example of an ASPA object:
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+  "notificationUri": "https://example.net/path/to/notification.xml",
   "entities":
   [
     {
@@ -690,6 +699,7 @@ number 65542:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -774,6 +784,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -823,6 +834,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -890,6 +902,7 @@ The X.509 resource certificate object class can contain the following members:
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
+* "notificationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
@@ -934,6 +947,7 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+  "notificationUri": "https://example.net/path/to/notification.xml",
   "entities":
   [
     {
@@ -1019,6 +1033,7 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "publicationUri": "rsync://example.net/path/to/EFGH.cer",
+  "notificationUri": "https://example.net/path/to/notification.xml",
   "entities":
   [
     {
@@ -1238,6 +1253,7 @@ issuer matching the "CN=ISP-*" pattern:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -1347,6 +1363,7 @@ Here is an elided example for an entity (organization) object with X.509 resourc
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -1422,6 +1439,7 @@ Here is an elided example for an entity (organization) object with X.509 resourc
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/EFGH.cer",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
