@@ -393,8 +393,9 @@ searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registr
 
 ## Relationship with IP Network Object Class
 
-It would be useful to show all the ROAs associated with an IP network object. To that end, this extension adds a new
-"rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
+An IP network object can span multiple ROA objects, and vice-versa. Their relationship is affected by IP address
+transfers and splits in a registry. It would be useful to show all the ROA objects associated with an IP network object.
+To that end, this extension adds a new "rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
 * "rpki1_roas" -- an array of ROA objects ((#roa_object_class)) associated with an IP network object; if the array is
   too large, the server MAY truncate it, per [@!RFC9083, section 9]
@@ -759,8 +760,10 @@ type is "rpki1_aspa".
 
 ## Relationship with Autonomous System Number Object Class
 
-It would be useful to show all the ASPAs associated with an autonomous system number object. To that end, this extension
-adds a new "rpki1_aspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
+An autonomous system number object for an ASN range can span multiple ASPA objects. However, an ASPA object can only be
+linked to a single autonomous system number object. It would be useful to show all the ASPA objects associated with an
+autonomous system number object. To that end, this extension adds a new "rpki1_aspas" member to the Autonomous System
+Number object class ([@!RFC9083, section 5.5]):
 
 * "rpki1_aspas" -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number range in the
   autonomous system number object; if the array is too large, the server MAY truncate it, per [@!RFC9083, section 9]
