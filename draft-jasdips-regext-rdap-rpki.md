@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-jasdips-regext-rdap-rpki-01"
 stream = "IETF"
 status = "standard"
-date = 2025-01-11T00:00:00Z
+date = 2025-01-12T00:00:00Z
 
 [[author]]
 initials="J."
@@ -116,6 +116,11 @@ contain one or more of the following common members:
     * "delegated" -- both the repository and CA are operated by an organization with resources allocated by a registry
     * "hybrid" -- the repository is operated by a registry for an organization with allocated resources whereas the CA
       is operated by the organization itself
+
+RRDP is intended as the long-term replacement for rsync in RPKI. For a CA that implements RRDP, the update notification
+file location is expected to be set in each X.509 resource certificate it issues ([@!RFC8182, section 3.2]).
+Consequently, the "notificationUri" data should help inform about the RPKI repository and/or CA operated downstream from
+a registry by an organization with resources allocated by that registry.
 
 # Route Origin Authorization {#roa}
 
