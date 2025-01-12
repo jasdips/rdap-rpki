@@ -1513,8 +1513,7 @@ specifications ([@RFC7481], [@RFC9560]).
 
 ## RDAP Extensions Registry
 
-IANA is requested to register the following values in the RDAP Extensions Registry at
-https://www.iana.org/assignments/rdap-extensions/:
+IANA is requested to register the following values in the RDAP Extensions Registry at [@RDAP-EXTENSIONS]:
 
 * Extension identifier: rpki1
 * Registry operator: Any
@@ -1524,8 +1523,7 @@ https://www.iana.org/assignments/rdap-extensions/:
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
-IANA is requested to register the following entries in the RDAP Reverse Search Registry at
-https://www.iana.org/assignments/rdap-reverse-search/:
+IANA is requested to register the following entries in the RDAP Reverse Search Registry at [@RDAP-REVERSE-SEARCH]:
 
 IP network search by the origin autonomous system number of a ROA:
 
@@ -1593,8 +1591,8 @@ Autonomous system number search by the handle of an X.509 resource certificate:
 
 ## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
 
-IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry at
-https://www.iana.org/assignments/rdap-reverse-search-mapping/:
+IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry
+at [@RDAP-REVERSE-SEARCH-MAPPING]:
 
 IP network search by the origin autonomous system number of a ROA:
 
@@ -1669,7 +1667,6 @@ this document.
         <author>
             <organization>Newton, A.</organization>
         </author>
-        <date year='2024'/>
     </front>
 </reference>
 
@@ -1679,7 +1676,6 @@ this document.
         <author>
             <organization>NLNet Labs</organization>
         </author>
-        <date year='2020'/>
     </front>
 </reference>
 
@@ -1689,6 +1685,32 @@ this document.
         <author>
             <organization>Cloudflare</organization>
         </author>
-        <date year='2022'/>
+    </front>
+</reference>
+
+<reference anchor='RDAP-EXTENSIONS' target='https://www.iana.org/assignments/rdap-extensions/'>
+    <front>
+        <title>RDAP Extensions</title>
+        <author>
+            <organization>IANA</organization>
+        </author>
+    </front>
+</reference>
+
+<reference anchor='RDAP-REVERSE-SEARCH' target='https://www.iana.org/assignments/rdap-reverse-search/'>
+    <front>
+        <title>RDAP Reverse Search</title>
+        <author>
+            <organization>IANA</organization>
+        </author>
+    </front>
+</reference>
+
+<reference anchor='RDAP-REVERSE-SEARCH-MAPPING' target='https://www.iana.org/assignments/rdap-reverse-search-mapping/'>
+    <front>
+        <title>RDAP Reverse Search Mapping</title>
+        <author>
+            <organization>IANA</organization>
+        </author>
     </front>
 </reference>
