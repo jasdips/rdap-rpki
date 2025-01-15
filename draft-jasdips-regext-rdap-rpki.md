@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-jasdips-regext-rdap-rpki-00"
+value = "draft-jasdips-regext-rdap-rpki-01"
 stream = "IETF"
 status = "standard"
-date = 2024-10-10T00:00:00Z
+date = 2025-01-12T00:00:00Z
 
 [[author]]
 initials="J."
@@ -64,7 +64,6 @@ route hijack or leak, by conveniently providing access to registration informati
 what is inherently available from an RPKI profile object. There is registration metadata that is often needed for
 troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
 
-* Is it an auto-renewing ROA or not?
 * When did the initial version of a ROA get published?
 * Was a ROA created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route?
 * Which IRR route is related with a ROA?
@@ -73,7 +72,7 @@ troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Paylo
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
 
-In addition to troubleshooting, serving RPKI meta-data over RDAP offers a convenience to network operators
+In addition to troubleshooting, serving RPKI metadata over RDAP offers a convenience to network operators
 through a simple lookup mechanism. As is demonstrated in [@RDAP-GUIDE], constructing custom RDAP scripts is
 relatively easy and beneficial to network operators for the purposes of reporting. Though not RDAP-based, systems such
 as [@JDR] and [@CLOUDFLARE] have shown the utility of an approach that allows users to explore the RPKI hierarchy in a
@@ -98,16 +97,17 @@ feature of this protocol.
 The RDAP object classes for RPKI ((#roa_object_class), (#aspa_object_class), (#x509_resource_cert_object_class)) can
 contain one or more of the following common members:
 
-* "handle" -- a string representing the registry unique identifier of an RPKI object registration
+* "handle" -- a string representing the registry-unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
   ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
 * "notValidAfter" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
   representing the not-valid-after date of an X.509 resource certificate for an RPKI object ([@!RFC6487, section 4])
-* "autoRenewed" -- a boolean indicating if a registered RPKI object is auto-renewed or not
 * "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
+* "notificationUri" -- an HTTPS URI string pointing to the location of the RPKI Repository Delta Protocol (RRDP) update
+  notification file for an RPKI repository ([@!RFC8182, section 3])
 * "entities" -- an array of entity objects ([@!RFC9083, section 5.1]), including the organization (entity) registered as
   the authoritative source for an RPKI object
 * "rpkiType" -- a string literal representing various combinations of an RPKI repository and a Certification Authority
@@ -116,6 +116,11 @@ contain one or more of the following common members:
     * "delegated" -- both the repository and CA are operated by an organization with resources allocated by a registry
     * "hybrid" -- the repository is operated by a registry for an organization with allocated resources whereas the CA
       is operated by the organization itself
+
+RRDP is intended as the long-term replacement for rsync in RPKI. For a CA that implements RRDP, the update notification
+file location is expected to be set in each X.509 resource certificate it issues ([@!RFC8182, section 3.2]).
+Consequently, the "notificationUri" data should help inform about the RPKI repository and/or CA operated downstream from
+a registry by an organization with resources allocated by that registry.
 
 # Route Origin Authorization {#roa}
 
@@ -126,21 +131,17 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "objectClassName" -- the string "rpki1_roa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
-* "roaIpAddresses" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
+* "roaIps" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
   following members:
-    * "startAddress" -- a string representing the start IP address (a.k.a. CIDR prefix) of a CIDR address block,
-      either IPv4 or IPv6 ([@!RFC9582, section 4])
-    * "prefixLength" -- a number representing the prefix length (a.k.a. CIDR length) of a CIDR address block; up to 32
-      for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
-    * "ipVersion" -- a string signifying the IP protocol version of a CIDR address block: "v4" for IPv4 and "v6" for
-      IPv6 ([@!RFC9582, section 4])
-    * "maxLength" -- a number representing the maximum prefix length of a CIDR address block that the origin AS is
+    * "ip" -- a string representing an IPv4 or IPv6 CIDR address block with the "<CIDR prefix>/<CIDR length>" format
+      ([@!RFC9582, section 4])
+    * "maxLength" -- a number representing the maximum prefix length of the CIDR address block that the origin AS is
       authorized to advertise; up to 32 for IPv4 and up to 128 for IPv6 ([@!RFC9582, section 4])
 * "originAutnum" -- an unsigned 32-bit integer representing the origin autonomous system number ([@!RFC9582, section 4])
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
-* "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
+* "notificationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
@@ -154,12 +155,10 @@ Here is an elided example of a ROA object:
   "objectClassName": "rpki1_roa",
   "handle": "XXXX",
   "name": "ROA-1",
-  "roaIpAddresses":
+  "roaIps":
   [
     {
-      "startAddress": "2001:db8::",
-      "prefixLength": 48,
-      "ipVersion": "v6",
+      "ip": "2001:db8::/48",
       "maxLength": 64
     },
     ...
@@ -167,8 +166,8 @@ Here is an elided example of a ROA object:
   "originAutnum": 65536,
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
-  "autoRenewed": true,
   "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+  "notificationUri": "https://example.net/path/to/notification.xml",
   "entities":
   [
     {
@@ -206,7 +205,7 @@ Here is an elided example of a ROA object:
   "remarks":
   [
     {
-      "description": [ "A ROA object in RDAP" ]
+      "description": [ "ROA" ]
     }
   ]
 }
@@ -256,9 +255,9 @@ A lookup query for ROA information by CIDR is specified using this form:
 
 rpki1/roa/YYYY/ZZZZ
 
-YYYY is an IP address representing the "startAddress" property of a CIDR address block within a ROA and ZZZZ is a CIDR
-length representing its "prefixLength" property, as described in (#roa_object_class). The following URL would be used to
-find information for the most-specific ROA matching the "192.0.2.0/25" CIDR:
+YYYY/ZZZZ is a string representing the "ip" property of a CIDR address block within a ROA, as described in
+(#roa_object_class). The following URL would be used to find information for the most-specific ROA matching the
+"192.0.2.0/25" CIDR:
 
 ```
 https://example.net/rdap/rpki1/roa/192.0.2.0/25
@@ -329,12 +328,10 @@ Here is an elided example of the search results when finding information for ROA
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "roaIpAddresses":
+      "roaIps":
       [
         {
-          "startAddress": "2001:db8::",
-          "prefixLength": 48,
-          "ipVersion": "v6",
+          "ip": "2001:db8::/48",
           "maxLength": 64
         },
         ...
@@ -342,8 +339,8 @@ Here is an elided example of the search results when finding information for ROA
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -388,8 +385,7 @@ Here is an elided example of the search results when finding information for ROA
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips"
 ([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_roa", and a ROA property of
-"originAutnum" or "startAddress", then the reverse search will be performed on the IP network objects from its data
-store.
+"originAutnum" or "ip", then the reverse search will be performed on the IP network objects from its data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for IP network
 searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource type is
@@ -397,8 +393,9 @@ searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registr
 
 ## Relationship with IP Network Object Class
 
-It would be useful to show all the ROAs associated with an IP network object. To that end, this extension adds a new
-"rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
+An IP network object can span multiple ROA objects, and vice-versa. Their relationship is affected by IP address
+transfers and splits in a registry. It would be useful to show all the ROA objects associated with an IP network object.
+To that end, this extension adds a new "rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
 * "rpki1_roas" -- an array of ROA objects ((#roa_object_class)) associated with an IP network object; if the array is
   too large, the server MAY truncate it, per [@!RFC9083, section 9]
@@ -419,12 +416,10 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "roaIpAddresses":
+      "roaIps":
       [
         {
-          "startAddress": "2001:db8::",
-          "prefixLength": 48,
-          "ipVersion": "v6",
+          "ip": "2001:db8::/48",
           "maxLength": 64
         },
         ...
@@ -432,8 +427,8 @@ Here is an elided example for an IP network object with ROAs:
       "originAutnum": 65536,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.roa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -473,12 +468,10 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "YYYY",
       "name": "ROA-2",
-      "roaIpAddresses":
+      "roaIps":
       [
         {
-          "startAddress": "2001:db8:1::",
-          "prefixLength": 48,
-          "ipVersion": "v6",
+          "ip": "2001:db8:1::/48",
           "maxLength": 64
         },
         ...
@@ -486,8 +479,8 @@ Here is an elided example for an IP network object with ROAs:
       "originAutnum": 65537,
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.roa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -543,8 +536,8 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
   that is authorized as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
-* "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
+* "notificationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
@@ -567,8 +560,8 @@ Here is an elided example of an ASPA object:
   ],
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
-  "autoRenewed": true,
   "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+  "notificationUri": "https://example.net/path/to/notification.xml",
   "entities":
   [
     {
@@ -606,7 +599,7 @@ Here is an elided example of an ASPA object:
   "remarks":
   [
     {
-      "description": [ "An ASPA object in RDAP" ]
+      "description": [ "ASPA" ]
     }
   ]
 }
@@ -711,8 +704,8 @@ number 65542:
       ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -767,8 +760,10 @@ type is "rpki1_aspa".
 
 ## Relationship with Autonomous System Number Object Class
 
-It would be useful to show all the ASPAs associated with an autonomous system number object. To that end, this extension
-adds a new "rpki1_aspas" member to the Autonomous System Number object class ([@!RFC9083, section 5.5]):
+An autonomous system number object for an ASN range can span multiple ASPA objects. However, an ASPA object can only be
+linked to a single autonomous system number object. It would be useful to show all the ASPA objects associated with an
+autonomous system number object. To that end, this extension adds a new "rpki1_aspas" member to the Autonomous System
+Number object class ([@!RFC9083, section 5.5]):
 
 * "rpki1_aspas" -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number range in the
   autonomous system number object; if the array is too large, the server MAY truncate it, per [@!RFC9083, section 9]
@@ -796,8 +791,8 @@ Here is an elided example for an autonomous system number object with ASPAs:
       ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": true,
       "publicationUri": "rsync://example.net/path/to/XXXX.aspa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -846,8 +841,8 @@ Here is an elided example for an autonomous system number object with ASPAs:
       ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
-      "autoRenewed": false,
       "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -895,7 +890,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
 
 The X.509 resource certificate object class can contain the following members:
 
-* "objectClassName" -- the string "rpki1_x509_resource_cert"
+* "objectClassName" -- the string "rpki1_x509ResourceCert"
 * "handle" -- see (#common_data_members)
 * "serialNumber" -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4.2])
 * "issuer" -- a string representing the CA that issued the certificate ([@!RFC6487, section 4.4])
@@ -914,8 +909,8 @@ The X.509 resource certificate object class can contain the following members:
   ([@!RFC6487, section 4.8.11])
 * "notValidBefore" -- see (#common_data_members)
 * "notValidAfter" -- see (#common_data_members)
-* "autoRenewed" -- see (#common_data_members)
 * "publicationUri" -- see (#common_data_members)
+* "notificationUri" -- see (#common_data_members)
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
@@ -923,24 +918,35 @@ The X.509 resource certificate object class can contain the following members:
   ([@!RFC9083, section 4.2])
 * "remarks" -- see [@!RFC9083, section 4.3]
 
-Here is an elided example of an X.509 resource certificate object -- specifically, a BGPSec router certificate
-([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the corresponding private key is
-authorized to emit secure route advertisements on behalf of the AS(es) specified in the certificate:
+The following types of certificates can be represented using this object class:
+
+* a CA certificate that a registry issues to an organization for its allocated IP addresses and/or autonomous system
+  numbers, authorizing the organization CA to issue end-entity certificates
+* a BGPSec router certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the
+  corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es) specified in the
+  certificate
+
+Here is an elided example of an X.509 resource certificate object for a CA certificate:
 
 ```
 {
-  "objectClassName": "rpki1_x509_resource_cert",
+  "objectClassName": "rpki1_x509ResourceCert",
   "handle": "ABCD",
   "serialNumber": "1234",
-  "issuer": "CN=ISP-CA",
+  "issuer": "CN=RIR-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
-  "subject": "CN=BGPSEC-ROUTER",
+  "subject": "CN=ISP-CA",
   "subjectPublicKeyInfo":
   {
     "publicKeyAlgorithm": "id-ecPublicKey",
     "publicKey": "..."
   },
   "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+  "ips":
+  [
+    "192.0.2.0/24",
+    "2001:db8::/48"
+  ],
   "autnums":
   [
     65536,
@@ -949,6 +955,7 @@ authorized to emit secure route advertisements on behalf of the AS(es) specified
   "notValidBefore": "2024-04-27T23:59:59Z",
   "notValidAfter": "2025-04-27T23:59:59Z",
   "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+  "notificationUri": "https://example.net/path/to/notification.xml",
   "entities":
   [
     {
@@ -978,6 +985,18 @@ authorized to emit secure route advertisements on behalf of the AS(es) specified
     {
       "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
       "rel": "related",
+      "href": "https://example.net/rdap/ip/192.0.2.0/24",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "rel": "related",
+      "href": "https://example.net/rdap/ip/2001:db8::/48",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
     },
@@ -992,7 +1011,81 @@ authorized to emit secure route advertisements on behalf of the AS(es) specified
   "remarks":
   [
     {
-      "description": [ "An X.509 resource certificate object in RDAP" ]
+      "description": [ "CA certificate" ]
+    }
+  ]
+}
+```
+
+Here is an elided example of an X.509 resource certificate object for a BGPSec router certificate:
+
+```
+{
+  "objectClassName": "rpki1_x509ResourceCert",
+  "handle": "EFGH",
+  "serialNumber": "5678",
+  "issuer": "CN=ISP-CA",
+  "signatureAlgorithm": "ecdsa-with-SHA256",
+  "subject": "CN=ISP-BGPSEC-ROUTER",
+  "subjectPublicKeyInfo":
+  {
+    "publicKeyAlgorithm": "id-ecPublicKey",
+    "publicKey": "..."
+  },
+  "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+  "autnums":
+  [
+    65536,
+    65537
+  ],
+  "notValidBefore": "2024-04-27T23:59:59Z",
+  "notValidAfter": "2025-04-27T23:59:59Z",
+  "publicationUri": "rsync://example.net/path/to/EFGH.cer",
+  "notificationUri": "https://example.net/path/to/notification.xml",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "XYZ-RIR",
+      ...
+    },
+    ...
+  ],
+  "rpkiType": "hosted",
+  "events":
+  [
+    {
+      "eventAction": "registration",
+      "eventDate": "2024-01-01T23:59:59Z"
+    },
+    ...
+  ],
+  "links":
+  [
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "rel": "self",
+      "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65536",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65537",
+      "type": "application/rdap+json"
+    },
+    ...
+  ],
+  "remarks":
+  [
+    {
+      "description": [ "BGPSec router certificate" ]
     }
   ]
 }
@@ -1039,10 +1132,10 @@ rpki1/x509_resource_certs?handle=XXXX
 
 XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of an X.509 resource
 certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
-information for X.509 resource certificate objects with handle matching the "ABC*" pattern:
+information for X.509 resource certificate objects with handle matching the "EFG*" pattern:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?handle=ABC*
+https://example.net/rdap/rpki1/x509_resource_certs?handle=EFG*
 ```
 
 Searches for X.509 resource certificate information by certificate issuer are specified using this form:
@@ -1063,10 +1156,10 @@ rpki1/x509_resource_certs?subject=ZZZZ
 
 ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of an X.509 resource
 Certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
-information for X.509 resource certificate objects with subject matching the "CN=BGPSEC-ROUTE*" pattern:
+information for X.509 resource certificate objects with subject matching the "CN=ISP-BGPSEC-ROUTE*" pattern:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DBGPSEC-ROUTE*
+https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DISP-BGPSEC-ROUTE*
 ```
 
 Searches for X.509 resource certificate information by subject key identifier are specified using this form:
@@ -1075,10 +1168,10 @@ rpki1/x509_resource_certs?subjectKeyIdentifier=BBBB
 
 BBBB is a string representing the "subjectKeyIdentifier" property of an X.509 resource certificate object, as described
 in (#x509_resource_cert_object_class). The following URL would be used to find an X.509 resource certificate object with
-subject key identifier matching the "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=" string:
+subject key identifier matching the "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=" string:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?subjectKeyIdentifier=hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
+https://example.net/rdap/rpki1/x509_resource_certs?subjectKeyIdentifier=iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
 ```
 
 Searches for X.509 resource certificate information by an IP address are specified using this form:
@@ -1102,7 +1195,7 @@ Searches for X.509 resource certificate information by a CIDR are specified usin
 
 rpki1/x509_resource_certs?cidr=CCCC/DDDD
 
-"CCCC/DDDD" is a string representing an IPv4 or IPv6 CIDR, with CCCC as the CIDR prefix and DDDD as the CIDR length. The
+CCCC/DDDD is a string representing an IPv4 or IPv6 CIDR, with CCCC as the CIDR prefix and DDDD as the CIDR length. The
 following URL would be used to find information for X.509 resource certificate objects with the "ips" member
 encompassing the "192.0.2.0/25" CIDR:
 
@@ -1148,18 +1241,18 @@ issuer matching the "CN=ISP-*" pattern:
   "rpki1_x509ResourceCertSearchResults":
   [
     {
-      "objectClassName": "rpki1_x509_resource_cert",
-      "handle": "ABCD",
-      "serialNumber": "1234",
+      "objectClassName": "rpki1_x509ResourceCert",
+      "handle": "EFGH",
+      "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
-      "subject": "CN=BGPSEC-ROUTER",
+      "subject": "CN=ISP-BGPSEC-ROUTER",
       "subjectPublicKeyInfo":
       {
         "publicKeyAlgorithm": "id-ecPublicKey",
         "publicKey": "..."
       },
-      "subjectKeyIdentifier": "hOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+      "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
       "autnums":
       [
         65536,
@@ -1168,6 +1261,7 @@ issuer matching the "CN=ISP-*" pattern:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -1189,19 +1283,19 @@ issuer matching the "CN=ISP-*" pattern:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
@@ -1218,48 +1312,46 @@ issuer matching the "CN=ISP-*" pattern:
 ## Reverse Search
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips"
-([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_x509_resource_cert", and an X.509
+([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_x509ResourceCert", and an X.509
 Resource Certificate property of "handle", then the reverse search will be performed on the IP network objects from its
 data store.
 
 Similarly, if a server receives a reverse search query with a searchable resource type of "autnums", a related resource
-type of "rpki1_x509_resource_cert", and an X.509 Resource Certificate property of "handle", then the reverse search will
+type of "rpki1_x509ResourceCert", and an X.509 Resource Certificate property of "handle", then the reverse search will
 be performed on the autonomous system number objects.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for IP network and
 autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
-related resource type is "rpki1_x509_resource_cert".
+related resource type is "rpki1_x509ResourceCert".
 
 ## Relationship with Other Object Classes
 
 It would be useful to show all the X.509 resource certificates associated with an object of another RDAP class; in
 particular, with an IP network object, an autonomous system number object, or an entity (organization) object. To that
-end, this extension adds a new "rpki1_x509_resource_certs" member to the IP Network ([@!RFC9083, section 5.4]),
+end, this extension adds a new "rpki1_x509ResourceCerts" member to the IP Network ([@!RFC9083, section 5.4]),
 Autonomous System Number ([@!RFC9083, section 5.5]), and Entity ([@!RFC9083, section 5.1]) object classes:
 
-* "rpki1_x509_resource_certs" -- an array of X.509 resource certificate objects ((#x509_resource_cert_object_class)) for
+* "rpki1_x509ResourceCerts" -- an array of X.509 resource certificate objects ((#x509_resource_cert_object_class)) for
   the IP address range in an IP network object, the autonomous system number range in an autonomous system number
   object, or an entity (organization) object; if the array is too large, the server MAY truncate it, per
   [@!RFC9083, section 9]
 
-Here is an elided example for an entity (organization) object with an X.509 resource certificate -- specifically, a CA
-certificate that a registry issues to an organization for its allocated IP addresses and/or autonomous system numbers,
-authorizing the organization CA to issue end-entity certificates:
+Here is an elided example for an entity (organization) object with X.509 resource certificates:
 
 ```
 {
   "objectClassName" : "entity",
-  "handle":"XXXX",
+  "handle":"XYZ-RIR",
   ...
-  "rpki1_x509_resource_certs":
+  "rpki1_x509ResourceCerts":
   [
     {
-      "objectClassName": "rpki1_x509_resource_cert",
+      "objectClassName": "rpki1_x509ResourceCert",
       "handle": "ABCD",
       "serialNumber": "1234",
       "issuer": "CN=RIR-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
-      "subject": "CN=XXXX-CA",
+      "subject": "CN=ISP-CA",
       "subjectPublicKeyInfo":
       {
         "publicKeyAlgorithm": "id-ecPublicKey",
@@ -1279,6 +1371,7 @@ authorizing the organization CA to issue end-entity certificates:
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/ABCD.cer",
+      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -1333,6 +1426,70 @@ authorizing the organization CA to issue end-entity certificates:
       ],
       ...
     },
+    {
+      "objectClassName": "rpki1_x509ResourceCert",
+      "handle": "EFGH",
+      "serialNumber": "5678",
+      "issuer": "CN=ISP-CA",
+      "signatureAlgorithm": "ecdsa-with-SHA256",
+      "subject": "CN=ISP-BGPSEC-ROUTER",
+      "subjectPublicKeyInfo":
+      {
+        "publicKeyAlgorithm": "id-ecPublicKey",
+        "publicKey": "..."
+      },
+      "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+      "autnums":
+      [
+        65536,
+        65537
+      ],
+      "notValidBefore": "2024-04-27T23:59:59Z",
+      "notValidAfter": "2025-04-27T23:59:59Z",
+      "publicationUri": "rsync://example.net/path/to/EFGH.cer",
+      "notificationUri": "https://example.net/path/to/notification.xml",
+      "entities":
+      [
+        {
+          "objectClassName": "entity",
+          "handle": "XYZ-RIR",
+          ...
+        },
+        ...
+      ],
+      "rpkiType": "hosted",
+      "events":
+      [
+        {
+          "eventAction": "registration",
+          "eventDate": "2024-01-01T23:59:59Z"
+        },
+        ...
+      ],
+      "links":
+      [
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "rel": "self",
+          "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65536",
+          "type": "application/rdap+json"
+        },
+        {
+          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "rel": "related",
+          "href": "https://example.net/rdap/autnum/65537",
+          "type": "application/rdap+json"
+        },
+        ...
+      ],
+      ...
+    },
     ...
   ]
 }
@@ -1356,19 +1513,17 @@ specifications ([@RFC7481], [@RFC9560]).
 
 ## RDAP Extensions Registry
 
-IANA is requested to register the following values in the RDAP Extensions Registry at
-https://www.iana.org/assignments/rdap-extensions/:
+IANA is requested to register the following values in the RDAP Extensions Registry at [@RDAP-EXTENSIONS]:
 
 * Extension identifier: rpki1
 * Registry operator: Any
 * Published specification: This document.
 * Contact: IETF <iesg@ietf.org>
-* Intended usage: This extension identifier is used for accessing the RPKI registration data through RDAP.
+* Intended usage: This extension is used for accessing the RPKI registration data through RDAP.
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
-IANA is requested to register the following entries in the RDAP Reverse Search Registry at
-https://www.iana.org/assignments/rdap-reverse-search/:
+IANA is requested to register the following entries in the RDAP Reverse Search Registry at [@RDAP-REVERSE-SEARCH]:
 
 IP network search by the origin autonomous system number of a ROA:
 
@@ -1381,13 +1536,12 @@ IP network search by the origin autonomous system number of a ROA:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-IP network search by the start IP address of a CIDR address block of a ROA:
+IP network search by a CIDR address block of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
-* Property: startAddress
-* Description: The server supports the IP network search by the start IP address (a.k.a. CIDR prefix) of a CIDR address
-  block of an associated RPKI ROA.
+* Property: ip
+* Description: The server supports the IP network search by a CIDR address block of an associated RPKI ROA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
@@ -1417,7 +1571,7 @@ Autonomous system number search by a provider autonomous system number of an ASP
 IP network search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: ips
-* Related Resource Type: rpki1_x509_resource_cert
+* Related Resource Type: rpki1_x509ResourceCert
 * Property: handle
 * Description: The server supports the IP network search by the handle of an associated RPKI X.509 resource certificate.
 * Registrant Name: IETF
@@ -1427,7 +1581,7 @@ IP network search by the handle of an X.509 resource certificate:
 Autonomous system number search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: autnums
-* Related Resource Type: rpki1_x509_resource_cert
+* Related Resource Type: rpki1_x509ResourceCert
 * Property: handle
 * Description: The server supports the autonomous system number search by the handle of an associated RPKI X.509
   resource certificate.
@@ -1437,8 +1591,8 @@ Autonomous system number search by the handle of an X.509 resource certificate:
 
 ## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
 
-IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry at
-https://www.iana.org/assignments/rdap-reverse-search-mapping/:
+IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry
+at [@RDAP-REVERSE-SEARCH-MAPPING]:
 
 IP network search by the origin autonomous system number of a ROA:
 
@@ -1450,12 +1604,12 @@ IP network search by the origin autonomous system number of a ROA:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-IP network search by the start IP address of a CIDR address block of a ROA:
+IP network search by a CIDR address block of a ROA:
 
 * Searchable Resource Type: ips
 * Related Resource Type: rpki1_roa
-* Property: startAddress
-* Property Path: $.roaIpAddresses[*].startAddress
+* Property: ip
+* Property Path: $.roaIps[*].ip
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
@@ -1483,7 +1637,7 @@ Autonomous system number search by a provider autonomous system number of an ASP
 IP network search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: ips
-* Related Resource Type: rpki1_x509_resource_cert
+* Related Resource Type: rpki1_x509ResourceCert
 * Property: handle
 * Property Path: $.handle
 * Registrant Name: IETF
@@ -1493,7 +1647,7 @@ IP network search by the handle of an X.509 resource certificate:
 Autonomous system number search by the handle of an X.509 resource certificate:
 
 * Searchable Resource Type: autnums
-* Related Resource Type: rpki1_x509_resource_cert
+* Related Resource Type: rpki1_x509ResourceCert
 * Property: handle
 * Property Path: $.handle
 * Registrant Name: IETF
@@ -1502,7 +1656,8 @@ Autonomous system number search by the handle of an X.509 resource certificate:
 
 # Acknowledgements
 
-Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, and Bart Bakker provided valuable feedback for this document.
+Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, and Frank Hill provided valuable feedback for
+this document.
 
 {backmatter}
 
@@ -1512,7 +1667,6 @@ Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, and Bart Bakker provi
         <author>
             <organization>Newton, A.</organization>
         </author>
-        <date year='2024'/>
     </front>
 </reference>
 
@@ -1522,7 +1676,6 @@ Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, and Bart Bakker provi
         <author>
             <organization>NLNet Labs</organization>
         </author>
-        <date year='2020'/>
     </front>
 </reference>
 
@@ -1532,6 +1685,32 @@ Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, and Bart Bakker provi
         <author>
             <organization>Cloudflare</organization>
         </author>
-        <date year='2022'/>
+    </front>
+</reference>
+
+<reference anchor='RDAP-EXTENSIONS' target='https://www.iana.org/assignments/rdap-extensions/'>
+    <front>
+        <title>RDAP Extensions</title>
+        <author>
+            <organization>IANA</organization>
+        </author>
+    </front>
+</reference>
+
+<reference anchor='RDAP-REVERSE-SEARCH' target='https://www.iana.org/assignments/rdap-reverse-search/'>
+    <front>
+        <title>RDAP Reverse Search</title>
+        <author>
+            <organization>IANA</organization>
+        </author>
+    </front>
+</reference>
+
+<reference anchor='RDAP-REVERSE-SEARCH-MAPPING' target='https://www.iana.org/assignments/rdap-reverse-search-mapping/'>
+    <front>
+        <title>RDAP Reverse Search Mapping</title>
+        <author>
+            <organization>IANA</organization>
+        </author>
     </front>
 </reference>
