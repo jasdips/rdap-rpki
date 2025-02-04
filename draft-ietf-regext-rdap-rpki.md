@@ -1,5 +1,5 @@
 %%%
-Title = "An RDAP Extension for RPKI Registration Data"
+Title = "Registration Data Access Protocol (RDAP) Extension for Resource Public Key Infrastructure (RPKI) Registration Data"
 area = "Applications and Real-Time Area (ART)"
 workgroup = "Registration Protocols Extensions (regext)"
 abbrev = "rdap-rpki"
@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-jasdips-regext-rdap-rpki-01"
+value = "draft-ietf-regext-rdap-rpki-00"
 stream = "IETF"
 status = "standard"
-date = 2025-01-12T00:00:00Z
+date = 2025-02-04T00:00:00Z
 
 [[author]]
 initials="J."
