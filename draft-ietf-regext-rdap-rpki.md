@@ -535,7 +535,7 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
 * "customerAutnum" -- an unsigned 32-bit integer representing an autonomous system number of the registration holder
-  ([@!I-D.ietf-sidrops-aspa-profile, section 3])
+  (called customer per ASPA terminology) ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "providerAutnums" -- an array of unsigned 32-bit integers, each representing the autonomous system number of an AS
   that is authorized as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "notValidBefore" -- see (#common_data_members)
