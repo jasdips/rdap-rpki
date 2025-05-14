@@ -534,7 +534,7 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * "objectClassName" -- the string "rpki1_aspa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
-* "autnum" -- an unsigned 32-bit integer representing an autonomous system number of the registration holder
+* "customerAutnum" -- an unsigned 32-bit integer representing an autonomous system number of the registration holder
   ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "providerAutnums" -- an array of unsigned 32-bit integers, each representing the autonomous system number of an AS
   that is authorized as a provider ([@!I-D.ietf-sidrops-aspa-profile, section 3])
@@ -556,7 +556,7 @@ Here is an elided example of an ASPA object:
   "objectClassName": "rpki1_aspa",
   "handle": "XXXX",
   "name": "ASPA-1",
-  "autnum": 65536,
+  "customerAutnum": 65536,
   "providerAutnums":
   [
     65542,
@@ -617,7 +617,7 @@ The following lookup path segments are defined for an ASPA object:
 
 Syntax: rpki1_aspa/<handle>
 
-Syntax: rpki1_aspa/<autonomous system number>
+Syntax: rpki1_aspa/<customer autonomous system number>
 
 A lookup query for ASPA information by handle is specified using this form:
 
@@ -630,19 +630,20 @@ would be used to find information for an ASPA that exactly matches the "47ab80ed
 https://example.net/rdap/rpki1_aspa/47ab80ed8693f25d0187d93a07db4484
 ```
 
-A lookup query for ASPA information by autonomous system number is specified using this form:
+A lookup query for ASPA information by customer autonomous system number is specified using this form:
 
 rpki1_aspa/YYYY
 
-YYYY is an autonomous system number representing the "autnum" property of an ASPA, as described in (#aspa_object_class).
-The following URL would be used to find information for an ASPA with autonomous system number 65536:
+YYYY is an autonomous system number representing the "customerAutnum" property of an ASPA, as described in
+(#aspa_object_class). The following URL would be used to find information for an ASPA with customer autonomous system
+number 65536:
 
 ```
 https://example.net/rdap/rpki1_aspa/65536
 ```
 
 In the "links" array of an ASPA object, the context URI ("value" member) of each link should be the lookup URL by its
-handle, and if that's not available, then the lookup URL by its autonomous system number.
+handle, and if that's not available, then the lookup URL by its customer autonomous system number.
 
 ## Search
 
@@ -652,7 +653,7 @@ The following search path segments are defined for ASPA objects:
 
 Syntax: rpki1_aspas?name=<name search pattern>
 
-Syntax: rpki1_aspas?providerAutnum=<autonomous system number>
+Syntax: rpki1_aspas?providerAutnum=<provider autonomous system number>
 
 Searches for ASPA information by name are specified using this form:
 
@@ -700,7 +701,7 @@ number 65542:
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
-      "autnum": 65536,
+      "customerAutnum": 65536,
       "providerAutnums":
       [
         65542,
@@ -755,8 +756,8 @@ number 65542:
 
 Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums"
 ([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_aspa", and an ASPA property of
-"autnum" or "providerAutnum", then the reverse search will be performed on the autonomous system number objects from its
-data store.
+"customerAutnum" or "providerAutnum", then the reverse search will be performed on the autonomous system number objects
+from its data store.
 
 (#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for autonomous system
 number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource
@@ -769,8 +770,9 @@ linked to a single autonomous system number object. It would be useful to show a
 autonomous system number object. To that end, this extension adds a new "rpki1_aspas" member to the Autonomous System
 Number object class ([@!RFC9083, section 5.5]):
 
-* "rpki1_aspas" -- an array of ASPA objects ((#aspa_object_class)) for the autonomous system number range in the
-  autonomous system number object; if the array is too large, the server MAY truncate it, per [@!RFC9083, section 9]
+* "rpki1_aspas" -- an array of ASPA objects ((#aspa_object_class)) with "customerAutnum" values from within the
+  autonomous system number range of an autonomous system number object; if the array is too large, the server MAY
+  truncate it, per [@!RFC9083, section 9]
 
 Here is an elided example for an autonomous system number object with ASPAs:
 
@@ -787,7 +789,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
-      "autnum": 65536,
+      "customerAutnum": 65536,
       "providerAutnums":
       [
         65542,
@@ -837,7 +839,7 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "objectClassName": "rpki1_aspa",
       "handle": "YYYY",
       "name": "ASPA-2",
-      "autnum": 65537,
+      "customerAutnum": 65537,
       "providerAutnums":
       [
         65543,
@@ -1550,13 +1552,13 @@ IP network search by a CIDR address block of a ROA:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-Autonomous system number search by the autonomous system number of an ASPA:
+Autonomous system number search by the customer autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
-* Property: autnum
-* Description: The server supports the autonomous system number search by the autonomous system number of an associated
-  RPKI ASPA.
+* Property: customerAutnum
+* Description: The server supports the autonomous system number search by the customer autonomous system number of an
+  associated RPKI ASPA.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
@@ -1618,12 +1620,12 @@ IP network search by a CIDR address block of a ROA:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-Autonomous system number search by the autonomous system number of an ASPA:
+Autonomous system number search by the customer autonomous system number of an ASPA:
 
 * Searchable Resource Type: autnums
 * Related Resource Type: rpki1_aspa
 * Property: autnum
-* Property Path: $.autnum
+* Property Path: $.customerAutnum
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
