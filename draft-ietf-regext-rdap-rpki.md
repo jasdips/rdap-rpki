@@ -587,13 +587,13 @@ Here is an elided example of an ASPA object:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1/aspa/XXXX",
+      "value": "https://example.net/rdap/rpki1_aspa/XXXX",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1/aspa/XXXX",
+      "href": "https://example.net/rdap/rpki1_aspa/XXXX",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/aspa/XXXX",
+      "value": "https://example.net/rdap/rpki1_aspa/XXXX",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
@@ -611,34 +611,34 @@ Here is an elided example of an ASPA object:
 
 ## Lookup
 
-The resource type path segment for exact match lookup of an ASPA object is "rpki1/aspa".
+The resource type path segment for exact match lookup of an ASPA object is "rpki1_aspa".
 
 The following lookup path segments are defined for an ASPA object:
 
-Syntax: rpki1/aspa/<handle>
+Syntax: rpki1_aspa/<handle>
 
-Syntax: rpki1/aspa/<autonomous system number>
+Syntax: rpki1_aspa/<autonomous system number>
 
 A lookup query for ASPA information by handle is specified using this form:
 
-rpki1/aspa/XXXX
+rpki1_aspa/XXXX
 
 XXXX is a string representing the "handle" property of an ASPA, as described in (#aspa_object_class). The following URL
 would be used to find information for an ASPA that exactly matches the "47ab80ed8693f25d0187d93a07db4484" handle:
 
 ```
-https://example.net/rdap/rpki1/aspa/47ab80ed8693f25d0187d93a07db4484
+https://example.net/rdap/rpki1_aspa/47ab80ed8693f25d0187d93a07db4484
 ```
 
 A lookup query for ASPA information by autonomous system number is specified using this form:
 
-rpki1/aspa/YYYY
+rpki1_aspa/YYYY
 
 YYYY is an autonomous system number representing the "autnum" property of an ASPA, as described in (#aspa_object_class).
 The following URL would be used to find information for an ASPA with autonomous system number 65536:
 
 ```
-https://example.net/rdap/rpki1/aspa/65536
+https://example.net/rdap/rpki1_aspa/65536
 ```
 
 In the "links" array of an ASPA object, the context URI ("value" member) of each link should be the lookup URL by its
@@ -646,35 +646,35 @@ handle, and if that's not available, then the lookup URL by its autonomous syste
 
 ## Search
 
-The resource type path segment for searching ASPA objects is "rpki1/aspas".
+The resource type path segment for searching ASPA objects is "rpki1_aspas".
 
 The following search path segments are defined for ASPA objects:
 
-Syntax: rpki1/aspas?name=<name search pattern>
+Syntax: rpki1_aspas?name=<name search pattern>
 
-Syntax: rpki1/aspas?providerAutnum=<autonomous system number>
+Syntax: rpki1_aspas?providerAutnum=<autonomous system number>
 
 Searches for ASPA information by name are specified using this form:
 
-rpki1/aspas?name=XXXX
+rpki1_aspas?name=XXXX
 
 XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "name" property of an ASPA, as described in
 (#aspa_object_class). The following URL would be used to find information for ASPA names matching the "ASPA-*" pattern:
 
 ```
-https://example.net/rdap/rpki1/aspas?name=ASPA-*
+https://example.net/rdap/rpki1_aspas?name=ASPA-*
 ```
 
 Searches for ASPA information by provider autonomous system number are specified using this form:
 
-rpki1/aspas?providerAutnum=YYYY
+rpki1_aspas?providerAutnum=YYYY
 
 YYYY is an autonomous system number within the "providerAutnums" property of an ASPA, as described in
 (#aspa_object_class). The following URL would be used to find information for ASPAs with provider autonomous system
 number 65542:
 
 ```
-https://example.net/rdap/rpki1/aspas?providerAutnum=65542
+https://example.net/rdap/rpki1_aspas?providerAutnum=65542
 ```
 
 ### Search Results
@@ -731,13 +731,13 @@ number 65542:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/aspa/XXXX",
+          "value": "https://example.net/rdap/rpki1_aspa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/aspa/XXXX",
+          "href": "https://example.net/rdap/rpki1_aspa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/aspa/XXXX",
+          "value": "https://example.net/rdap/rpki1_aspa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
@@ -818,13 +818,13 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/aspa/XXXX",
+          "value": "https://example.net/rdap/rpki1_aspa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/aspa/XXXX",
+          "href": "https://example.net/rdap/rpki1_aspa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/aspa/XXXX",
+          "value": "https://example.net/rdap/rpki1_aspa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
@@ -868,13 +868,13 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/aspa/YYYY",
+          "value": "https://example.net/rdap/rpki1_aspa/YYYY",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/aspa/YYYY",
+          "href": "https://example.net/rdap/rpki1_aspa/YYYY",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/aspa/YYYY",
+          "value": "https://example.net/rdap/rpki1_aspa/YYYY",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
