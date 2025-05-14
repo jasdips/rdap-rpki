@@ -87,12 +87,12 @@ ROA, ASPA, and X.509 resource certificate registration data.
 
 ## Requirements Language
 
-The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",
-"NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in [@!BCP14] when, and only
-when, they appear in all capitals, as shown here.
+The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED",
+"NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14
+[@!RFC2119] [@!RFC8174] when, and only when, they appear in all capitals, as shown here.
 
 Indentation and whitespace in examples are provided only to illustrate element relationships, and are not a REQUIRED
-feature of this protocol.
+feature of this specification.
 
 "..." in examples is used as shorthand for elements defined outside of this document.
 
@@ -193,13 +193,13 @@ Here is an elided example of a ROA object:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1/roa/XXXX",
+      "value": "https://example.net/rdap/rpki1_roa/XXXX",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1/roa/XXXX",
+      "href": "https://example.net/rdap/rpki1_roa/XXXX",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/roa/XXXX",
+      "value": "https://example.net/rdap/rpki1_roa/XXXX",
       "rel": "related",
       "href": "https://example.net/rdap/ip/2001:db8::/48",
       "type": "application/rdap+json"
@@ -217,60 +217,60 @@ Here is an elided example of a ROA object:
 
 ## Lookup
 
-The resource type path segment for exact or closest match lookup of a ROA object is "rpki1/roa".
+The resource type path segment for exact or closest match lookup of a ROA object is "rpki1_roa".
 
 The following lookup path segments are defined for a ROA object:
 
-Syntax: rpki1/roa/<handle>
+Syntax: rpki1_roa/<handle>
 
-Syntax: rpki1/roa/<IP address>
+Syntax: rpki1_roa/<IP address>
 
-Syntax: rpki1/roa/<CIDR prefix>/<CIDR length>
+Syntax: rpki1_roa/<CIDR prefix>/<CIDR length>
 
 A lookup query for ROA information by handle is specified using this form:
 
-rpki1/roa/XXXX
+rpki1_roa/XXXX
 
 XXXX is a string representing the "handle" property of a ROA, as described in (#roa_object_class). The following URL
 would be used to find information for a ROA that exactly matches the "8a848ab0729f0f4f0173ba2013bc5eb3" handle:
 
 ```
-https://example.net/rdap/rpki1/roa/8a848ab0729f0f4f0173ba2013bc5eb3
+https://example.net/rdap/rpki1_roa/8a848ab0729f0f4f0173ba2013bc5eb3
 ```
 
 A lookup query for ROA information by IP address is specified using this form:
 
-rpki1/roa/YYYY
+rpki1_roa/YYYY
 
 YYYY is a string representing an IPv4 or IPv6 address. The following URL would be used to find information for a ROA
 that completely encompasses the "192.0.2.0" IP address:
 
 ```
-https://example.net/rdap/rpki1/roa/192.0.2.0
+https://example.net/rdap/rpki1_roa/192.0.2.0
 ```
 
 Similarly, for the "2001:db8::" IP address:
 
 ```
-https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A
+https://example.net/rdap/rpki1_roa/2001%3Adb8%3A%3A
 ```
 
 A lookup query for ROA information by CIDR is specified using this form:
 
-rpki1/roa/YYYY/ZZZZ
+rpki1_roa/YYYY/ZZZZ
 
 YYYY/ZZZZ is a string representing the "ip" property of a CIDR address block within a ROA, as described in
 (#roa_object_class). The following URL would be used to find information for the most-specific ROA matching the
 "192.0.2.0/25" CIDR:
 
 ```
-https://example.net/rdap/rpki1/roa/192.0.2.0/25
+https://example.net/rdap/rpki1_roa/192.0.2.0/25
 ```
 
 Similarly, for the "2001:db8::/64" CIDR:
 
 ```
-https://example.net/rdap/rpki1/roa/2001%3Adb8%3A%3A/64
+https://example.net/rdap/rpki1_roa/2001%3Adb8%3A%3A/64
 ```
 
 In the "links" array of a ROA object, the context URI ("value" member) of each link should be the lookup URL by its
@@ -278,35 +278,35 @@ handle, and if that's not available, then the lookup URL by one of its IP addres
 
 ## Search
 
-The resource type path segment for searching ROA objects is "rpki1/roas".
+The resource type path segment for searching ROA objects is "rpki1_roas".
 
 The following search path segments are defined for ROA objects:
 
-Syntax: rpki1/roas?name=<name search pattern>
+Syntax: rpki1_roas?name=<name search pattern>
 
-Syntax: rpki1/roas?originAutnum=<autonomous system number>
+Syntax: rpki1_roas?originAutnum=<autonomous system number>
 
 Searches for ROA information by name are specified using this form:
 
-rpki1/roas?name=XXXX
+rpki1_roas?name=XXXX
 
 XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "name" property of a ROA, as described in
 (#roa_object_class). The following URL would be used to find information for ROA names matching the "ROA-*" pattern:
 
 ```
-https://example.net/rdap/rpki1/roas?name=ROA-*
+https://example.net/rdap/rpki1_roas?name=ROA-*
 ```
 
 Searches for ROA information by origin autonomous system number are specified using this form:
 
-rpki1/roas?originAutnum=BBBB
+rpki1_roas?originAutnum=BBBB
 
 BBBB is an autonomous system number representing the "originAutnum" property of a ROA, as described in
 (#roa_object_class). The following URL would be used to find information for ROAs with origin autonomous system number
 65536:
 
 ```
-https://example.net/rdap/rpki1/roas?originAutnum=65536
+https://example.net/rdap/rpki1_roas?originAutnum=65536
 ```
 
 ### Search Results
@@ -366,13 +366,13 @@ Here is an elided example of the search results when finding information for ROA
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/roa/XXXX",
+          "value": "https://example.net/rdap/rpki1_roa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/roa/XXXX",
+          "href": "https://example.net/rdap/rpki1_roa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/roa/XXXX",
+          "value": "https://example.net/rdap/rpki1_roa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8::/48",
           "type": "application/rdap+json"
@@ -454,13 +454,13 @@ Here is an elided example for an IP network object with ROAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/roa/XXXX",
+          "value": "https://example.net/rdap/rpki1_roa/XXXX",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/roa/XXXX",
+          "href": "https://example.net/rdap/rpki1_roa/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/roa/XXXX",
+          "value": "https://example.net/rdap/rpki1_roa/XXXX",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8::/48",
           "type": "application/rdap+json"
@@ -506,13 +506,13 @@ Here is an elided example for an IP network object with ROAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/roa/YYYY",
+          "value": "https://example.net/rdap/rpki1_roa/YYYY",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/roa/YYYY",
+          "href": "https://example.net/rdap/rpki1_roa/YYYY",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/roa/YYYY",
+          "value": "https://example.net/rdap/rpki1_roa/YYYY",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8:1::/48",
           "type": "application/rdap+json"
