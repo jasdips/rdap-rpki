@@ -981,31 +981,31 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "href": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/ip/192.0.2.0/24",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/ip/2001:db8::/48",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65537",
       "type": "application/rdap+json"
@@ -1067,19 +1067,19 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "href": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65537",
       "type": "application/rdap+json"
@@ -1098,131 +1098,131 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
 ## Lookup
 
 The resource type path segment for exact match lookup of an X.509 resource certificate object is
-"rpki1/x509_resource_cert".
+"rpki1_x509ResourceCert".
 
 The following lookup path segment is defined for an X.509 resource certificate object:
 
-Syntax: rpki1/x509_resource_cert/<handle>
+Syntax: rpki1_x509ResourceCert/<handle>
 
 For example:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_cert/ABCD
+https://example.net/rdap/rpki1_x509ResourceCert/ABCD
 ```
 
 ## Search
 
-The resource type path segment for searching X.509 resource certificate objects is "rpki1/x509_resource_certs".
+The resource type path segment for searching X.509 resource certificate objects is "rpki1_x509ResourceCerts".
 
 The following search path segments are defined for X.509 resource certificate objects:
 
-Syntax: rpki1/x509_resource_certs?handle=<handle search pattern>
+Syntax: rpki1_x509ResourceCerts?handle=<handle search pattern>
 
-Syntax: rpki1/x509_resource_certs?issuer=<issuer search pattern>
+Syntax: rpki1_x509ResourceCerts?issuer=<issuer search pattern>
 
-Syntax: rpki1/x509_resource_certs?subject=<subject search pattern>
+Syntax: rpki1_x509ResourceCerts?subject=<subject search pattern>
 
-Syntax: rpki1/x509_resource_certs?subjectKeyIdentifier=<subject key identifier>
+Syntax: rpki1_x509ResourceCerts?subjectKeyIdentifier=<subject key identifier>
 
-Syntax: rpki1/x509_resource_certs?ip=<IP address>
+Syntax: rpki1_x509ResourceCerts?ip=<IP address>
 
-Syntax: rpki1/x509_resource_certs?cidr=<CIDR>
+Syntax: rpki1_x509ResourceCerts?cidr=<CIDR>
 
-Syntax: rpki1/x509_resource_certs?autnum=<autonomous system number>
+Syntax: rpki1_x509ResourceCerts?autnum=<autonomous system number>
 
 Searches for X.509 resource certificate information by handle are specified using this form:
 
-rpki1/x509_resource_certs?handle=XXXX
+rpki1_x509ResourceCerts?handle=XXXX
 
 XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of an X.509 resource
 certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
 information for X.509 resource certificate objects with handle matching the "EFG*" pattern:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?handle=EFG*
+https://example.net/rdap/rpki1_x509ResourceCerts?handle=EFG*
 ```
 
 Searches for X.509 resource certificate information by certificate issuer are specified using this form:
 
-rpki1/x509_resource_certs?issuer=YYYY
+rpki1_x509ResourceCerts?issuer=YYYY
 
 YYYY is a search pattern per [@!RFC9082, section 4.1], representing the "issuer" property of an X.509 resource
 certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
 information for X.509 resource certificate objects with issuer matching the "CN=ISP-*" pattern:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?issuer=CN%3DISP-*
+https://example.net/rdap/rpki1_x509ResourceCerts?issuer=CN%3DISP-*
 ```
 
 Searches for X.509 resource certificate information by certificate subject are specified using this form:
 
-rpki1/x509_resource_certs?subject=ZZZZ
+rpki1_x509ResourceCerts?subject=ZZZZ
 
 ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of an X.509 resource
 Certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
 information for X.509 resource certificate objects with subject matching the "CN=ISP-BGPSEC-ROUTE*" pattern:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?subject=CN%3DISP-BGPSEC-ROUTE*
+https://example.net/rdap/rpki1_x509ResourceCerts?subject=CN%3DISP-BGPSEC-ROUTE*
 ```
 
 Searches for X.509 resource certificate information by subject key identifier are specified using this form:
 
-rpki1/x509_resource_certs?subjectKeyIdentifier=BBBB
+rpki1_x509ResourceCerts?subjectKeyIdentifier=BBBB
 
 BBBB is a string representing the "subjectKeyIdentifier" property of an X.509 resource certificate object, as described
 in (#x509_resource_cert_object_class). The following URL would be used to find an X.509 resource certificate object with
 subject key identifier matching the "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=" string:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?subjectKeyIdentifier=iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
+https://example.net/rdap/rpki1_x509ResourceCerts?subjectKeyIdentifier=iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=
 ```
 
 Searches for X.509 resource certificate information by an IP address are specified using this form:
 
-rpki1/x509_resource_certs?ip=CCCC
+rpki1_x509ResourceCerts?ip=CCCC
 
 CCCC is a string representing an IPv4 or IPv6 address. The following URL would be used to find information for X.509
 resource certificate objects with the "ips" member encompassing the "192.0.2.0" IP address:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?ip=192.0.2.0
+https://example.net/rdap/rpki1_x509ResourceCerts?ip=192.0.2.0
 ```
 
 Similarly, for the "2001:db8::" IP address:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?ip=2001%3Adb8%3A%3A
+https://example.net/rdap/rpki1_x509ResourceCerts?ip=2001%3Adb8%3A%3A
 ```
 
 Searches for X.509 resource certificate information by a CIDR are specified using this form:
 
-rpki1/x509_resource_certs?cidr=CCCC/DDDD
+rpki1_x509ResourceCerts?cidr=CCCC/DDDD
 
 CCCC/DDDD is a string representing an IPv4 or IPv6 CIDR, with CCCC as the CIDR prefix and DDDD as the CIDR length. The
 following URL would be used to find information for X.509 resource certificate objects with the "ips" member
 encompassing the "192.0.2.0/25" CIDR:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?cidr=192.0.2.0%2F25
+https://example.net/rdap/rpki1_x509ResourceCerts?cidr=192.0.2.0%2F25
 ```
 
 Similarly, for the "2001:db8::/64" CIDR:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?cidr=2001%3Adb8%3A%3A%2F64
+https://example.net/rdap/rpki1_x509ResourceCerts?cidr=2001%3Adb8%3A%3A%2F64
 ```
 
 Searches for X.509 resource certificate information by an autonomous system number are specified using this form:
 
-rpki1/x509_resource_certs?autnum=EEEE
+rpki1_x509ResourceCerts?autnum=EEEE
 
 EEEE is an autonomous system number within the "autnums" property of an X.509 resource certificate object, as described
 in (#x509_resource_cert_object_class). The following URL would be used to find information for X.509 resource
 certificate objects with the "autnums" member including autonomous system number 65536:
 
 ```
-https://example.net/rdap/rpki1/x509_resource_certs?autnum=65536
+https://example.net/rdap/rpki1_x509ResourceCerts?autnum=65536
 ```
 
 ### Search Results
@@ -1287,19 +1287,19 @@ issuer matching the "CN=ISP-*" pattern:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "href": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
@@ -1397,31 +1397,31 @@ Here is an elided example for an entity (organization) object with X.509 resourc
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "href": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
           "rel": "related",
           "href": "https://example.net/rdap/ip/192.0.2.0/24",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8::/48",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/ABCD",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
@@ -1473,19 +1473,19 @@ Here is an elided example for an entity (organization) object with X.509 resourc
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "href": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1/x509_resource_cert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
