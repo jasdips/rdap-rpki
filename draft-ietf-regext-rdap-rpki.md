@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-ietf-regext-rdap-rpki-00"
+value = "draft-ietf-regext-rdap-rpki-01"
 stream = "IETF"
 status = "standard"
-date = 2025-02-04T00:00:00Z
+date = 2025-05-14T00:00:00Z
 
 [[author]]
 initials="J."
@@ -34,8 +34,8 @@ email = "andy@hxr.us"
 
 The Resource Public Key Infrastructure (RPKI) is used to secure inter-domain routing on the internet. This document
 defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for accessing the RPKI registration data in
-the Internet Number Registry System (INRS) through RDAP. The Internet Number Registry System (INRS) is composed of
-Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
+the Internet Number Registry System (INRS) through RDAP. The INRS is composed of Regional Internet Registries (RIRs),
+National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 
 {mainmatter}
 
@@ -50,24 +50,28 @@ leaks. To that end, RPKI defines the following cryptographic profiles:
   holder cryptographically asserts about the origin autonomous system (AS, [@RFC4271]) for routing that CIDR address
   block.
 * Autonomous System Provider Authorization (ASPA, [@!I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
-  (ASN, [@!RFC5396]) holder cryptographically asserts about the provider AS for that ASN.
+  (ASN, [@!RFC5396]) holder cryptographically asserts about the provider ASes for that ASN.
 * X.509 Resource Certificate ([@!RFC6487]) where the issuer grants the subject a right-of-use for the listed IP
   addresses and/or autonomous system numbers.
 
 This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data within the Internet Number
-Registry System (INRS) for aforementioned RPKI profiles through RDAP. The Internet Number Registry System (INRS) is
-composed of Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries
-(LIRs).
+Registry System (INRS) for aforementioned RPKI profiles through RDAP. The INRS is composed of Regional Internet
+Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 
-The motivation here is that such RDAP data could complement the existing RPKI diagnostic tools when troubleshooting a
-route hijack or leak, by conveniently providing access to registration information from a registry's database beside
-what is inherently available from an RPKI profile object. There is registration metadata that is often needed for
-troubleshooting that does not appear in, say, a ROA or a VRP (Verified ROA Payload); such as:
+The motivation here is that such RDAP data could complement the existing RPKI diagnostic tools (e.g., [@ROUTINATOR],
+[@NIST-RPKI-MONITOR], etc.) when troubleshooting a route hijack or leak, by conveniently providing access to
+registration information from a registry's database beside what is inherently available from an RPKI profile object.
+There is registration metadata that is often needed for troubleshooting that does not appear in an RPKI profile object
+or its verified payload but could be looked up or searched using RDAP; such as:
 
 * When did the initial version of a ROA get published?
 * Was a ROA created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route?
-* Which IRR route is related with a ROA?
-* Which IP network is associated with a ROA?
+* Which IRR routes are related with a ROA?
+* Which IP networks are associated with a ROA?
+* Which ROAs are associated with an origin AS?
+* Which ASPAs are associated with a provider AS?
+* Which X.509 resource certificates are associated with an organization?
+* Which organization is registered as the authoritative source for an RPKI profile object?
 
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
@@ -1661,11 +1665,11 @@ this document.
 
 {backmatter}
 
-<reference anchor='RDAP-GUIDE' target='https://rdap.rcode3.com/misc/uses.html'>
+<reference anchor='CLOUDFLARE' target='https://rpki.cloudflare.com/'>
     <front>
-        <title>RDAP Guide</title>
+        <title>RPKI Portal</title>
         <author>
-            <organization>Newton, A.</organization>
+            <organization>Cloudflare</organization>
         </author>
     </front>
 </reference>
@@ -1679,11 +1683,11 @@ this document.
     </front>
 </reference>
 
-<reference anchor='CLOUDFLARE' target='https://rpki.cloudflare.com/'>
+<reference anchor='NIST-RPKI-MONITOR' target='https://rpki-monitor.antd.nist.gov/'>
     <front>
-        <title>RPKI Portal</title>
+        <title>NIST RPKI Monitor</title>
         <author>
-            <organization>Cloudflare</organization>
+            <organization>NIST</organization>
         </author>
     </front>
 </reference>
@@ -1693,6 +1697,15 @@ this document.
         <title>RDAP Extensions</title>
         <author>
             <organization>IANA</organization>
+        </author>
+    </front>
+</reference>
+
+<reference anchor='RDAP-GUIDE' target='https://rdap.rcode3.com/misc/uses.html'>
+    <front>
+        <title>RDAP Guide</title>
+        <author>
+            <organization>Newton, A.</organization>
         </author>
     </front>
 </reference>
@@ -1711,6 +1724,15 @@ this document.
         <title>RDAP Reverse Search Mapping</title>
         <author>
             <organization>IANA</organization>
+        </author>
+    </front>
+</reference>
+
+<reference anchor='ROUTINATOR' target='https://www.nlnetlabs.nl/projects/routing/routinator/'>
+    <front>
+        <title>Routinator</title>
+        <author>
+            <organization>NLNet Labs</organization>
         </author>
     </front>
 </reference>
