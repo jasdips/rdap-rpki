@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-ietf-regext-rdap-rpki-01"
 stream = "IETF"
 status = "standard"
-date = 2025-05-14T00:00:00Z
+date = 2025-05-16T00:00:00Z
 
 [[author]]
 initials="J."
@@ -33,9 +33,10 @@ email = "andy@hxr.us"
 .# Abstract
 
 The Resource Public Key Infrastructure (RPKI) is used to secure inter-domain routing on the internet. This document
-defines a new Registration Data Access Protocol (RDAP) extension, "rpki1", for accessing the RPKI registration data in
-the Internet Number Registry System (INRS) through RDAP. The INRS is composed of Regional Internet Registries (RIRs),
-National Internet Registries (NIRs), and Local Internet Registries (LIRs).
+defines a new Registration Data Access Protocol (RDAP) extension with identifier "rpki1", for accessing the RPKI
+registration data in the Internet Number Registry System (INRS) for the Route Origin Authorization (ROA), Autonomous
+System Provider Authorization (ASPA), and X.509 Resource Certificate RPKI profiles through RDAP. The INRS is composed of
+Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 
 {mainmatter}
 
@@ -44,7 +45,7 @@ National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI, [@!RFC6480]) to secure
 inter-domain routing ([@RFC4271]) on the internet. RPKI enables Internet Number Resource (INR) holders to
 cryptographically assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and
-leaks. To that end, RPKI defines the following cryptographic profiles:
+leaks. To that end, RPKI defines the following profiles:
 
 * Route Origin Authorization (ROA, [@!RFC9582]) where a Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block
   holder cryptographically asserts about the origin autonomous system (AS, [@RFC4271]) for routing that CIDR address
@@ -54,9 +55,9 @@ leaks. To that end, RPKI defines the following cryptographic profiles:
 * X.509 Resource Certificate ([@!RFC6487]) where the issuer grants the subject a right-of-use for the listed IP
   addresses and/or autonomous system numbers.
 
-This document defines a new RDAP extension, "rpki1", for accessing the RPKI registration data within the Internet Number
-Registry System (INRS) for aforementioned RPKI profiles through RDAP. The INRS is composed of Regional Internet
-Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
+This document defines a new RDAP extension with identifier "rpki1", for accessing the RPKI registration data in the
+Internet Number Registry System (INRS) for the aforementioned RPKI profiles through RDAP. The INRS is composed of
+Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Local Internet Registries (LIRs).
 
 The motivation here is that such RDAP data could complement the existing RPKI diagnostic tools (e.g., [@ROUTINATOR],
 [@NIST-RPKI-MONITOR], etc.) when troubleshooting a route hijack or leak, by conveniently providing access to
@@ -95,6 +96,41 @@ Indentation and whitespace in examples are provided only to illustrate element r
 feature of this specification.
 
 "..." in examples is used as shorthand for elements defined outside of this document.
+
+# Extension
+
+This document defines a new RDAP extension with identifier "rpki1", for accessing the RPKI registration data in the INRS
+for the ROA, ASPA, and X.509 Resource Certificate RPKI profiles through RDAP.
+
+A server that supports the functionality specified in this document MUST include the "rpki1" string literal in the
+"rdapConformance" array ([@!RFC9083, section 4.1]) for any lookup or search response containing an RDAP object per the
+object class definition in (#roa_object_class), (#aspa_object_class), or (#x509_resource_cert_object_class), as well as
+in the help response. Here is an elided example for this inclusion:
+
+```
+{
+  "rdapConformance":
+  [
+    "rdap_level_0",
+    "rpki1",
+    ...
+  ],
+  ...
+}
+```
+
+This extension adheres to the guidelines in [@!I-D.ietf-regext-rdap-extensions].
+
+## What It Is Not {#what_it_is_not}
+
+This RDAP extension MUST NOT be used to directly influence internet routing. Neither RDAP nor this extension define the
+necessary security properties or distribution mechanisms required to securely add, remove, or modify internet routes.
+
+## In The Future
+
+In the future, if the RDAP data for the RPKI profiles supported in this document needs to evolve and/or additional RPKI
+profiles need to be made accessible through RDAP, a new RDAP extension must be defined, adhering to the guidelines in
+[@!I-D.ietf-regext-rdap-extensions].
 
 # Common Data Members {#common_data_members}
 
@@ -1501,19 +1537,12 @@ Here is an elided example for an entity (organization) object with X.509 resourc
 }
 ```
 
-# RDAP Conformance
-
-A server that supports the functionality specified in this document MUST include the "rpki1" string literal in the
-"rdapConformance" array of its responses.
-
 # Security Considerations
-
-The RDAP extension in this document MUST NOT be used to directly influence internet routing. Neither RDAP nor this
-extension define the necessary security properties or distribution mechanisms required to securely add, remove, or
-modify internet routes.
 
 This document does not introduce any new security considerations past those already discussed in the RDAP protocol
 specifications ([@RFC7481], [@RFC9560]).
+
+(#what_it_is_not) explains why this RDAP extension MUST NOT be used to directly influence internet routing.
 
 # IANA Considerations
 
@@ -1662,8 +1691,21 @@ Autonomous system number search by the handle of an X.509 resource certificate:
 
 # Acknowledgements
 
-Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, and Frank Hill provided valuable feedback for
-this document.
+Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, Frank Hill, and Tobias Fiebig provided valuable
+feedback for this document.
+
+# Change History
+
+(Remove this section before publication.)
+
+## Changes from 00 to 01
+
+* Adhering to the guidelines in [@!I-D.ietf-regext-rdap-extensions].
+* Highlighted other RDAP search scenarios that could help with RPKI troubleshooting.
+* More explicit about what this extension is not.
+* How/when to evolve this extension in the future.
+* Renamed the "autnum" member as "customerAutnum" in the ASPA RDAP object class to better match the "CustomerASID" field
+  from the ASPA RPKI profile.
 
 {backmatter}
 
