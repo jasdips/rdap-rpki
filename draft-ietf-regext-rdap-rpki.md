@@ -1702,7 +1702,7 @@ feedback for this document.
 
 * Adhering to the guidelines in [@!I-D.ietf-regext-rdap-extensions].
 * Highlighted other RDAP search scenarios that could help with RPKI troubleshooting.
-* More explicit about what this extension is not.
+* Be more explicit about what this extension is not. (Feedback from Tobias Fiebig during IETF 122 SIDROPS presentation.)
 * How/when to evolve this extension in the future.
 * Renamed the "autnum" member as "customerAutnum" in the ASPA RDAP object class to better match the "CustomerASID" field
   from the ASPA RPKI profile.
