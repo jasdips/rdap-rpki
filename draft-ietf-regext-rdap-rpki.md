@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-ietf-regext-rdap-rpki-01"
+value = "draft-ietf-regext-rdap-rpki-02"
 stream = "IETF"
 status = "standard"
-date = 2025-05-16T00:00:00Z
+date = 2025-07-14T00:00:00Z
 
 [[author]]
 initials="J."
@@ -95,7 +95,8 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 Indentation and whitespace in examples are provided only to illustrate element relationships, and are not a REQUIRED
 feature of this specification.
 
-"..." in examples is used as shorthand for elements defined outside of this document.
+"..." in examples is used as shorthand for elements defined outside of this document, as well as to abbreviate elements
+that are too long.
 
 # Extension
 
@@ -139,6 +140,11 @@ contain one or more of the following common members:
 
 * "handle" -- a string representing the registry-unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
+* "digest" -- a hexadecimal string representing the hash of the eContent (encapsulated content) of an RPKI object
+  ([@!RFC5652, section 11.2])
+* "digestAlgorithm" -- a string literal representing the algorithm used for the hash of the eContent of an RPKI object
+  ([@!RFC5652, section 10.1.1]), with possible values of "SHA-256" or a string literal representing a future hash
+  algorithm for RPKI
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
   ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
@@ -171,6 +177,8 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "objectClassName" -- the string "rpki1_roa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
+* "digest" -- see (#common_data_members)
+* "digestAlgorithm" -- see (#common_data_members)
 * "roaIps" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
   following members:
     * "ip" -- a string representing an IPv4 or IPv6 CIDR address block with the "<CIDR prefix>/<CIDR length>" format
@@ -195,6 +203,8 @@ Here is an elided example of a ROA object:
   "objectClassName": "rpki1_roa",
   "handle": "XXXX",
   "name": "ROA-1",
+  "digest": "01234567...89abcdef",
+  "digestAlgorithm": "SHA-256",
   "roaIps":
   [
     {
@@ -368,6 +378,8 @@ Here is an elided example of the search results when finding information for ROA
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
+      "digest": "01234567...89abcdef",
+      "digestAlgorithm": "SHA-256",
       "roaIps":
       [
         {
@@ -456,6 +468,8 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
+      "digest": "01234567...89abcdef",
+      "digestAlgorithm": "SHA-256",
       "roaIps":
       [
         {
@@ -508,6 +522,8 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "YYYY",
       "name": "ROA-2",
+      "digest": "12345678...9abcdef0",
+      "digestAlgorithm": "SHA-256",
       "roaIps":
       [
         {
@@ -570,6 +586,8 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * "objectClassName" -- the string "rpki1_aspa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
+* "digest" -- see (#common_data_members)
+* "digestAlgorithm" -- see (#common_data_members)
 * "customerAutnum" -- an unsigned 32-bit integer representing an autonomous system number of the registration holder
   (called customer per ASPA terminology) ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "providerAutnums" -- an array of unsigned 32-bit integers, each representing the autonomous system number of an AS
@@ -592,6 +610,8 @@ Here is an elided example of an ASPA object:
   "objectClassName": "rpki1_aspa",
   "handle": "XXXX",
   "name": "ASPA-1",
+  "digest": "23456789...abcdef01",
+  "digestAlgorithm": "SHA-256",
   "customerAutnum": 65536,
   "providerAutnums":
   [
@@ -737,6 +757,8 @@ number 65542:
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
+      "digest": "23456789...abcdef01",
+      "digestAlgorithm": "SHA-256",
       "customerAutnum": 65536,
       "providerAutnums":
       [
@@ -825,6 +847,8 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
+      "digest": "23456789...abcdef01",
+      "digestAlgorithm": "SHA-256",
       "customerAutnum": 65536,
       "providerAutnums":
       [
@@ -875,6 +899,8 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "objectClassName": "rpki1_aspa",
       "handle": "YYYY",
       "name": "ASPA-2",
+      "digest": "3456789a...bcdef012",
+      "digestAlgorithm": "SHA-256",
       "customerAutnum": 65537,
       "providerAutnums":
       [
@@ -1706,6 +1732,11 @@ feedback for this document.
 * How/when to evolve this extension in the future.
 * Renamed the "autnum" member as "customerAutnum" in the ASPA RDAP object class to better match the "CustomerASID" field
   from the ASPA RPKI profile.
+
+## Changes from 01 to 02
+
+* Added message digest to help detect any tampering with an RPKI profile object in the field. (Feedback from Job
+  Snijders during IETF 122 SIDROPS presentation.)
 
 {backmatter}
 
