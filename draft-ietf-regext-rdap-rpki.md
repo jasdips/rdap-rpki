@@ -92,7 +92,7 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14
 [@!RFC2119] [@!RFC8174] when, and only when, they appear in all capitals, as shown here.
 
-Indentation and whitespace in examples are provided only to illustrate element relationships, and are not a REQUIRED
+Indentation and whitespace in examples are provided only to illustrate element relationships, and are not a required
 feature of this specification.
 
 "..." in examples is used as shorthand for elements defined outside of this document, as well as to abbreviate elements
@@ -143,9 +143,9 @@ contain one or more of the following common members:
 
 * "handle" -- a string representing the registry-unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
-* "digest" -- a hexadecimal string representing the hash that covers an entire RPKI object
-* "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that covers an entire RPKI
-  object, with "SHA-256" ([@RFC6234]) as the only allowed value for this version of the specification
+* "digest" -- a hexadecimal string representing the hash that entirely covers an RPKI object
+* "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that entirely covers an
+  RPKI object, with "SHA-256" ([@RFC6234]) as the only allowed value for this version of the specification
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
   ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
@@ -293,8 +293,8 @@ A lookup query for ROA information by IP address is specified using this form:
 
 rpki1_roa/YYYY
 
-YYYY is a string representing an IPv4 or IPv6 address. The following URL would be used to find information for a ROA
-that completely encompasses the "192.0.2.0" IP address:
+YYYY is a string representing an IPv4 or IPv6 address. The following URL would be used to find information for the
+most-specific ROA matching the "192.0.2.0" IP address:
 
 ```
 https://example.net/rdap/rpki1_roa/192.0.2.0
@@ -976,8 +976,8 @@ The X.509 resource certificate object class can contain the following members:
   the following members:
     * "publicKeyAlgorithm" -- a string representing the algorithm for the public key
     * "publicKey" -- a string representation of the public key
-* "subjectKeyIdentifier" -- a string, typically Base64-encoded, representing the unique identifier for the public key
-  ([@!RFC6487, section 4.8.2])
+* "subjectKeyIdentifier" -- a string, typically Base64-encoded, representing the unique identifier for the subject's
+  public key ([@!RFC6487, section 4.8.2])
 * "ips" -- an array of strings, each representing an IPv4 or IPv6 CIDR address block with the
   "<CIDR prefix>/<CIDR length>" format ([@!RFC6487, section 4.8.10])
 * "autnums" -- an array of unsigned 32-bit integers, each representing an autonomous system number
@@ -995,11 +995,12 @@ The X.509 resource certificate object class can contain the following members:
 
 The following types of certificates can be represented using this object class:
 
-* a CA certificate that a registry issues to an organization for its allocated IP addresses and/or autonomous system
-  numbers, authorizing the organization CA to issue end-entity certificates
-* a BGPSec router certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the
-  corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es) specified in the
-  certificate
+* a CA certificate ([@!RFC6480, section 2.2]) that a registry issues to an organization (the subject) for its allocated
+  IP addresses and/or autonomous system numbers, authorizing the organization CA to issue end-entity certificates
+  ([@!RFC6480, section 2.3])
+* a BGPSec router certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router (the subject)
+  holding the corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es)
+  specified in the certificate
 
 Here is an elided example of an X.509 resource certificate object for a CA certificate:
 
@@ -1234,7 +1235,7 @@ Searches for X.509 resource certificate information by certificate subject are s
 rpki1_x509ResourceCerts?subject=ZZZZ
 
 ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of an X.509 resource
-Certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
+certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
 information for X.509 resource certificate objects with subject matching the "CN=ISP-BGPSEC-ROUTE*" pattern:
 
 ```
@@ -1752,7 +1753,7 @@ feedback for this document.
 
 ## Changes from 01 to 02
 
-* Generate a message digest that covers an entire RDAP object. (Feedback from Job Snijders during IETF 122 SIDROPS
+* Generate a message digest that covers an entire RPKI object. (Feedback from Job Snijders during IETF 122 SIDROPS
   presentation.)
 
 {backmatter}
