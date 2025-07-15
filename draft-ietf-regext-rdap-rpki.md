@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-ietf-regext-rdap-rpki-01"
+value = "draft-ietf-regext-rdap-rpki-02"
 stream = "IETF"
 status = "standard"
-date = 2025-05-16T00:00:00Z
+date = 2025-07-15T00:00:00Z
 
 [[author]]
 initials="J."
@@ -92,10 +92,11 @@ The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "S
 "NOT RECOMMENDED", "MAY", and "OPTIONAL" in this document are to be interpreted as described in BCP 14
 [@!RFC2119] [@!RFC8174] when, and only when, they appear in all capitals, as shown here.
 
-Indentation and whitespace in examples are provided only to illustrate element relationships, and are not a REQUIRED
+Indentation and whitespace in examples are provided only to illustrate element relationships, and are not a required
 feature of this specification.
 
-"..." in examples is used as shorthand for elements defined outside of this document.
+"..." in examples is used as shorthand for elements defined outside of this document, as well as to abbreviate elements
+that are too long.
 
 # Extension
 
@@ -121,6 +122,9 @@ in the help response. Here is an elided example for this inclusion:
 
 This extension adheres to the guidelines in [@!I-D.ietf-regext-rdap-extensions].
 
+The "1" in "rpki1" denotes version 1 of this extension. New versions of this extension will use different extension
+identifiers.
+
 ## What It Is Not {#what_it_is_not}
 
 This RDAP extension MUST NOT be used to directly influence internet routing. Neither RDAP nor this extension define the
@@ -139,6 +143,9 @@ contain one or more of the following common members:
 
 * "handle" -- a string representing the registry-unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
+* "digest" -- a hexadecimal string representing the hash that entirely covers an RPKI object
+* "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that entirely covers an
+  RPKI object, with "SHA-256" ([@RFC6234]) as the only allowed value for this version of the specification
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
   ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
@@ -157,6 +164,10 @@ contain one or more of the following common members:
     * "hybrid" -- the repository is operated by a registry for an organization with allocated resources whereas the CA
       is operated by the organization itself
 
+The purpose of the "digest" and "digestAlgorithm" members is to enable an RDAP server to present the message digest
+(hash) for an entire RPKI object, thereby providing RDAP clients with an exact reference to the underlying RPKI object.
+This can help with analysis, research, and/or debugging.
+
 RRDP is intended as the long-term replacement for rsync in RPKI. For a CA that implements RRDP, the update notification
 file location is expected to be set in each X.509 resource certificate it issues ([@!RFC8182, section 3.2]).
 Consequently, the "notificationUri" data should help inform about the RPKI repository and/or CA operated downstream from
@@ -171,6 +182,8 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "objectClassName" -- the string "rpki1_roa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
+* "digest" -- see (#common_data_members)
+* "digestAlgorithm" -- see (#common_data_members)
 * "roaIps" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
   following members:
     * "ip" -- a string representing an IPv4 or IPv6 CIDR address block with the "<CIDR prefix>/<CIDR length>" format
@@ -195,6 +208,8 @@ Here is an elided example of a ROA object:
   "objectClassName": "rpki1_roa",
   "handle": "XXXX",
   "name": "ROA-1",
+  "digest": "01234567...89abcdef",
+  "digestAlgorithm": "SHA-256",
   "roaIps":
   [
     {
@@ -278,8 +293,8 @@ A lookup query for ROA information by IP address is specified using this form:
 
 rpki1_roa/YYYY
 
-YYYY is a string representing an IPv4 or IPv6 address. The following URL would be used to find information for a ROA
-that completely encompasses the "192.0.2.0" IP address:
+YYYY is a string representing an IPv4 or IPv6 address. The following URL would be used to find information for the
+most-specific ROA matching the "192.0.2.0" IP address:
 
 ```
 https://example.net/rdap/rpki1_roa/192.0.2.0
@@ -368,6 +383,8 @@ Here is an elided example of the search results when finding information for ROA
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
+      "digest": "01234567...89abcdef",
+      "digestAlgorithm": "SHA-256",
       "roaIps":
       [
         {
@@ -456,6 +473,8 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
+      "digest": "01234567...89abcdef",
+      "digestAlgorithm": "SHA-256",
       "roaIps":
       [
         {
@@ -508,6 +527,8 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "YYYY",
       "name": "ROA-2",
+      "digest": "12345678...9abcdef0",
+      "digestAlgorithm": "SHA-256",
       "roaIps":
       [
         {
@@ -570,6 +591,8 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * "objectClassName" -- the string "rpki1_aspa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
+* "digest" -- see (#common_data_members)
+* "digestAlgorithm" -- see (#common_data_members)
 * "customerAutnum" -- an unsigned 32-bit integer representing an autonomous system number of the registration holder
   (called customer per ASPA terminology) ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "providerAutnums" -- an array of unsigned 32-bit integers, each representing the autonomous system number of an AS
@@ -592,6 +615,8 @@ Here is an elided example of an ASPA object:
   "objectClassName": "rpki1_aspa",
   "handle": "XXXX",
   "name": "ASPA-1",
+  "digest": "23456789...abcdef01",
+  "digestAlgorithm": "SHA-256",
   "customerAutnum": 65536,
   "providerAutnums":
   [
@@ -737,6 +762,8 @@ number 65542:
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
+      "digest": "23456789...abcdef01",
+      "digestAlgorithm": "SHA-256",
       "customerAutnum": 65536,
       "providerAutnums":
       [
@@ -825,6 +852,8 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
+      "digest": "23456789...abcdef01",
+      "digestAlgorithm": "SHA-256",
       "customerAutnum": 65536,
       "providerAutnums":
       [
@@ -875,6 +904,8 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "objectClassName": "rpki1_aspa",
       "handle": "YYYY",
       "name": "ASPA-2",
+      "digest": "3456789a...bcdef012",
+      "digestAlgorithm": "SHA-256",
       "customerAutnum": 65537,
       "providerAutnums":
       [
@@ -934,6 +965,8 @@ The X.509 resource certificate object class can contain the following members:
 
 * "objectClassName" -- the string "rpki1_x509ResourceCert"
 * "handle" -- see (#common_data_members)
+* "digest" -- see (#common_data_members)
+* "digestAlgorithm" -- see (#common_data_members)
 * "serialNumber" -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4.2])
 * "issuer" -- a string representing the CA that issued the certificate ([@!RFC6487, section 4.4])
 * "signatureAlgorithm" -- a string representing the algorithm used by the CA to sign the certificate
@@ -943,8 +976,8 @@ The X.509 resource certificate object class can contain the following members:
   the following members:
     * "publicKeyAlgorithm" -- a string representing the algorithm for the public key
     * "publicKey" -- a string representation of the public key
-* "subjectKeyIdentifier" -- a string, typically Base64-encoded, representing the unique identifier for the public key
-  ([@!RFC6487, section 4.8.2])
+* "subjectKeyIdentifier" -- a string, typically Base64-encoded, representing the unique identifier for the subject's
+  public key ([@!RFC6487, section 4.8.2])
 * "ips" -- an array of strings, each representing an IPv4 or IPv6 CIDR address block with the
   "<CIDR prefix>/<CIDR length>" format ([@!RFC6487, section 4.8.10])
 * "autnums" -- an array of unsigned 32-bit integers, each representing an autonomous system number
@@ -962,11 +995,12 @@ The X.509 resource certificate object class can contain the following members:
 
 The following types of certificates can be represented using this object class:
 
-* a CA certificate that a registry issues to an organization for its allocated IP addresses and/or autonomous system
-  numbers, authorizing the organization CA to issue end-entity certificates
-* a BGPSec router certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router holding the
-  corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es) specified in the
-  certificate
+* a CA certificate ([@!RFC6480, section 2.2]) that a registry issues to an organization (the subject) for its allocated
+  IP addresses and/or autonomous system numbers, authorizing the organization CA to issue end-entity certificates
+  ([@!RFC6480, section 2.3])
+* a BGPSec router certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router (the subject)
+  holding the corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es)
+  specified in the certificate
 
 Here is an elided example of an X.509 resource certificate object for a CA certificate:
 
@@ -974,6 +1008,8 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "ABCD",
+  "digest": "456789ab...cdef0123",
+  "digestAlgorithm": "SHA-256",
   "serialNumber": "1234",
   "issuer": "CN=RIR-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1065,6 +1101,8 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "EFGH",
+  "digest": "56789abc...def01234",
+  "digestAlgorithm": "SHA-256",
   "serialNumber": "5678",
   "issuer": "CN=ISP-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1197,7 +1235,7 @@ Searches for X.509 resource certificate information by certificate subject are s
 rpki1_x509ResourceCerts?subject=ZZZZ
 
 ZZZZ is a search pattern per [@!RFC9082, section 4.1], representing the "subject" property of an X.509 resource
-Certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
+certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
 information for X.509 resource certificate objects with subject matching the "CN=ISP-BGPSEC-ROUTE*" pattern:
 
 ```
@@ -1285,6 +1323,8 @@ issuer matching the "CN=ISP-*" pattern:
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "EFGH",
+      "digest": "56789abc...def01234",
+      "digestAlgorithm": "SHA-256",
       "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1390,6 +1430,8 @@ Here is an elided example for an entity (organization) object with X.509 resourc
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "ABCD",
+      "digest": "456789ab...cdef0123",
+      "digestAlgorithm": "SHA-256",
       "serialNumber": "1234",
       "issuer": "CN=RIR-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1471,6 +1513,8 @@ Here is an elided example for an entity (organization) object with X.509 resourc
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "EFGH",
+      "digest": "56789abc...def01234",
+      "digestAlgorithm": "SHA-256",
       "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1554,7 +1598,7 @@ IANA is requested to register the following values in the RDAP Extensions Regist
 * Registry operator: Any
 * Published specification: This document.
 * Contact: IETF <iesg@ietf.org>
-* Intended usage: This extension is used for accessing the RPKI registration data through RDAP.
+* Intended usage: This extension describes version 1 of a method to access the RPKI registration data through RDAP.
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
@@ -1706,6 +1750,11 @@ feedback for this document.
 * How/when to evolve this extension in the future.
 * Renamed the "autnum" member as "customerAutnum" in the ASPA RDAP object class to better match the "CustomerASID" field
   from the ASPA RPKI profile.
+
+## Changes from 01 to 02
+
+* Generate a message digest that covers an entire RPKI object. (Feedback from Job Snijders during IETF 122 SIDROPS
+  presentation.)
 
 {backmatter}
 
