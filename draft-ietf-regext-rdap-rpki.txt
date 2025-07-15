@@ -315,7 +315,7 @@ Internet-Draft                  rdap-rpki                      July 2025
          operated by the organization itself
 
    The purpose of the "digest" and "digestAlgorithm" members is to
-   enable an RDAP server to calculate the message digest (hash) for an
+   enable an RDAP server to present the message digest (hash) for an
    entire RPKI object, independent of the issuer of that RPKI object.
    Thereby providing RDAP clients with an exact reference to the
    underlying RPKI object.  This can help with analysis, research, and/
