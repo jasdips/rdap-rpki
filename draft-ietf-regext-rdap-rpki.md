@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-ietf-regext-rdap-rpki-02"
 stream = "IETF"
 status = "standard"
-date = 2025-07-14T00:00:00Z
+date = 2025-07-15T00:00:00Z
 
 [[author]]
 initials="J."
@@ -122,6 +122,9 @@ in the help response. Here is an elided example for this inclusion:
 
 This extension adheres to the guidelines in [@!I-D.ietf-regext-rdap-extensions].
 
+The "1" in "rpki1" denotes version 1 of this extension. New versions of this extension will use different extension
+identifiers.
+
 ## What It Is Not {#what_it_is_not}
 
 This RDAP extension MUST NOT be used to directly influence internet routing. Neither RDAP nor this extension define the
@@ -140,11 +143,9 @@ contain one or more of the following common members:
 
 * "handle" -- a string representing the registry-unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
-* "digest" -- a hexadecimal string representing the hash of the eContent (encapsulated content) of an RPKI object
-  ([@!RFC5652, section 11.2])
-* "digestAlgorithm" -- a string literal representing the algorithm used for the hash of the eContent of an RPKI object
-  ([@!RFC5652, section 10.1.1]), with possible values of "SHA-256" or a string literal representing a future hash
-  algorithm for RPKI
+* "digest" -- a hexadecimal string representing the hash that covers an entire RPKI object
+* "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that covers an entire RPKI
+  object, with "SHA-256" ([@RFC6234]) as the only allowed value for this version of the specification
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
   ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
@@ -162,6 +163,10 @@ contain one or more of the following common members:
     * "delegated" -- both the repository and CA are operated by an organization with resources allocated by a registry
     * "hybrid" -- the repository is operated by a registry for an organization with allocated resources whereas the CA
       is operated by the organization itself
+
+The purpose of the "digest" and "digestAlgorithm" members is to enable an RDAP server to calculate the message digest
+(hash) for an entire RPKI object, independent of the issuer of that RPKI object. Thereby providing RDAP clients with an
+exact reference to the underlying RPKI object. This can help with analysis, research, and/or debugging.
 
 RRDP is intended as the long-term replacement for rsync in RPKI. For a CA that implements RRDP, the update notification
 file location is expected to be set in each X.509 resource certificate it issues ([@!RFC8182, section 3.2]).
@@ -1580,7 +1585,7 @@ IANA is requested to register the following values in the RDAP Extensions Regist
 * Registry operator: Any
 * Published specification: This document.
 * Contact: IETF <iesg@ietf.org>
-* Intended usage: This extension is used for accessing the RPKI registration data through RDAP.
+* Intended usage: This extension describes version 1 of a method to access the RPKI registration data through RDAP.
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
@@ -1735,8 +1740,8 @@ feedback for this document.
 
 ## Changes from 01 to 02
 
-* Added message digest to help detect any tampering with an RPKI profile object in the field. (Feedback from Job
-  Snijders during IETF 122 SIDROPS presentation.)
+* Generate a message digest that covers an entire RDAP object. (Feedback from Job Snijders during IETF 122 SIDROPS
+  presentation.)
 
 {backmatter}
 
