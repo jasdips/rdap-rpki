@@ -165,8 +165,8 @@ contain one or more of the following common members:
       is operated by the organization itself
 
 The purpose of the "digest" and "digestAlgorithm" members is to enable an RDAP server to present the message digest
-(hash) for an entire RPKI object, independent of the issuer of that RPKI object. Thereby providing RDAP clients with an
-exact reference to the underlying RPKI object. This can help with analysis, research, and/or debugging.
+(hash) for an entire RPKI object, thereby providing RDAP clients with an exact reference to the underlying RPKI object.
+This can help with analysis, research, and/or debugging.
 
 RRDP is intended as the long-term replacement for rsync in RPKI. For a CA that implements RRDP, the update notification
 file location is expected to be set in each X.509 resource certificate it issues ([@!RFC8182, section 3.2]).

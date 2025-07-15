@@ -72,7 +72,7 @@ Table of Contents
      2.1.  What It Is Not  . . . . . . . . . . . . . . . . . . . . .   5
      2.2.  In The Future . . . . . . . . . . . . . . . . . . . . . .   5
    3.  Common Data Members . . . . . . . . . . . . . . . . . . . . .   5
-   4.  Route Origin Authorization  . . . . . . . . . . . . . . . . .   7
+   4.  Route Origin Authorization  . . . . . . . . . . . . . . . . .   6
      4.1.  Object Class  . . . . . . . . . . . . . . . . . . . . . .   7
      4.2.  Lookup  . . . . . . . . . . . . . . . . . . . . . . . . .   9
      4.3.  Search  . . . . . . . . . . . . . . . . . . . . . . . . .  10
@@ -316,10 +316,9 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    The purpose of the "digest" and "digestAlgorithm" members is to
    enable an RDAP server to present the message digest (hash) for an
-   entire RPKI object, independent of the issuer of that RPKI object.
-   Thereby providing RDAP clients with an exact reference to the
-   underlying RPKI object.  This can help with analysis, research, and/
-   or debugging.
+   entire RPKI object, thereby providing RDAP clients with an exact
+   reference to the underlying RPKI object.  This can help with
+   analysis, research, and/or debugging.
 
    RRDP is intended as the long-term replacement for rsync in RPKI.  For
    a CA that implements RRDP, the update notification file location is
@@ -329,6 +328,7 @@ Internet-Draft                  rdap-rpki                      July 2025
    downstream from a registry by an organization with resources
    allocated by that registry.
 
+4.  Route Origin Authorization
 
 
 
@@ -337,8 +337,6 @@ Singh & Newton           Expires 16 January 2026                [Page 6]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
-
-4.  Route Origin Authorization
 
 4.1.  Object Class
 
@@ -386,6 +384,8 @@ Internet-Draft                  rdap-rpki                      July 2025
          "ip": "2001:db8::/48",
          "maxLength": 64
        },
+       ...
+     ],
 
 
 
@@ -394,8 +394,6 @@ Singh & Newton           Expires 16 January 2026                [Page 7]
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-       ...
-     ],
      "originAutnum": 65536,
      "notValidBefore": "2024-04-27T23:59:59Z",
      "notValidAfter": "2025-04-27T23:59:59Z",
@@ -442,6 +440,8 @@ Internet-Draft                  rdap-rpki                      July 2025
        }
      ]
    }
+
+
 
 
 
