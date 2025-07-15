@@ -965,6 +965,8 @@ The X.509 resource certificate object class can contain the following members:
 
 * "objectClassName" -- the string "rpki1_x509ResourceCert"
 * "handle" -- see (#common_data_members)
+* "digest" -- see (#common_data_members)
+* "digestAlgorithm" -- see (#common_data_members)
 * "serialNumber" -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4.2])
 * "issuer" -- a string representing the CA that issued the certificate ([@!RFC6487, section 4.4])
 * "signatureAlgorithm" -- a string representing the algorithm used by the CA to sign the certificate
@@ -1005,6 +1007,8 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "ABCD",
+  "digest": "456789ab...cdef0123",
+  "digestAlgorithm": "SHA-256",
   "serialNumber": "1234",
   "issuer": "CN=RIR-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1096,6 +1100,8 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "EFGH",
+  "digest": "56789abc...def01234",
+  "digestAlgorithm": "SHA-256",
   "serialNumber": "5678",
   "issuer": "CN=ISP-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1316,6 +1322,8 @@ issuer matching the "CN=ISP-*" pattern:
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "EFGH",
+      "digest": "56789abc...def01234",
+      "digestAlgorithm": "SHA-256",
       "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1421,6 +1429,8 @@ Here is an elided example for an entity (organization) object with X.509 resourc
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "ABCD",
+      "digest": "456789ab...cdef0123",
+      "digestAlgorithm": "SHA-256",
       "serialNumber": "1234",
       "issuer": "CN=RIR-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1502,6 +1512,8 @@ Here is an elided example for an entity (organization) object with X.509 resourc
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "EFGH",
+      "digest": "56789abc...def01234",
+      "digestAlgorithm": "SHA-256",
       "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
