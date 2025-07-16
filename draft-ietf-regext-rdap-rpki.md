@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-ietf-regext-rdap-rpki-02"
 stream = "IETF"
 status = "standard"
-date = 2025-07-15T00:00:00Z
+date = 2025-07-16T00:00:00Z
 
 [[author]]
 initials="J."
@@ -1581,6 +1581,110 @@ Here is an elided example for an entity (organization) object with X.509 resourc
 }
 ```
 
+# RDAP for Delegated and Hybrid RPKI
+
+For delegated and hybrid RPKI (see "rpkiTypes" in (#common_data_members)), a registry may ask an organization with
+allocated resources to provide the base URL for its RDAP service. If the RDAP base URL is provided, then in the X.509
+resource certificate object ((#x509_resource_cert_object_class)) for that organization's CA certificate, the registry
+MUST include a link object ([@!RFC9083, section 4.2]) with the "rel" member set to "rdap-help" and the "href" member set
+to the help URL ([@!RFC9082, section 3.1.6]) for that RDAP service by appending the "help" path segment to the provided
+base URL. RDAP clients can then parse the base RDAP URL from the "href" value of such a link object and use the "ips"
+and "autnums" values from the X.509 resource certificate object to form ROA and ASPA lookup queries for that
+organization's RDAP service.
+
+"rdap-help" is a new link relation type for RDAP help data (see (#link_relations_registry)), enabling an RDAP client to
+distinguish the help URL from other related URLs.
+
+Here is an elided example of an X.509 resource certificate object for a delegated CA certificate with an "rdap-help"
+link object:
+
+```
+{
+  "objectClassName": "rpki1_x509ResourceCert",
+  "handle": "IJKL",
+  "digest": "6789abcd...ef012345",
+  "digestAlgorithm": "SHA-256",
+  "serialNumber": "9012",
+  "issuer": "CN=RIR-CA",
+  "signatureAlgorithm": "ecdsa-with-SHA256",
+  "subject": "CN=ISP-DELEGATED-CA",
+  "subjectPublicKeyInfo":
+  {
+    "publicKeyAlgorithm": "id-ecPublicKey",
+    "publicKey": "..."
+  },
+  "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+  "ips":
+  [
+    "2001:db8:2::/48"
+  ],
+  "autnums":
+  [
+    65538
+  ],
+  "notValidBefore": "2024-04-27T23:59:59Z",
+  "notValidAfter": "2025-04-27T23:59:59Z",
+  "publicationUri": "rsync://example.net/path/to/IJKL.cer",
+  "notificationUri": "https://example.com/path/to/notification.xml",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "ABC-RIR",
+      ...
+    },
+    ...
+  ],
+  "rpkiType": "delegated",
+  "events":
+  [
+    {
+      "eventAction": "registration",
+      "eventDate": "2024-01-01T23:59:59Z"
+    },
+    ...
+  ],
+  "links":
+  [
+    {
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "rel": "self",
+      "href": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "rel": "related",
+      "href": "https://example.net/rdap/ip/2001:db8:2::/48",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65538",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "rel": "rdap-help",
+      "href": "https://example.com/rdap/help",
+      "type": "application/rdap+json"
+    },
+    ...
+  ],
+  "remarks":
+  [
+    {
+      "description": [ "Delegated CA certificate" ]
+    }
+  ]
+}
+```
+
+In this example, note how the authority component (domain) in the "value" URL differs from that in the "href" URL for
+the "rdap-help" link object, with the former for the registry's RDAP service and the latter for that organization's RDAP
+service.
+
 # Security Considerations
 
 This document does not introduce any new security considerations past those already discussed in the RDAP protocol
@@ -1733,10 +1837,18 @@ Autonomous system number search by the handle of an X.509 resource certificate:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
+## Link Relations Registry {#link_relations_registry}
+
+IANA is requested to register the following value in the Link Relations Registry at [@LINK-RELATIONS]:
+
+* Relation Name: rdap-help
+* Description: Refers to a resource with RDAP help information related to the link context.
+* Reference: This document.
+
 # Acknowledgements
 
-Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, Frank Hill, and Tobias Fiebig from the RPKI
-community provided valuable feedback for this document.
+Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, Frank Hill, Tobias Fiebig, Q Misell, and Rüdiger
+Volk from the RPKI community provided valuable feedback for this document.
 
 # Change History
 
@@ -1755,6 +1867,8 @@ community provided valuable feedback for this document.
 
 * Generate a message digest that covers an entire RPKI object. (Feedback from Job Snijders during IETF 122 SIDROPS
   presentation.)
+* Expound on RDAP for delegated and hybrid RPKI. (Feedback from Q Misell and Rüdiger Volk during IETF 122 SIDROPS
+  presentation.)
 
 {backmatter}
 
@@ -1772,6 +1886,15 @@ community provided valuable feedback for this document.
         <title>JDR</title>
         <author>
             <organization>NLNet Labs</organization>
+        </author>
+    </front>
+</reference>
+
+<reference anchor='LINK-RELATIONS' target='https://www.iana.org/assignments/link-relations/'>
+    <front>
+        <title>Link Relations</title>
+        <author>
+            <organization>IANA</organization>
         </author>
     </front>
 </reference>
