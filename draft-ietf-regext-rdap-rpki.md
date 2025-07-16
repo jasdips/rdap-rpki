@@ -337,8 +337,8 @@ A lookup query for ROA information by digest is specified using this form:
 
 rpki1_roa/AAAA/BBBB
 
-AAAA is a string representing the "digestAlgorithm" property, and BBBB a string representing the "digest" property, as
-described in (#common_data_members). The following URL would be used to find information for a ROA matching the
+AAAA is a string representing the "digestAlgorithm" property, and BBBB is a string representing the "digest" property,
+as described in (#common_data_members). The following URL would be used to find information for a ROA matching the
 "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069" SHA-256 digest:
 
 ```
@@ -753,8 +753,8 @@ A lookup query for ASPA information by digest is specified using this form:
 
 rpki1_aspa/AAAA/BBBB
 
-AAAA is a string representing the "digestAlgorithm" property, and BBBB a string representing the "digest" property, as
-described in (#common_data_members). The following URL would be used to find information for an ASPA matching the
+AAAA is a string representing the "digestAlgorithm" property, and BBBB is a string representing the "digest" property,
+as described in (#common_data_members). The following URL would be used to find information for an ASPA matching the
 "f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697" SHA-256 digest:
 
 ```
@@ -1285,8 +1285,8 @@ A lookup query for X.509 resource certificate information by digest is specified
 
 rpki1_x509ResourceCert/AAAA/BBBB
 
-AAAA is a string representing the "digestAlgorithm" property, and BBBB a string representing the "digest" property, as
-described in (#common_data_members). The following URL would be used to find information for an X.509 resource
+AAAA is a string representing the "digestAlgorithm" property, and BBBB is a string representing the "digest" property,
+as described in (#common_data_members). The following URL would be used to find information for an X.509 resource
 certificate matching the "83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697f" SHA-256 digest:
 
 ```
