@@ -1735,8 +1735,8 @@ Autonomous system number search by the handle of an X.509 resource certificate:
 
 # Acknowledgements
 
-Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, Frank Hill, and Tobias Fiebig provided valuable
-feedback for this document.
+Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, Frank Hill, and Tobias Fiebig from the RPKI
+community provided valuable feedback for this document.
 
 # Change History
 
