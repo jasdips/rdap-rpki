@@ -143,9 +143,11 @@ contain one or more of the following common members:
 
 * "handle" -- a string representing the registry-unique identifier of an RPKI object registration
 * "name" -- a string representing the identifier assigned to an RPKI object registration by the registration holder
-* "digest" -- a hexadecimal string representing the hash that entirely covers an RPKI object
-* "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that entirely covers an
-  RPKI object, with "SHA-256" ([@RFC6234]) as the only allowed value for this version of the specification
+* "digests" -- an array of objects representing hashes that entirely cover an RPKI object; such an object can contain
+  the following members:
+  * "digest" -- a hexadecimal string representing the hash that entirely covers an RPKI object
+  * "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that entirely covers an
+    RPKI object, with possible values of "SHA-256" and "SHA-512" ([@RFC6234]) for this version of the specification
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
   ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
@@ -164,9 +166,9 @@ contain one or more of the following common members:
     * "hybrid" -- the repository is operated by a registry for an organization with allocated resources whereas the CA
       is operated by the organization itself
 
-The purpose of the "digest" and "digestAlgorithm" members is to enable an RDAP server to present the message digest
-(hash) for an entire RPKI object, thereby providing RDAP clients with an exact reference to the underlying RPKI object.
-This can help with analysis, research, and/or debugging.
+The purpose of an object with "digest" and "digestAlgorithm" members is to enable an RDAP server to present a message
+digest (hash) for an entire RPKI object, thereby providing RDAP clients with an exact reference to the underlying RPKI
+object. This can help with analysis, research, and/or debugging.
 
 RRDP is intended as the long-term replacement for rsync in RPKI. For a CA that implements RRDP, the update notification
 file location is expected to be set in each X.509 resource certificate it issues ([@!RFC8182, section 3.2]).
@@ -182,8 +184,7 @@ The Route Origin Authorization (ROA) object class can contain the following memb
 * "objectClassName" -- the string "rpki1_roa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
-* "digest" -- see (#common_data_members)
-* "digestAlgorithm" -- see (#common_data_members)
+* "digests" -- see (#common_data_members)
 * "roaIps" -- an array of objects representing CIDR address blocks within a ROA; such an object can contain the
   following members:
     * "ip" -- a string representing an IPv4 or IPv6 CIDR address block with the "<CIDR prefix>/<CIDR length>" format
@@ -208,8 +209,14 @@ Here is an elided example of a ROA object:
   "objectClassName": "rpki1_roa",
   "handle": "XXXX",
   "name": "ROA-1",
-  "digest": "01234567...89abcdef",
-  "digestAlgorithm": "SHA-256",
+  "digests":
+  [
+    {
+      "digest": "01234567...89abcdef",
+      "digestAlgorithm": "SHA-256",
+    },
+    ...
+  ],
   "roaIps":
   [
     {
@@ -278,6 +285,8 @@ Syntax: rpki1_roa/<IP address>
 
 Syntax: rpki1_roa/<CIDR prefix>/<CIDR length>
 
+Syntax: rpki1_roa/<digest algorithm>/<digest>
+
 A lookup query for ROA information by handle is specified using this form:
 
 rpki1_roa/XXXX
@@ -322,6 +331,18 @@ Similarly, for the "2001:db8::/64" CIDR:
 
 ```
 https://example.net/rdap/rpki1_roa/2001%3Adb8%3A%3A/64
+```
+
+A lookup query for ROA information by digest is specified using this form:
+
+rpki1_roa/AAAA/BBBB
+
+AAAA is a string representing the "digestAlgorithm" property, and BBBB a string representing the "digest" property, as
+described in (#common_data_members). The following URL would be used to find information for a ROA matching the
+"7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069" SHA-256 digest:
+
+```
+https://example.net/rdap/rpki1_roa/SHA-256/7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069
 ```
 
 In the "links" array of a ROA object, the context URI ("value" member) of each link should be the lookup URL by its
@@ -383,8 +404,14 @@ Here is an elided example of the search results when finding information for ROA
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "digest": "01234567...89abcdef",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "01234567...89abcdef",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "roaIps":
       [
         {
@@ -473,8 +500,14 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "digest": "01234567...89abcdef",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "01234567...89abcdef",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "roaIps":
       [
         {
@@ -527,8 +560,14 @@ Here is an elided example for an IP network object with ROAs:
       "objectClassName": "rpki1_roa",
       "handle": "YYYY",
       "name": "ROA-2",
-      "digest": "12345678...9abcdef0",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "12345678...9abcdef0",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "roaIps":
       [
         {
@@ -591,8 +630,7 @@ The Autonomous System Provider Authorization (ASPA) object class can contain the
 * "objectClassName" -- the string "rpki1_aspa"
 * "handle" -- see (#common_data_members)
 * "name" -- see (#common_data_members)
-* "digest" -- see (#common_data_members)
-* "digestAlgorithm" -- see (#common_data_members)
+* "digests" -- see (#common_data_members)
 * "customerAutnum" -- an unsigned 32-bit integer representing an autonomous system number of the registration holder
   (called customer per ASPA terminology) ([@!I-D.ietf-sidrops-aspa-profile, section 3])
 * "providerAutnums" -- an array of unsigned 32-bit integers, each representing the autonomous system number of an AS
@@ -615,8 +653,14 @@ Here is an elided example of an ASPA object:
   "objectClassName": "rpki1_aspa",
   "handle": "XXXX",
   "name": "ASPA-1",
-  "digest": "23456789...abcdef01",
-  "digestAlgorithm": "SHA-256",
+  "digests":
+  [
+    {
+      "digest": "23456789...abcdef01",
+      "digestAlgorithm": "SHA-256",
+    },
+    ...
+  ],
   "customerAutnum": 65536,
   "providerAutnums":
   [
@@ -680,6 +724,8 @@ Syntax: rpki1_aspa/<handle>
 
 Syntax: rpki1_aspa/<customer autonomous system number>
 
+Syntax: rpki1_aspa/<digest algorithm>/<digest>
+
 A lookup query for ASPA information by handle is specified using this form:
 
 rpki1_aspa/XXXX
@@ -701,6 +747,18 @@ number 65536:
 
 ```
 https://example.net/rdap/rpki1_aspa/65536
+```
+
+A lookup query for ASPA information by digest is specified using this form:
+
+rpki1_aspa/AAAA/BBBB
+
+AAAA is a string representing the "digestAlgorithm" property, and BBBB a string representing the "digest" property, as
+described in (#common_data_members). The following URL would be used to find information for an ASPA matching the
+"f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697" SHA-256 digest:
+
+```
+https://example.net/rdap/rpki1_aspa/SHA-256/f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697
 ```
 
 In the "links" array of an ASPA object, the context URI ("value" member) of each link should be the lookup URL by its
@@ -762,8 +820,14 @@ number 65542:
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
-      "digest": "23456789...abcdef01",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "23456789...abcdef01",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "customerAutnum": 65536,
       "providerAutnums":
       [
@@ -852,8 +916,14 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
-      "digest": "23456789...abcdef01",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "23456789...abcdef01",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "customerAutnum": 65536,
       "providerAutnums":
       [
@@ -904,8 +974,14 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "objectClassName": "rpki1_aspa",
       "handle": "YYYY",
       "name": "ASPA-2",
-      "digest": "3456789a...bcdef012",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "3456789a...bcdef012",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "customerAutnum": 65537,
       "providerAutnums":
       [
@@ -965,8 +1041,7 @@ The X.509 resource certificate object class can contain the following members:
 
 * "objectClassName" -- the string "rpki1_x509ResourceCert"
 * "handle" -- see (#common_data_members)
-* "digest" -- see (#common_data_members)
-* "digestAlgorithm" -- see (#common_data_members)
+* "digests" -- see (#common_data_members)
 * "serialNumber" -- a string representing the unique identifier for the certificate ([@!RFC6487, section 4.2])
 * "issuer" -- a string representing the CA that issued the certificate ([@!RFC6487, section 4.4])
 * "signatureAlgorithm" -- a string representing the algorithm used by the CA to sign the certificate
@@ -1008,8 +1083,14 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "ABCD",
-  "digest": "456789ab...cdef0123",
-  "digestAlgorithm": "SHA-256",
+  "digests":
+  [
+    {
+      "digest": "456789ab...cdef0123",
+      "digestAlgorithm": "SHA-256",
+    },
+    ...
+  ],
   "serialNumber": "1234",
   "issuer": "CN=RIR-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1101,8 +1182,14 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "EFGH",
-  "digest": "56789abc...def01234",
-  "digestAlgorithm": "SHA-256",
+  "digests":
+  [
+    {
+      "digest": "56789abc...def01234",
+      "digestAlgorithm": "SHA-256",
+    },
+    ...
+  ],
   "serialNumber": "5678",
   "issuer": "CN=ISP-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1176,14 +1263,34 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
 The resource type path segment for exact match lookup of an X.509 resource certificate object is
 "rpki1_x509ResourceCert".
 
-The following lookup path segment is defined for an X.509 resource certificate object:
+The following lookup path segments are defined for an X.509 resource certificate object:
 
 Syntax: rpki1_x509ResourceCert/<handle>
 
-For example:
+Syntax: rpki1_x509ResourceCert/<digest algorithm>/<digest>
+
+A lookup query for X.509 resource certificate information by handle is specified using this form:
+
+rpki1_x509ResourceCert/XXXX
+
+XXXX is a string representing the "handle" property of an X.509 resource certificate, as described in
+(#x509_resource_cert_object_class). The following URL would be used to find information for an X.509 resource
+certificate that exactly matches the "ABCD" handle:
 
 ```
 https://example.net/rdap/rpki1_x509ResourceCert/ABCD
+```
+
+A lookup query for X.509 resource certificate information by digest is specified using this form:
+
+rpki1_x509ResourceCert/AAAA/BBBB
+
+AAAA is a string representing the "digestAlgorithm" property, and BBBB a string representing the "digest" property, as
+described in (#common_data_members). The following URL would be used to find information for an X.509 resource
+certificate matching the "83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697f" SHA-256 digest:
+
+```
+https://example.net/rdap/rpki1_x509ResourceCert/SHA-256/83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697f
 ```
 
 ## Search
@@ -1323,8 +1430,14 @@ issuer matching the "CN=ISP-*" pattern:
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "EFGH",
-      "digest": "56789abc...def01234",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "56789abc...def01234",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1430,8 +1543,14 @@ Here is an elided example for an entity (organization) object with X.509 resourc
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "ABCD",
-      "digest": "456789ab...cdef0123",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "456789ab...cdef0123",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "serialNumber": "1234",
       "issuer": "CN=RIR-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1513,8 +1632,14 @@ Here is an elided example for an entity (organization) object with X.509 resourc
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "EFGH",
-      "digest": "56789abc...def01234",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "56789abc...def01234",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1602,8 +1727,14 @@ link object:
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "IJKL",
-  "digest": "6789abcd...ef012345",
-  "digestAlgorithm": "SHA-256",
+  "digests":
+  [
+    {
+      "digest": "6789abcd...ef012345",
+      "digestAlgorithm": "SHA-256",
+    },
+    ...
+  ],
   "serialNumber": "9012",
   "issuer": "CN=RIR-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
