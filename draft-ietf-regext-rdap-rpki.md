@@ -1064,8 +1064,8 @@ The X.509 resource certificate object class can contain the following members:
 * "entities" -- see (#common_data_members)
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
-* "links" -- "self" link, and "related" links for IP network and/or autonomous system number objects
-  ([@!RFC9083, section 4.2])
+* "links" -- "self" link, "related" links for IP network and/or autonomous system number objects
+  ([@!RFC9083, section 4.2]), and "rdap-help" link (see (#rdap_for_delegated_and_hybrid_rpki))
 * "remarks" -- see [@!RFC9083, section 4.3]
 
 The following types of certificates can be represented using this object class:
@@ -1706,7 +1706,7 @@ Here is an elided example for an entity (organization) object with X.509 resourc
 }
 ```
 
-# RDAP for Delegated and Hybrid RPKI
+# RDAP for Delegated and Hybrid RPKI {#rdap_for_delegated_and_hybrid_rpki}
 
 For delegated and hybrid RPKI (see "rpkiTypes" in (#common_data_members)), a registry may ask an organization with
 allocated resources to provide the base URL for its RDAP service. If the RDAP base URL is provided, then in the X.509
