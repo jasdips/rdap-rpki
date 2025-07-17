@@ -5,8 +5,8 @@
 Registration Protocols Extensions (regext)                      J. Singh
 Internet-Draft                                                      ARIN
 Intended status: Standards Track                               A. Newton
-Expires: 17 January 2026                                           ICANN
-                                                            16 July 2025
+Expires: 18 January 2026                                           ICANN
+                                                            17 July 2025
 
 
  Registration Data Access Protocol (RDAP) Extension for Resource Public
@@ -40,7 +40,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 17 January 2026.
+   This Internet-Draft will expire on 18 January 2026.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Singh & Newton           Expires 17 January 2026                [Page 1]
+Singh & Newton           Expires 18 January 2026                [Page 1]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
@@ -72,49 +72,51 @@ Table of Contents
      2.1.  What It Is Not  . . . . . . . . . . . . . . . . . . . . .   5
      2.2.  In The Future . . . . . . . . . . . . . . . . . . . . . .   5
    3.  Common Data Members . . . . . . . . . . . . . . . . . . . . .   5
-   4.  Route Origin Authorization  . . . . . . . . . . . . . . . . .   6
+   4.  Route Origin Authorization  . . . . . . . . . . . . . . . . .   7
      4.1.  Object Class  . . . . . . . . . . . . . . . . . . . . . .   7
      4.2.  Lookup  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     4.3.  Search  . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     4.3.  Search  . . . . . . . . . . . . . . . . . . . . . . . . .  11
        4.3.1.  Search Results  . . . . . . . . . . . . . . . . . . .  11
-     4.4.  Reverse Search  . . . . . . . . . . . . . . . . . . . . .  12
+     4.4.  Reverse Search  . . . . . . . . . . . . . . . . . . . . .  13
      4.5.  Relationship with IP Network Object Class . . . . . . . .  13
-   5.  Autonomous System Provider Authorization  . . . . . . . . . .  15
-     5.1.  Object Class  . . . . . . . . . . . . . . . . . . . . . .  15
-     5.2.  Lookup  . . . . . . . . . . . . . . . . . . . . . . . . .  17
-     5.3.  Search  . . . . . . . . . . . . . . . . . . . . . . . . .  18
-       5.3.1.  Search Results  . . . . . . . . . . . . . . . . . . .  19
-     5.4.  Reverse Search  . . . . . . . . . . . . . . . . . . . . .  20
+   5.  Autonomous System Provider Authorization  . . . . . . . . . .  16
+     5.1.  Object Class  . . . . . . . . . . . . . . . . . . . . . .  16
+     5.2.  Lookup  . . . . . . . . . . . . . . . . . . . . . . . . .  18
+     5.3.  Search  . . . . . . . . . . . . . . . . . . . . . . . . .  20
+       5.3.1.  Search Results  . . . . . . . . . . . . . . . . . . .  20
+     5.4.  Reverse Search  . . . . . . . . . . . . . . . . . . . . .  22
      5.5.  Relationship with Autonomous System Number Object
-           Class . . . . . . . . . . . . . . . . . . . . . . . . . .  21
-   6.  X.509 Resource Certificate  . . . . . . . . . . . . . . . . .  23
-     6.1.  Object Class  . . . . . . . . . . . . . . . . . . . . . .  23
-     6.2.  Lookup  . . . . . . . . . . . . . . . . . . . . . . . . .  28
-     6.3.  Search  . . . . . . . . . . . . . . . . . . . . . . . . .  28
-       6.3.1.  Search Results  . . . . . . . . . . . . . . . . . . .  31
-     6.4.  Reverse Search  . . . . . . . . . . . . . . . . . . . . .  33
-     6.5.  Relationship with Other Object Classes  . . . . . . . . .  33
-   7.  Security Considerations . . . . . . . . . . . . . . . . . . .  37
-   8.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  37
-     8.1.  RDAP Extensions Registry  . . . . . . . . . . . . . . . .  37
-     8.2.  RDAP Reverse Search Registry  . . . . . . . . . . . . . .  37
-     8.3.  RDAP Reverse Search Mapping Registry  . . . . . . . . . .  39
-   9.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  40
-   10. Change History  . . . . . . . . . . . . . . . . . . . . . . .  41
-     10.1.  Changes from 00 to 01  . . . . . . . . . . . . . . . . .  41
-     10.2.  Changes from 01 to 02  . . . . . . . . . . . . . . . . .  41
-   11. References  . . . . . . . . . . . . . . . . . . . . . . . . .  41
-     11.1.  Normative References . . . . . . . . . . . . . . . . . .  41
-     11.2.  Informative References . . . . . . . . . . . . . . . . .  43
+           Class . . . . . . . . . . . . . . . . . . . . . . . . . .  22
+   6.  X.509 Resource Certificate  . . . . . . . . . . . . . . . . .  25
+     6.1.  Object Class  . . . . . . . . . . . . . . . . . . . . . .  25
+     6.2.  Lookup  . . . . . . . . . . . . . . . . . . . . . . . . .  30
+     6.3.  Search  . . . . . . . . . . . . . . . . . . . . . . . . .  31
+       6.3.1.  Search Results  . . . . . . . . . . . . . . . . . . .  34
+     6.4.  Reverse Search  . . . . . . . . . . . . . . . . . . . . .  36
+     6.5.  Relationship with Other Object Classes  . . . . . . . . .  36
+   7.  RDAP for Delegated and Hybrid RPKI  . . . . . . . . . . . . .  40
+   8.  Security Considerations . . . . . . . . . . . . . . . . . . .  43
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  43
+     9.1.  RDAP Extensions Registry  . . . . . . . . . . . . . . . .  43
+     9.2.  RDAP Reverse Search Registry  . . . . . . . . . . . . . .  43
+     9.3.  RDAP Reverse Search Mapping Registry  . . . . . . . . . .  45
+     9.4.  Link Relations Registry . . . . . . . . . . . . . . . . .  46
+   10. Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  46
+   11. Change History  . . . . . . . . . . . . . . . . . . . . . . .  46
+     11.1.  Changes from 00 to 01  . . . . . . . . . . . . . . . . .  46
+     11.2.  Changes from 01 to 02  . . . . . . . . . . . . . . . . .  47
+   12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  47
 
 
 
-Singh & Newton           Expires 17 January 2026                [Page 2]
+Singh & Newton           Expires 18 January 2026                [Page 2]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  44
+     12.1.  Normative References . . . . . . . . . . . . . . . . . .  47
+     12.2.  Informative References . . . . . . . . . . . . . . . . .  49
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  50
 
 1.  Introduction
 
@@ -160,16 +162,15 @@ Internet-Draft                  rdap-rpki                      July 2025
    *  Which IRR routes are related with a ROA?
    *  Which IP networks are associated with a ROA?
    *  Which ROAs are associated with an origin AS?
-   *  Which ASPAs are associated with a provider AS?
 
 
 
-
-Singh & Newton           Expires 17 January 2026                [Page 3]
+Singh & Newton           Expires 18 January 2026                [Page 3]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
+   *  Which ASPAs are associated with a provider AS?
    *  Which X.509 resource certificates are associated with an
       organization?
    *  Which organization is registered as the authoritative source for
@@ -215,17 +216,19 @@ Internet-Draft                  rdap-rpki                      July 2025
    for accessing the RPKI registration data in the INRS for the ROA,
    ASPA, and X.509 Resource Certificate RPKI profiles through RDAP.
 
-   A server that supports the functionality specified in this document
-   MUST include the "rpki1" string literal in the "rdapConformance"
-   array (Section 4.1 of [RFC9083]) for any lookup or search response
 
 
 
-Singh & Newton           Expires 17 January 2026                [Page 4]
+
+
+Singh & Newton           Expires 18 January 2026                [Page 4]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
+   A server that supports the functionality specified in this document
+   MUST include the "rpki1" string literal in the "rdapConformance"
+   array (Section 4.1 of [RFC9083]) for any lookup or search response
    containing an RDAP object per the object class definition in
    Section 4.1, Section 5.1, or Section 6.1, as well as in the help
    response.  Here is an elided example for this inclusion:
@@ -270,22 +273,24 @@ Internet-Draft                  rdap-rpki                      July 2025
       of an RPKI object registration
    *  "name" -- a string representing the identifier assigned to an RPKI
       object registration by the registration holder
-   *  "digest" -- a hexadecimal string representing the hash that
-      entirely covers an RPKI object
 
 
 
 
-
-Singh & Newton           Expires 17 January 2026                [Page 5]
+Singh & Newton           Expires 18 January 2026                [Page 5]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-   *  "digestAlgorithm" -- a string literal representing the algorithm
-      used to generate the hash that entirely covers an RPKI object,
-      with "SHA-256" ([RFC6234]) as the only allowed value for this
-      version of the specification
+   *  "digests" -- an array of objects representing hashes that entirely
+      cover an RPKI object; such an object can contain the following
+      members:
+      -  "digest" -- a hexadecimal string representing the hash that
+         entirely covers an RPKI object
+      -  "digestAlgorithm" -- a string literal representing the
+         algorithm used to generate the hash that entirely covers an
+         RPKI object, with possible values of "SHA-256" and "SHA-512"
+         ([RFC6234]) for this version of the specification
    *  "notValidBefore" -- a string that contains the time and date in
       Zulu (Z) format with UTC offset of 00:00 ([RFC3339]), representing
       the not-valid-before date of an X.509 resource certificate for an
@@ -314,11 +319,24 @@ Internet-Draft                  rdap-rpki                      July 2025
          organization with allocated resources whereas the CA is
          operated by the organization itself
 
-   The purpose of the "digest" and "digestAlgorithm" members is to
-   enable an RDAP server to present the message digest (hash) for an
+   The purpose of an object with "digest" and "digestAlgorithm" members
+   is to enable an RDAP server to present a message digest (hash) for an
    entire RPKI object, thereby providing RDAP clients with an exact
    reference to the underlying RPKI object.  This can help with
    analysis, research, and/or debugging.
+
+
+
+
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026                [Page 6]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    RRDP is intended as the long-term replacement for rsync in RPKI.  For
    a CA that implements RRDP, the update notification file location is
@@ -330,14 +348,6 @@ Internet-Draft                  rdap-rpki                      July 2025
 
 4.  Route Origin Authorization
 
-
-
-
-Singh & Newton           Expires 17 January 2026                [Page 6]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
 4.1.  Object Class
 
    The Route Origin Authorization (ROA) object class can contain the
@@ -346,8 +356,7 @@ Internet-Draft                  rdap-rpki                      July 2025
    *  "objectClassName" -- the string "rpki1_roa"
    *  "handle" -- see Section 3
    *  "name" -- see Section 3
-   *  "digest" -- see Section 3
-   *  "digestAlgorithm" -- see Section 3
+   *  "digests" -- see Section 3
    *  "roaIps" -- an array of objects representing CIDR address blocks
       within a ROA; such an object can contain the following members:
       -  "ip" -- a string representing an IPv4 or IPv6 CIDR address
@@ -372,12 +381,31 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    Here is an elided example of a ROA object:
 
+
+
+
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026                [Page 7]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
    {
      "objectClassName": "rpki1_roa",
      "handle": "XXXX",
      "name": "ROA-1",
-     "digest": "01234567...89abcdef",
-     "digestAlgorithm": "SHA-256",
+     "digests":
+     [
+       {
+         "digest": "01234567...89abcdef",
+         "digestAlgorithm": "SHA-256",
+       },
+       ...
+     ],
      "roaIps":
      [
        {
@@ -386,14 +414,6 @@ Internet-Draft                  rdap-rpki                      July 2025
        },
        ...
      ],
-
-
-
-Singh & Newton           Expires 17 January 2026                [Page 7]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
      "originAutnum": 65536,
      "notValidBefore": "2024-04-27T23:59:59Z",
      "notValidAfter": "2025-04-27T23:59:59Z",
@@ -422,6 +442,14 @@ Internet-Draft                  rdap-rpki                      July 2025
        {
          "value": "https://example.net/rdap/rpki1_roa/XXXX",
          "rel": "self",
+
+
+
+Singh & Newton           Expires 18 January 2026                [Page 8]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
          "href": "https://example.net/rdap/rpki1_roa/XXXX",
          "type": "application/rdap+json"
        },
@@ -441,15 +469,6 @@ Internet-Draft                  rdap-rpki                      July 2025
      ]
    }
 
-
-
-
-
-Singh & Newton           Expires 17 January 2026                [Page 8]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
 4.2.  Lookup
 
    The resource type path segment for exact or closest match lookup of a
@@ -462,6 +481,8 @@ Internet-Draft                  rdap-rpki                      July 2025
    Syntax: rpki1_roa/<IP address>
 
    Syntax: rpki1_roa/<CIDR prefix>/<CIDR length>
+
+   Syntax: rpki1_roa/<digest algorithm>/<digest>
 
    A lookup query for ROA information by handle is specified using this
    form:
@@ -477,6 +498,13 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    A lookup query for ROA information by IP address is specified using
    this form:
+
+
+
+Singh & Newton           Expires 18 January 2026                [Page 9]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    rpki1_roa/YYYY
 
@@ -495,17 +523,6 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    rpki1_roa/YYYY/ZZZZ
 
-
-
-
-
-
-
-Singh & Newton           Expires 17 January 2026                [Page 9]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    YYYY/ZZZZ is a string representing the "ip" property of a CIDR
    address block within a ROA, as described in Section 4.1.  The
    following URL would be used to find information for the most-specific
@@ -517,9 +534,33 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    https://example.net/rdap/rpki1_roa/2001%3Adb8%3A%3A/64
 
+   A lookup query for ROA information by digest is specified using this
+   form:
+
+   rpki1_roa/BBBB/CCCC
+
+   BBBB is a string representing the "digestAlgorithm" property, and
+   CCCC is a string representing the "digest" property, as described in
+   Section 3.  The following URL would be used to find information for a
+   ROA matching the
+   "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069"
+   SHA-256 digest:
+
+https://example.net/rdap/rpki1_roa/SHA-256/7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069
+
    In the "links" array of a ROA object, the context URI ("value"
    member) of each link should be the lookup URL by its handle, and if
    that's not available, then the lookup URL by one of its IP addresses.
+
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 10]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
 4.3.  Search
 
@@ -555,13 +596,6 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    https://example.net/rdap/rpki1_roas?originAutnum=65536
 
-
-
-Singh & Newton           Expires 17 January 2026               [Page 10]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
 4.3.1.  Search Results
 
    The ROA search results are returned in the "rpki1_roaSearchResults"
@@ -576,6 +610,14 @@ Internet-Draft                  rdap-rpki                      July 2025
     "rdap_level_0",
     "rpki1",
     ...
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 11]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
   ],
   ...
   "rpki1_roaSearchResults":
@@ -584,8 +626,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "digest": "01234567...89abcdef",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "01234567...89abcdef",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "roaIps":
       [
         {
@@ -610,14 +658,6 @@ Internet-Draft                  rdap-rpki                      July 2025
       ],
       "rpkiType": "hosted",
       "events":
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 11]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
       [
         {
           "eventAction": "registration",
@@ -626,6 +666,14 @@ Internet-Draft                  rdap-rpki                      July 2025
         ...
       ],
       "links":
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 12]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
       [
         {
           "value": "https://example.net/rdap/rpki1_roa/XXXX",
@@ -655,24 +703,10 @@ Internet-Draft                  rdap-rpki                      July 2025
    reverse search will be performed on the IP network objects from its
    data store.
 
-   Section 8.2 and Section 8.3 include registration of entries for IP
+   Section 9.2 and Section 9.3 include registration of entries for IP
    network searches in the RDAP Reverse Search and RDAP Reverse Search
    Mapping IANA registries when the related resource type is
    "rpki1_roa".
-
-
-
-
-
-
-
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 12]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
 
 4.5.  Relationship with IP Network Object Class
 
@@ -689,6 +723,13 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    Here is an elided example for an IP network object with ROAs:
 
+
+
+Singh & Newton           Expires 18 January 2026               [Page 13]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
 {
   "objectClassName": "ip network",
   "handle": "ZZZZ-RIR",
@@ -702,8 +743,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       "objectClassName": "rpki1_roa",
       "handle": "XXXX",
       "name": "ROA-1",
-      "digest": "01234567...89abcdef",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "01234567...89abcdef",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "roaIps":
       [
         {
@@ -722,14 +769,6 @@ Internet-Draft                  rdap-rpki                      July 2025
         {
           "objectClassName": "entity",
           "handle": "XYZ-RIR",
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 13]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
           ...
         },
         ...
@@ -739,6 +778,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       [
         {
           "eventAction": "registration",
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 14]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
           "eventDate": "2024-01-01T23:59:59Z"
         },
         ...
@@ -764,8 +811,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       "objectClassName": "rpki1_roa",
       "handle": "YYYY",
       "name": "ROA-2",
-      "digest": "12345678...9abcdef0",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "12345678...9abcdef0",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "roaIps":
       [
         {
@@ -778,17 +831,17 @@ Internet-Draft                  rdap-rpki                      July 2025
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
       "publicationUri": "rsync://example.net/path/to/YYYY.roa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
+      "entities":
+      [
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 14]
+Singh & Newton           Expires 18 January 2026               [Page 15]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-      "notificationUri": "https://example.net/path/to/notification.xml",
-      "entities":
-      [
         {
           "objectClassName": "entity",
           "handle": "XYZ-RIR",
@@ -834,18 +887,17 @@ Internet-Draft                  rdap-rpki                      July 2025
    contain the following members:
 
    *  "objectClassName" -- the string "rpki1_aspa"
+   *  "handle" -- see Section 3
+   *  "name" -- see Section 3
+   *  "digests" -- see Section 3
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 15]
+Singh & Newton           Expires 18 January 2026               [Page 16]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-   *  "handle" -- see Section 3
-   *  "name" -- see Section 3
-   *  "digest" -- see Section 3
-   *  "digestAlgorithm" -- see Section 3
    *  "customerAutnum" -- an unsigned 32-bit integer representing an
       autonomous system number of the registration holder (called
       customer per ASPA terminology) (Section 3 of
@@ -871,8 +923,14 @@ Internet-Draft                  rdap-rpki                      July 2025
      "objectClassName": "rpki1_aspa",
      "handle": "XXXX",
      "name": "ASPA-1",
-     "digest": "23456789...abcdef01",
-     "digestAlgorithm": "SHA-256",
+     "digests":
+     [
+       {
+         "digest": "23456789...abcdef01",
+         "digestAlgorithm": "SHA-256",
+       },
+       ...
+     ],
      "customerAutnum": 65536,
      "providerAutnums":
      [
@@ -888,16 +946,16 @@ Internet-Draft                  rdap-rpki                      July 2025
        {
          "objectClassName": "entity",
          "handle": "XYZ-RIR",
-         ...
-       },
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 16]
+Singh & Newton           Expires 18 January 2026               [Page 17]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
+         ...
+       },
        ...
      ],
      "rpkiType": "hosted",
@@ -944,15 +1002,18 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    Syntax: rpki1_aspa/<customer autonomous system number>
 
-   A lookup query for ASPA information by handle is specified using this
-   form:
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 17]
+Singh & Newton           Expires 18 January 2026               [Page 18]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
+
+   Syntax: rpki1_aspa/<digest algorithm>/<digest>
+
+   A lookup query for ASPA information by handle is specified using this
+   form:
 
    rpki1_aspa/XXXX
 
@@ -975,10 +1036,35 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    https://example.net/rdap/rpki1_aspa/65536
 
+   A lookup query for ASPA information by digest is specified using this
+   form:
+
+   rpki1_aspa/BBBB/CCCC
+
+   BBBB is a string representing the "digestAlgorithm" property, and
+   CCCC is a string representing the "digest" property, as described in
+   Section 3.  The following URL would be used to find information for
+   an ASPA matching the
+   "f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697"
+   SHA-256 digest:
+
+https://example.net/rdap/rpki1_aspa/SHA-256/f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697
+
    In the "links" array of an ASPA object, the context URI ("value"
    member) of each link should be the lookup URL by its handle, and if
    that's not available, then the lookup URL by its customer autonomous
    system number.
+
+
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 19]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
 5.3.  Search
 
@@ -1003,13 +1089,6 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    https://example.net/rdap/rpki1_aspas?name=ASPA-*
 
-
-
-Singh & Newton           Expires 17 January 2026               [Page 18]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    Searches for ASPA information by provider autonomous system number
    are specified using this form:
 
@@ -1030,6 +1109,19 @@ Internet-Draft                  rdap-rpki                      July 2025
    Here is an elided example of the search results when finding
    information for ASPAs with provider autonomous system number 65542:
 
+
+
+
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 20]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
 {
   "rdapConformance":
   [
@@ -1044,8 +1136,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
-      "digest": "23456789...abcdef01",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "23456789...abcdef01",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "customerAutnum": 65536,
       "providerAutnums":
       [
@@ -1058,14 +1156,6 @@ Internet-Draft                  rdap-rpki                      July 2025
       "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 19]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
         {
           "objectClassName": "entity",
           "handle": "XYZ-RIR",
@@ -1080,6 +1170,14 @@ Internet-Draft                  rdap-rpki                      July 2025
           "eventAction": "registration",
           "eventDate": "2024-01-01T23:59:59Z"
         },
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 21]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
         ...
       ],
       "links":
@@ -1113,16 +1211,7 @@ Internet-Draft                  rdap-rpki                      July 2025
    "providerAutnum", then the reverse search will be performed on the
    autonomous system number objects from its data store.
 
-
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 20]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
-   Section 8.2 and Section 8.3 include registration of entries for
+   Section 9.2 and Section 9.3 include registration of entries for
    autonomous system number searches in the RDAP Reverse Search and RDAP
    Reverse Search Mapping IANA registries when the related resource type
    is "rpki1_aspa".
@@ -1135,6 +1224,15 @@ Internet-Draft                  rdap-rpki                      July 2025
    ASPA objects associated with an autonomous system number object.  To
    that end, this extension adds a new "rpki1_aspas" member to the
    Autonomous System Number object class (Section 5.5 of [RFC9083]):
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 22]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    *  "rpki1_aspas" -- an array of ASPA objects (Section 5.1) with
       "customerAutnum" values from within the autonomous system number
@@ -1156,8 +1254,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       "objectClassName": "rpki1_aspa",
       "handle": "XXXX",
       "name": "ASPA-1",
-      "digest": "23456789...abcdef01",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "23456789...abcdef01",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "customerAutnum": 65536,
       "providerAutnums":
       [
@@ -1170,14 +1274,6 @@ Internet-Draft                  rdap-rpki                      July 2025
       "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 21]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
         {
           "objectClassName": "entity",
           "handle": "XYZ-RIR",
@@ -1186,6 +1282,14 @@ Internet-Draft                  rdap-rpki                      July 2025
         ...
       ],
       "rpkiType": "hosted",
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 23]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
       "events":
       [
         {
@@ -1216,8 +1320,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       "objectClassName": "rpki1_aspa",
       "handle": "YYYY",
       "name": "ASPA-2",
-      "digest": "3456789a...bcdef012",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "3456789a...bcdef012",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "customerAutnum": 65537,
       "providerAutnums":
       [
@@ -1226,16 +1336,16 @@ Internet-Draft                  rdap-rpki                      July 2025
       ],
       "notValidBefore": "2024-04-27T23:59:59Z",
       "notValidAfter": "2025-04-27T23:59:59Z",
+      "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
+      "notificationUri": "https://example.net/path/to/notification.xml",
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 22]
+Singh & Newton           Expires 18 January 2026               [Page 24]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-      "publicationUri": "rsync://example.net/path/to/YYYY.aspa",
-      "notificationUri": "https://example.net/path/to/notification.xml",
       "entities":
       [
         {
@@ -1283,17 +1393,17 @@ Internet-Draft                  rdap-rpki                      July 2025
    The X.509 resource certificate object class can contain the following
    members:
 
+   *  "objectClassName" -- the string "rpki1_x509ResourceCert"
 
 
-Singh & Newton           Expires 17 January 2026               [Page 23]
+
+Singh & Newton           Expires 18 January 2026               [Page 25]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-   *  "objectClassName" -- the string "rpki1_x509ResourceCert"
    *  "handle" -- see Section 3
-   *  "digest" -- see Section 3
-   *  "digestAlgorithm" -- see Section 3
+   *  "digests" -- see Section 3
    *  "serialNumber" -- a string representing the unique identifier for
       the certificate (Section 4.2 of [RFC6487])
    *  "issuer" -- a string representing the CA that issued the
@@ -1324,8 +1434,9 @@ Internet-Draft                  rdap-rpki                      July 2025
    *  "entities" -- see Section 3
    *  "rpkiType" -- see Section 3
    *  "events" -- see Section 4.5 of [RFC9083]
-   *  "links" -- "self" link, and "related" links for IP network and/or
-      autonomous system number objects (Section 4.2 of [RFC9083])
+   *  "links" -- "self" link, "related" links for IP network and/or
+      autonomous system number objects (Section 4.2 of [RFC9083]), and
+      "rdap-help" link (see Section 7)
    *  "remarks" -- see Section 4.3 of [RFC9083]
 
    The following types of certificates can be represented using this
@@ -1341,7 +1452,8 @@ Internet-Draft                  rdap-rpki                      July 2025
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 24]
+
+Singh & Newton           Expires 18 January 2026               [Page 26]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
@@ -1358,8 +1470,14 @@ Internet-Draft                  rdap-rpki                      July 2025
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "ABCD",
-  "digest": "456789ab...cdef0123",
-  "digestAlgorithm": "SHA-256",
+  "digests":
+  [
+    {
+      "digest": "456789ab...cdef0123",
+      "digestAlgorithm": "SHA-256",
+    },
+    ...
+  ],
   "serialNumber": "1234",
   "issuer": "CN=RIR-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1388,20 +1506,20 @@ Internet-Draft                  rdap-rpki                      July 2025
   [
     {
       "objectClassName": "entity",
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 27]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
       "handle": "XYZ-RIR",
       ...
     },
     ...
   ],
   "rpkiType": "hosted",
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 25]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
   "events":
   [
     {
@@ -1444,20 +1562,20 @@ Internet-Draft                  rdap-rpki                      July 2025
     },
     ...
   ],
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 28]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
   "remarks":
   [
     {
       "description": [ "CA certificate" ]
     }
   ]
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 26]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
 }
 
    Here is an elided example of an X.509 resource certificate object for
@@ -1466,8 +1584,14 @@ Internet-Draft                  rdap-rpki                      July 2025
 {
   "objectClassName": "rpki1_x509ResourceCert",
   "handle": "EFGH",
-  "digest": "56789abc...def01234",
-  "digestAlgorithm": "SHA-256",
+  "digests":
+  [
+    {
+      "digest": "56789abc...def01234",
+      "digestAlgorithm": "SHA-256",
+    },
+    ...
+  ],
   "serialNumber": "5678",
   "issuer": "CN=ISP-CA",
   "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1494,6 +1618,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       "handle": "XYZ-RIR",
       ...
     },
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 29]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
     ...
   ],
   "rpkiType": "hosted",
@@ -1506,14 +1638,6 @@ Internet-Draft                  rdap-rpki                      July 2025
     ...
   ],
   "links":
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 27]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
   [
     {
       "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
@@ -1548,27 +1672,50 @@ Internet-Draft                  rdap-rpki                      July 2025
    The resource type path segment for exact match lookup of an X.509
    resource certificate object is "rpki1_x509ResourceCert".
 
-   The following lookup path segment is defined for an X.509 resource
+   The following lookup path segments are defined for an X.509 resource
    certificate object:
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 30]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    Syntax: rpki1_x509ResourceCert/<handle>
 
-   For example:
+   Syntax: rpki1_x509ResourceCert/<digest algorithm>/<digest>
+
+   A lookup query for X.509 resource certificate information by handle
+   is specified using this form:
+
+   rpki1_x509ResourceCert/XXXX
+
+   XXXX is a string representing the "handle" property of an X.509
+   resource certificate, as described in Section 6.1.  The following URL
+   would be used to find information for an X.509 resource certificate
+   that exactly matches the "ABCD" handle:
 
    https://example.net/rdap/rpki1_x509ResourceCert/ABCD
+
+   A lookup query for X.509 resource certificate information by digest
+   is specified using this form:
+
+   rpki1_x509ResourceCert/BBBB/CCCC
+
+   BBBB is a string representing the "digestAlgorithm" property, and
+   CCCC is a string representing the "digest" property, as described in
+   Section 3.  The following URL would be used to find information for
+   an X.509 resource certificate matching the
+   "83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697f"
+   SHA-256 digest:
+
+https://example.net/rdap/rpki1_x509ResourceCert/SHA-256/83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697f
 
 6.3.  Search
 
    The resource type path segment for searching X.509 resource
    certificate objects is "rpki1_x509ResourceCerts".
-
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 28]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
 
    The following search path segments are defined for X.509 resource
    certificate objects:
@@ -1583,6 +1730,13 @@ Internet-Draft                  rdap-rpki                      July 2025
    identifier>
 
    Syntax: rpki1_x509ResourceCerts?ip=<IP address>
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 31]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    Syntax: rpki1_x509ResourceCerts?cidr=<CIDR>
 
@@ -1619,13 +1773,6 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    rpki1_x509ResourceCerts?subject=ZZZZ
 
-
-
-Singh & Newton           Expires 17 January 2026               [Page 29]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    ZZZZ is a search pattern per Section 4.1 of [RFC9082], representing
    the "subject" property of an X.509 resource certificate object, as
    described in Section 6.1.  The following URL would be used to find
@@ -1638,6 +1785,14 @@ https://example.net/rdap/rpki1_x509ResourceCerts?subject=CN%3DISP-BGPSEC-ROUTE*
    identifier are specified using this form:
 
    rpki1_x509ResourceCerts?subjectKeyIdentifier=BBBB
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 32]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    BBBB is a string representing the "subjectKeyIdentifier" property of
    an X.509 resource certificate object, as described in Section 6.1.
@@ -1675,13 +1830,6 @@ https://example.net/rdap/rpki1_x509ResourceCerts?subjectKeyIdentifier=iOcGgxqXDa
 
    https://example.net/rdap/rpki1_x509ResourceCerts?cidr=192.0.2.0%2F25
 
-
-
-Singh & Newton           Expires 17 January 2026               [Page 30]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    Similarly, for the "2001:db8::/64" CIDR:
 
 https://example.net/rdap/rpki1_x509ResourceCerts?cidr=2001%3Adb8%3A%3A%2F64
@@ -1690,6 +1838,17 @@ https://example.net/rdap/rpki1_x509ResourceCerts?cidr=2001%3Adb8%3A%3A%2F64
    system number are specified using this form:
 
    rpki1_x509ResourceCerts?autnum=EEEE
+
+
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 33]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    EEEE is an autonomous system number within the "autnums" property of
    an X.509 resource certificate object, as described in Section 6.1.
@@ -1722,25 +1881,31 @@ https://example.net/rdap/rpki1_x509ResourceCerts?cidr=2001%3Adb8%3A%3A%2F64
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "EFGH",
-      "digest": "56789abc...def01234",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "56789abc...def01234",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
       "subject": "CN=ISP-BGPSEC-ROUTER",
       "subjectPublicKeyInfo":
       {
+        "publicKeyAlgorithm": "id-ecPublicKey",
+        "publicKey": "..."
+      },
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 31]
+Singh & Newton           Expires 18 January 2026               [Page 34]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-        "publicKeyAlgorithm": "id-ecPublicKey",
-        "publicKey": "..."
-      },
       "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
       "autnums":
       [
@@ -1786,17 +1951,17 @@ Internet-Draft                  rdap-rpki                      July 2025
         {
           "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
           "rel": "related",
+          "href": "https://example.net/rdap/autnum/65537",
+          "type": "application/rdap+json"
+        },
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 32]
+Singh & Newton           Expires 18 January 2026               [Page 35]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-          "href": "https://example.net/rdap/autnum/65537",
-          "type": "application/rdap+json"
-        },
         ...
       ],
       ...
@@ -1820,7 +1985,7 @@ Internet-Draft                  rdap-rpki                      July 2025
    of "handle", then the reverse search will be performed on the
    autonomous system number objects.
 
-   Section 8.2 and Section 8.3 include registration of entries for IP
+   Section 9.2 and Section 9.3 include registration of entries for IP
    network and autonomous system number searches in the RDAP Reverse
    Search and RDAP Reverse Search Mapping IANA registries when the
    related resource type is "rpki1_x509ResourceCert".
@@ -1842,16 +2007,16 @@ Internet-Draft                  rdap-rpki                      July 2025
       object; if the array is too large, the server MAY truncate it, per
       Section 9 of [RFC9083]
 
+   Here is an elided example for an entity (organization) object with
+   X.509 resource certificates:
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 33]
+
+Singh & Newton           Expires 18 January 2026               [Page 36]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
-
-   Here is an elided example for an entity (organization) object with
-   X.509 resource certificates:
 
 {
   "objectClassName" : "entity",
@@ -1862,8 +2027,14 @@ Internet-Draft                  rdap-rpki                      July 2025
     {
       "objectClassName": "rpki1_x509ResourceCert",
       "handle": "ABCD",
-      "digest": "456789ab...cdef0123",
-      "digestAlgorithm": "SHA-256",
+      "digests":
+      [
+        {
+          "digest": "456789ab...cdef0123",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "serialNumber": "1234",
       "issuer": "CN=RIR-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -1895,17 +2066,17 @@ Internet-Draft                  rdap-rpki                      July 2025
           "handle": "XYZ-RIR",
           ...
         },
-        ...
-      ],
-      "rpkiType": "hosted",
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 34]
+Singh & Newton           Expires 18 January 2026               [Page 37]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
+        ...
+      ],
+      "rpkiType": "hosted",
       "events":
       [
         {
@@ -1951,18 +2122,24 @@ Internet-Draft                  rdap-rpki                      July 2025
       ...
     },
     {
-      "objectClassName": "rpki1_x509ResourceCert",
-      "handle": "EFGH",
-      "digest": "56789abc...def01234",
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 35]
+Singh & Newton           Expires 18 January 2026               [Page 38]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-      "digestAlgorithm": "SHA-256",
+      "objectClassName": "rpki1_x509ResourceCert",
+      "handle": "EFGH",
+      "digests":
+      [
+        {
+          "digest": "56789abc...def01234",
+          "digestAlgorithm": "SHA-256",
+        },
+        ...
+      ],
       "serialNumber": "5678",
       "issuer": "CN=ISP-CA",
       "signatureAlgorithm": "ecdsa-with-SHA256",
@@ -2001,6 +2178,14 @@ Internet-Draft                  rdap-rpki                      July 2025
         ...
       ],
       "links":
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 39]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
       [
         {
           "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
@@ -2010,14 +2195,6 @@ Internet-Draft                  rdap-rpki                      July 2025
         },
         {
           "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 36]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
@@ -2036,7 +2213,148 @@ Internet-Draft                  rdap-rpki                      July 2025
   ]
 }
 
-7.  Security Considerations
+7.  RDAP for Delegated and Hybrid RPKI
+
+   For delegated and hybrid RPKI (see "rpkiTypes" in Section 3), a
+   registry may ask an organization with allocated resources to provide
+   the base URL for its RDAP service.  If the RDAP base URL is provided,
+   then in the X.509 resource certificate object (Section 6.1) for that
+   organization's CA certificate, the registry MUST include a link
+   object (Section 4.2 of [RFC9083]) with the "rel" member set to "rdap-
+   help" and the "href" member set to the help URL (Section 3.1.6 of
+   [RFC9082]) for that RDAP service by appending the "help" path segment
+   to the provided base URL.  RDAP clients can then parse the base RDAP
+   URL from the "href" value of such a link object and use the "ips" and
+   "autnums" values from the X.509 resource certificate object to form
+   ROA and ASPA lookup queries for that organization's RDAP service.
+
+   "rdap-help" is a new link relation type for RDAP help data (see
+   Section 9.4), enabling an RDAP client to distinguish the help URL
+   from other related URLs.
+
+   Here is an elided example of an X.509 resource certificate object for
+   a delegated CA certificate with an "rdap-help" link object:
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 40]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
+{
+  "objectClassName": "rpki1_x509ResourceCert",
+  "handle": "IJKL",
+  "digests":
+  [
+    {
+      "digest": "6789abcd...ef012345",
+      "digestAlgorithm": "SHA-256",
+    },
+    ...
+  ],
+  "serialNumber": "9012",
+  "issuer": "CN=RIR-CA",
+  "signatureAlgorithm": "ecdsa-with-SHA256",
+  "subject": "CN=ISP-DELEGATED-CA",
+  "subjectPublicKeyInfo":
+  {
+    "publicKeyAlgorithm": "id-ecPublicKey",
+    "publicKey": "..."
+  },
+  "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
+  "ips":
+  [
+    "2001:db8:2::/48"
+  ],
+  "autnums":
+  [
+    65538
+  ],
+  "notValidBefore": "2024-04-27T23:59:59Z",
+  "notValidAfter": "2025-04-27T23:59:59Z",
+  "publicationUri": "rsync://example.net/path/to/IJKL.cer",
+  "notificationUri": "https://example.com/path/to/notification.xml",
+  "entities":
+  [
+    {
+      "objectClassName": "entity",
+      "handle": "ABC-RIR",
+      ...
+    },
+    ...
+  ],
+  "rpkiType": "delegated",
+  "events":
+  [
+    {
+      "eventAction": "registration",
+      "eventDate": "2024-01-01T23:59:59Z"
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 41]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
+    },
+    ...
+  ],
+  "links":
+  [
+    {
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "rel": "self",
+      "href": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "rel": "related",
+      "href": "https://example.net/rdap/ip/2001:db8:2::/48",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "rel": "related",
+      "href": "https://example.net/rdap/autnum/65538",
+      "type": "application/rdap+json"
+    },
+    {
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "rel": "rdap-help",
+      "href": "https://example.com/rdap/help",
+      "type": "application/rdap+json"
+    },
+    ...
+  ],
+  "remarks":
+  [
+    {
+      "description": [ "Delegated CA certificate" ]
+    }
+  ]
+}
+
+   In this example, note how the authority component (domain) in the
+   "value" URL differs from that in the "href" URL for the "rdap-help"
+   link object, with the former for the registry's RDAP service and the
+   latter for that organization's RDAP service.
+
+
+
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 42]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
+8.  Security Considerations
 
    This document does not introduce any new security considerations past
    those already discussed in the RDAP protocol specifications
@@ -2045,9 +2363,9 @@ Internet-Draft                  rdap-rpki                      July 2025
    Section 2.1 explains why this RDAP extension MUST NOT be used to
    directly influence internet routing.
 
-8.  IANA Considerations
+9.  IANA Considerations
 
-8.1.  RDAP Extensions Registry
+9.1.  RDAP Extensions Registry
 
    IANA is requested to register the following values in the RDAP
    Extensions Registry at [RDAP-EXTENSIONS]:
@@ -2059,20 +2377,12 @@ Internet-Draft                  rdap-rpki                      July 2025
    *  Intended usage: This extension describes version 1 of a method to
       access the RPKI registration data through RDAP.
 
-8.2.  RDAP Reverse Search Registry
+9.2.  RDAP Reverse Search Registry
 
    IANA is requested to register the following entries in the RDAP
    Reverse Search Registry at [RDAP-REVERSE-SEARCH]:
 
    IP network search by the origin autonomous system number of a ROA:
-
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 37]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
 
    *  Searchable Resource Type: ips
    *  Related Resource Type: rpki1_roa
@@ -2092,6 +2402,14 @@ Internet-Draft                  rdap-rpki                      July 2025
       address block of an associated RPKI ROA.
    *  Registrant Name: IETF
    *  Registrant Contact Information: iesg@ietf.org
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 43]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
    *  Reference: This document.
 
    Autonomous system number search by the customer autonomous system
@@ -2122,14 +2440,6 @@ Internet-Draft                  rdap-rpki                      July 2025
 
    IP network search by the handle of an X.509 resource certificate:
 
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 38]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    *  Searchable Resource Type: ips
    *  Related Resource Type: rpki1_x509ResourceCert
    *  Property: handle
@@ -2148,11 +2458,19 @@ Internet-Draft                  rdap-rpki                      July 2025
    *  Description: The server supports the autonomous system number
       search by the handle of an associated RPKI X.509 resource
       certificate.
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 44]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
    *  Registrant Name: IETF
    *  Registrant Contact Information: iesg@ietf.org
    *  Reference: This document.
 
-8.3.  RDAP Reverse Search Mapping Registry
+9.3.  RDAP Reverse Search Mapping Registry
 
    IANA is requested to register the following entries in the RDAP
    Reverse Search Mapping Registry at [RDAP-REVERSE-SEARCH-MAPPING]:
@@ -2177,15 +2495,6 @@ Internet-Draft                  rdap-rpki                      July 2025
    *  Registrant Contact Information: iesg@ietf.org
    *  Reference: This document.
 
-
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 39]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    Autonomous system number search by the customer autonomous system
    number of an ASPA:
 
@@ -2205,6 +2514,14 @@ Internet-Draft                  rdap-rpki                      July 2025
    *  Property: providerAutnum
    *  Property Path: $.providerAutnums[*]
    *  Registrant Name: IETF
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 45]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
+
    *  Registrant Contact Information: iesg@ietf.org
    *  Reference: This document.
 
@@ -2229,26 +2546,38 @@ Internet-Draft                  rdap-rpki                      July 2025
    *  Registrant Contact Information: iesg@ietf.org
    *  Reference: This document.
 
-9.  Acknowledgements
+9.4.  Link Relations Registry
+
+   IANA is requested to register the following value in the Link
+   Relations Registry at [LINK-RELATIONS]:
+
+   *  Relation Name: rdap-help
+   *  Description: Refers to a resource with RDAP help information
+      related to the link context.
+   *  Reference: This document.
+
+10.  Acknowledgements
 
    Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart
-   Bakker, Frank Hill, and Tobias Fiebig from the RPKI community
-   provided valuable feedback for this document.
+   Bakker, Frank Hill, Tobias Fiebig, Q Misell, and Rüdiger Volk from
+   the RPKI community provided valuable feedback for this document.
+
+11.  Change History
+
+   (Remove this section before publication.)
+
+11.1.  Changes from 00 to 01
+
+   *  Adhering to the guidelines in [I-D.ietf-regext-rdap-extensions].
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 40]
+
+Singh & Newton           Expires 18 January 2026               [Page 46]
 
 Internet-Draft                  rdap-rpki                      July 2025
 
 
-10.  Change History
-
-   (Remove this section before publication.)
-
-10.1.  Changes from 00 to 01
-
-   *  Adhering to the guidelines in [I-D.ietf-regext-rdap-extensions].
    *  Highlighted other RDAP search scenarios that could help with RPKI
       troubleshooting.
    *  Be more explicit about what this extension is not.  (Feedback from
@@ -2258,14 +2587,16 @@ Internet-Draft                  rdap-rpki                      July 2025
       object class to better match the "CustomerASID" field from the
       ASPA RPKI profile.
 
-10.2.  Changes from 01 to 02
+11.2.  Changes from 01 to 02
 
    *  Generate a message digest that covers an entire RPKI object.
       (Feedback from Job Snijders during IETF 122 SIDROPS presentation.)
+   *  Expound on RDAP for delegated and hybrid RPKI.  (Feedback from Q
+      Misell and Rüdiger Volk during IETF 122 SIDROPS presentation.)
 
-11.  References
+12.  References
 
-11.1.  Normative References
+12.1.  Normative References
 
    [I-D.ietf-regext-rdap-extensions]
               Newton, A., Singh, J., and T. Harrison, "RDAP Extensions",
@@ -2290,18 +2621,18 @@ Internet-Draft                  rdap-rpki                      July 2025
               <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
               aspa-profile-19>.
 
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 41]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    [RFC1519]  Fuller, V., Li, T., Yu, J., and K. Varadhan, "Classless
               Inter-Domain Routing (CIDR): an Address Assignment and
               Aggregation Strategy", RFC 1519, DOI 10.17487/RFC1519,
               September 1993, <https://www.rfc-editor.org/info/rfc1519>.
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 47]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2346,18 +2677,18 @@ Internet-Draft                  rdap-rpki                      July 2025
               DOI 10.17487/RFC9082, June 2021,
               <https://www.rfc-editor.org/info/rfc9082>.
 
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 42]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    [RFC9083]  Hollenbeck, S. and A. Newton, "JSON Responses for the
               Registration Data Access Protocol (RDAP)", STD 95,
               RFC 9083, DOI 10.17487/RFC9083, June 2021,
               <https://www.rfc-editor.org/info/rfc9083>.
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 48]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    [RFC9536]  Loffredo, M. and M. Martinelli, "Registration Data Access
               Protocol (RDAP) Reverse Search", RFC 9536,
@@ -2369,13 +2700,17 @@ Internet-Draft                  rdap-rpki                      July 2025
               RFC 9582, DOI 10.17487/RFC9582, May 2024,
               <https://www.rfc-editor.org/info/rfc9582>.
 
-11.2.  Informative References
+12.2.  Informative References
 
    [CLOUDFLARE]
               Cloudflare, "RPKI Portal", <https://rpki.cloudflare.com/>.
 
    [JDR]      NLNet Labs, "JDR",
               <https://blog.nlnetlabs.nl/introducing-jdr/>.
+
+   [LINK-RELATIONS]
+              IANA, "Link Relations",
+              <https://www.iana.org/assignments/link-relations/>.
 
    [NIST-RPKI-MONITOR]
               NIST, "NIST RPKI Monitor",
@@ -2398,23 +2733,18 @@ Internet-Draft                  rdap-rpki                      July 2025
               <https://www.iana.org/assignments/rdap-reverse-search-
               mapping/>.
 
-
-
-
-
-
-
-
-Singh & Newton           Expires 17 January 2026               [Page 43]
-
-Internet-Draft                  rdap-rpki                      July 2025
-
-
    [RFC2622]  Alaettinoglu, C., Villamizar, C., Gerich, E., Kessens, D.,
               Meyer, D., Bates, T., Karrenberg, D., and M. Terpstra,
               "Routing Policy Specification Language (RPSL)", RFC 2622,
               DOI 10.17487/RFC2622, June 1999,
               <https://www.rfc-editor.org/info/rfc2622>.
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 49]
+
+Internet-Draft                  rdap-rpki                      July 2025
+
 
    [RFC4271]  Rekhter, Y., Ed., Li, T., Ed., and S. Hares, Ed., "A
               Border Gateway Protocol 4 (BGP-4)", RFC 4271,
@@ -2461,4 +2791,10 @@ Authors' Addresses
 
 
 
-Singh & Newton           Expires 17 January 2026               [Page 44]
+
+
+
+
+
+
+Singh & Newton           Expires 18 January 2026               [Page 50]
