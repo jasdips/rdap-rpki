@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-ietf-regext-rdap-rpki-02"
+value = "draft-ietf-regext-rdap-rpki-03"
 stream = "IETF"
 status = "standard"
-date = 2025-07-17T00:00:00Z
+date = 2025-12-03T00:00:00Z
 
 [[author]]
 initials="J."
@@ -42,17 +42,17 @@ Regional Internet Registries (RIRs), National Internet Registries (NIRs), and Lo
 
 # Introduction
 
-The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI, [@!RFC6480]) to secure
-inter-domain routing ([@RFC4271]) on the internet. RPKI enables Internet Number Resource (INR) holders to
+The network operators are increasingly deploying the Resource Public Key Infrastructure (RPKI) [@!RFC6480] to secure
+inter-domain routing [@RFC4271] on the internet. RPKI enables Internet Number Resource (INR) holders to
 cryptographically assert about their registered IP addresses and autonomous system numbers to prevent route hijacks and
 leaks. To that end, RPKI defines the following profiles:
 
-* Route Origin Authorization (ROA, [@!RFC9582]) where a Classless Inter-Domain Routing (CIDR, [@!RFC1519]) address block
-  holder cryptographically asserts about the origin autonomous system (AS, [@RFC4271]) for routing that CIDR address
+* Route Origin Authorization (ROA) [@!RFC9582] where a Classless Inter-Domain Routing (CIDR) [@!RFC1519] address block
+  holder cryptographically asserts about the origin autonomous system (AS) [@RFC4271] for routing that CIDR address
   block.
-* Autonomous System Provider Authorization (ASPA, [@!I-D.ietf-sidrops-aspa-profile]) where an autonomous system number
-  (ASN, [@!RFC5396]) holder cryptographically asserts about the provider ASes for that ASN.
-* X.509 Resource Certificate ([@!RFC6487]) where the issuer grants the subject a right-of-use for the listed IP
+* Autonomous System Provider Authorization (ASPA) [@!I-D.ietf-sidrops-aspa-profile] where an autonomous system number
+  (ASN) [@!RFC5396] holder cryptographically asserts about the provider ASes for that ASN.
+* X.509 Resource Certificate [@!RFC6487] where the issuer grants the subject a right-of-use for the listed IP
   addresses and/or autonomous system numbers.
 
 This document defines a new RDAP extension with identifier "rpki1", for accessing the RPKI registration data in the
@@ -66,7 +66,7 @@ There is registration metadata that is often needed for troubleshooting that doe
 or its verified payload but could be looked up or searched using RDAP; such as:
 
 * When did the initial version of a ROA get published?
-* Was a ROA created in conjunction with an Internet Routing Registry (IRR, [@RFC2622]) route?
+* Was a ROA created in conjunction with an Internet Routing Registry (IRR) [@RFC2622] route?
 * Which IRR routes are related with a ROA?
 * Which IP networks are associated with a ROA?
 * Which ROAs are associated with an origin AS?
@@ -147,11 +147,11 @@ contain one or more of the following common members:
   the following members:
   * "digest" -- a hexadecimal string representing the hash that entirely covers an RPKI object
   * "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that entirely covers an
-    RPKI object, with possible values of "SHA-256" and "SHA-512" ([@RFC6234]) for this version of the specification
+    RPKI object, with possible values of "SHA-256" and "SHA-512" [@RFC6234] for this version of the specification
 * "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
-  ([@!RFC3339]), representing the not-valid-before date of an X.509 resource certificate for an RPKI object
+  [@!RFC3339], representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
-* "notValidAfter" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 ([@!RFC3339]),
+* "notValidAfter" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 [@!RFC3339],
   representing the not-valid-after date of an X.509 resource certificate for an RPKI object ([@!RFC6487, section 4])
 * "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
@@ -1073,7 +1073,7 @@ The following types of certificates can be represented using this object class:
 * a CA certificate ([@!RFC6480, section 2.2]) that a registry issues to an organization (the subject) for its allocated
   IP addresses and/or autonomous system numbers, authorizing the organization CA to issue end-entity certificates
   ([@!RFC6480, section 2.3])
-* a BGPSec router certificate ([@!RFC8209]) where an ASN(s) holder cryptographically asserts that a router (the subject)
+* a BGPSec router certificate [@!RFC8209] where an ASN(s) holder cryptographically asserts that a router (the subject)
   holding the corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es)
   specified in the certificate
 
