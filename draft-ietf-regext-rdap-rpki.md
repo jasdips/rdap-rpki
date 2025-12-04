@@ -170,10 +170,10 @@ The purpose of an object with "digest" and "digestAlgorithm" members is to enabl
 digest (hash) for an entire RPKI object, thereby providing RDAP clients with an exact reference to the underlying RPKI
 object. This can help with analysis, research, and/or debugging.
 
-RRDP is intended as the long-term replacement for rsync in RPKI. For a CA that implements RRDP, the update notification
-file location is expected to be set in each X.509 resource certificate it issues ([@!RFC8182, section 3.2]).
-Consequently, the "notificationUri" data should help inform about the RPKI repository and/or CA operated downstream from
-a registry by an organization with resources allocated by that registry.
+For a CA that implements RRDP [@!RFC8182], the update notification file location is expected to be set in each X.509
+resource certificate it issues ([@!RFC8182, section 3.2]). Consequently, the "notificationUri" data should help inform
+about the RPKI repository and/or CA operated downstream from a registry by an organization with resources allocated by
+that registry.
 
 # Route Origin Authorization {#roa}
 
