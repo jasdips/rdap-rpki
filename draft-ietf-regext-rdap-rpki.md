@@ -1266,8 +1266,6 @@ The resource type path segment for searching X.509 resource certificate objects 
 
 The following search path segments are defined for X.509 resource certificate objects:
 
-Syntax: rpki1_x509ResourceCerts?handle=<handle search pattern>
-
 Syntax: rpki1_x509ResourceCerts?issuer=<issuer search pattern>
 
 Syntax: rpki1_x509ResourceCerts?subject=<subject search pattern>
@@ -1279,18 +1277,6 @@ Syntax: rpki1_x509ResourceCerts?ip=<IP address>
 Syntax: rpki1_x509ResourceCerts?cidr=<CIDR>
 
 Syntax: rpki1_x509ResourceCerts?autnum=<autonomous system number>
-
-Searches for X.509 resource certificate information by handle are specified using this form:
-
-rpki1_x509ResourceCerts?handle=XXXX
-
-XXXX is a search pattern per [@!RFC9082, section 4.1], representing the "handle" property of an X.509 resource
-certificate object, as described in (#x509_resource_cert_object_class). The following URL would be used to find
-information for X.509 resource certificate objects with handle matching the "EFG*" pattern:
-
-```
-https://example.net/rdap/rpki1_x509ResourceCerts?handle=EFG*
-```
 
 Searches for X.509 resource certificate information by certificate issuer are specified using this form:
 
