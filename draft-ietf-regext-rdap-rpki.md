@@ -68,7 +68,7 @@ or its verified payload but could be looked up or searched using RDAP; such as:
 * When did the initial version of a ROA get published?
 * Was a ROA created in conjunction with an Internet Routing Registry (IRR) [@RFC2622] route?
 * Which IRR routes are related with a ROA?
-* Which IP networks are associated with a ROA?
+* Which ROAs are associated with an IP network?
 * Which ROAs are associated with an origin AS?
 * Which ASPAs are associated with a provider AS?
 * Which X.509 resource certificates are associated with an organization?
@@ -467,13 +467,12 @@ Here is an elided example of the search results when finding information for ROA
 
 ## Reverse Search
 
-Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips"
-([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_roa", and a ROA property of
-"originAutnum" or "ip", then the reverse search will be performed on the IP network objects from its data store.
+Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "rpki1_roas",
+a related resource type of "entity", and an entity property of "fn", "handle", "email" or "role", then the reverse
+search will be performed on the ROA objects from its data store.
 
-(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for IP network
-searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource type is
-"rpki1_roa".
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for ROA searches in
+the IANA "RDAP Reverse Search" and "RDAP Reverse Search Mapping" registries when the related resource type is "entity".
 
 ## Relationship with IP Network Object Class
 
@@ -863,14 +862,12 @@ number 65542:
 
 ## Reverse Search
 
-Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "autnums"
-([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_aspa", and an ASPA property of
-"customerAutnum" or "providerAutnum", then the reverse search will be performed on the autonomous system number objects
-from its data store.
+Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of
+"rpki1_aspas", a related resource type of "entity", and an entity property of "fn", "handle", "email" or "role", then
+the reverse search will be performed on the ASPA objects from its data store.
 
-(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for autonomous system
-number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the related resource
-type is "rpki1_aspa".
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for ASPA searches in
+the IANA "RDAP Reverse Search" and "RDAP Reverse Search Mapping" registries when the related resource type is "entity".
 
 ## Relationship with Autonomous System Number Object Class
 
@@ -1476,18 +1473,13 @@ issuer matching the "CN=ISP-*" pattern:
 
 ## Reverse Search
 
-Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of "ips"
-([@!I-D.ietf-regext-rdap-rir-search, section 5]), a related resource type of "rpki1_x509ResourceCert", and an X.509
-Resource Certificate property of "handle", then the reverse search will be performed on the IP network objects from its
-data store.
+Per [@!RFC9536, section 2], if a server receives a reverse search query with a searchable resource type of
+"rpki1_x509ResourceCerts", a related resource type of "entity", and an entity property of "fn", "handle", "email" or
+"role", then the reverse search will be performed on the X.509 resource certificate objects from its data store.
 
-Similarly, if a server receives a reverse search query with a searchable resource type of "autnums", a related resource
-type of "rpki1_x509ResourceCert", and an X.509 Resource Certificate property of "handle", then the reverse search will
-be performed on the autonomous system number objects.
-
-(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for IP network and
-autonomous system number searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registries when the
-related resource type is "rpki1_x509ResourceCert".
+(#reverse_search_registry) and (#reverse_search_mapping_registry) include registration of entries for X.509 resource
+certificate searches in the IANA "RDAP Reverse Search" and "RDAP Reverse Search Mapping" registries when the related
+resource type is "entity".
 
 ## Relationship with Other Object Classes
 
@@ -1797,7 +1789,7 @@ specifications ([@RFC7481], [@RFC9560]).
 
 ## RDAP Extensions Registry
 
-IANA is requested to register the following values in the RDAP Extensions Registry at [@RDAP-EXTENSIONS]:
+IANA is requested to register the following values in the "RDAP Extensions" registry at [@RDAP-EXTENSIONS]:
 
 * Extension identifier: rpki1
 * Registry operator: Any
@@ -1807,140 +1799,259 @@ IANA is requested to register the following values in the RDAP Extensions Regist
 
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
-IANA is requested to register the following entries in the RDAP Reverse Search Registry at [@RDAP-REVERSE-SEARCH]:
+IANA is requested to register the following entries in the "RDAP Reverse Search" registry at [@RDAP-REVERSE-SEARCH]:
 
-IP network search by the origin autonomous system number of a ROA:
+RPKI ROA search by the full name (a.k.a. formatted name) of an associated entity:
 
-* Searchable Resource Type: ips
-* Related Resource Type: rpki1_roa
-* Property: originAutnum
-* Description: The server supports the IP network search by the origin autonomous system number of an associated RPKI
-  ROA.
+* Searchable Resource Type: rpki1_roas
+* Related Resource Type: entity
+* Property: fn
+* Description: The server supports the RPKI ROA search by the full name (a.k.a. formatted name) of an associated entity.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-IP network search by a CIDR address block of a ROA:
+RPKI ROA search by the handle of an associated entity:
 
-* Searchable Resource Type: ips
-* Related Resource Type: rpki1_roa
-* Property: ip
-* Description: The server supports the IP network search by a CIDR address block of an associated RPKI ROA.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-Autonomous system number search by the customer autonomous system number of an ASPA:
-
-* Searchable Resource Type: autnums
-* Related Resource Type: rpki1_aspa
-* Property: customerAutnum
-* Description: The server supports the autonomous system number search by the customer autonomous system number of an
-  associated RPKI ASPA.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-Autonomous system number search by a provider autonomous system number of an ASPA:
-
-* Searchable Resource Type: autnums
-* Related Resource Type: rpki1_aspa
-* Property: providerAutnum
-* Description: The server supports the autonomous system number search by a provider autonomous system number of an
-  associated RPKI ASPA.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-IP network search by the handle of an X.509 resource certificate:
-
-* Searchable Resource Type: ips
-* Related Resource Type: rpki1_x509ResourceCert
+* Searchable Resource Type: rpki1_roas
+* Related Resource Type: entity
 * Property: handle
-* Description: The server supports the IP network search by the handle of an associated RPKI X.509 resource certificate.
+* Description: The server supports the RPKI ROA search by the handle of an associated entity.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-Autonomous system number search by the handle of an X.509 resource certificate:
+RPKI ROA search by the email address of an associated entity:
 
-* Searchable Resource Type: autnums
-* Related Resource Type: rpki1_x509ResourceCert
+* Searchable Resource Type: rpki1_roas
+* Related Resource Type: entity
+* Property: email
+* Description: The server supports the RPKI ROA search by the email address of an associated entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ROA search by the role of an associated entity:
+
+* Searchable Resource Type: rpki1_roas
+* Related Resource Type: entity
+* Property: role
+* Description: The server supports the RPKI ROA search by the role of an associated entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ASPA search by the full name (a.k.a. formatted name) of an associated entity:
+
+* Searchable Resource Type: rpki1_aspas
+* Related Resource Type: entity
+* Property: fn
+* Description: The server supports the RPKI ASPA search by the full name (a.k.a. formatted name) of an associated
+  entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ASPA search by the handle of an associated entity:
+
+* Searchable Resource Type: rpki1_aspas
+* Related Resource Type: entity
 * Property: handle
-* Description: The server supports the autonomous system number search by the handle of an associated RPKI X.509
-  resource certificate.
+* Description: The server supports the RPKI ASPA search by the handle of an associated entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ASPA search by the email address of an associated entity:
+
+* Searchable Resource Type: rpki1_aspas
+* Related Resource Type: entity
+* Property: email
+* Description: The server supports the RPKI ASPA search by the email address of an associated entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ASPA search by the role of an associated entity:
+
+* Searchable Resource Type: rpki1_aspas
+* Related Resource Type: entity
+* Property: role
+* Description: The server supports the RPKI ASPA search by the role of an associated entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI X.509 resource certificate search by the full name (a.k.a. formatted name) of an associated entity:
+
+* Searchable Resource Type: rpki1_x509ResourceCerts
+* Related Resource Type: entity
+* Property: fn
+* Description: The server supports the RPKI X.509 resource certificate search by the full name (a.k.a. formatted name)
+  of an associated entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI X.509 resource certificate search by the handle of an associated entity:
+
+* Searchable Resource Type: rpki1_x509ResourceCerts
+* Related Resource Type: entity
+* Property: handle
+* Description: The server supports the RPKI X.509 resource certificate search by the handle of an associated entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI X.509 resource certificate search by the email address of an associated entity:
+
+* Searchable Resource Type: rpki1_x509ResourceCerts
+* Related Resource Type: entity
+* Property: email
+* Description: The server supports the RPKI X.509 resource certificate search by the email address of an associated
+  entity.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI X.509 resource certificate search by the role of an associated entity:
+
+* Searchable Resource Type: rpki1_x509ResourceCerts
+* Related Resource Type: entity
+* Property: role
+* Description: The server supports the RPKI X.509 resource certificate search by the role of an associated entity.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
 ## RDAP Reverse Search Mapping Registry {#reverse_search_mapping_registry}
 
-IANA is requested to register the following entries in the RDAP Reverse Search Mapping Registry
+IANA is requested to register the following entries in the "RDAP Reverse Search Mapping" registry
 at [@RDAP-REVERSE-SEARCH-MAPPING]:
 
-IP network search by the origin autonomous system number of a ROA:
+RPKI ROA search by the full name (a.k.a. formatted name) of an associated entity:
 
-* Searchable Resource Type: ips
-* Related Resource Type: rpki1_roa
-* Property: originAutnum
-* Property Path: $.originAutnum
+* Searchable Resource Type: rpki1_roas
+* Related Resource Type: entity
+* Property: fn
+* Property Path: $.entities[*].vcardArray[1][?(@[0]=='fn')][3]
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-IP network search by a CIDR address block of a ROA:
+RPKI ROA search by the handle of an associated entity:
 
-* Searchable Resource Type: ips
-* Related Resource Type: rpki1_roa
-* Property: ip
-* Property Path: $.roaIps[*].ip
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-Autonomous system number search by the customer autonomous system number of an ASPA:
-
-* Searchable Resource Type: autnums
-* Related Resource Type: rpki1_aspa
-* Property: autnum
-* Property Path: $.customerAutnum
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-Autonomous system number search by a provider autonomous system number of an ASPA:
-
-* Searchable Resource Type: autnums
-* Related Resource Type: rpki1_aspa
-* Property: providerAutnum
-* Property Path: $.providerAutnums[*]
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-IP network search by the handle of an X.509 resource certificate:
-
-* Searchable Resource Type: ips
-* Related Resource Type: rpki1_x509ResourceCert
+* Searchable Resource Type: rpki1_roas
+* Related Resource Type: entity
 * Property: handle
-* Property Path: $.handle
+* Property Path: $.entities[*].handle
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-Autonomous system number search by the handle of an X.509 resource certificate:
+RPKI ROA search by the email address of an associated entity:
 
-* Searchable Resource Type: autnums
-* Related Resource Type: rpki1_x509ResourceCert
+* Searchable Resource Type: rpki1_roas
+* Related Resource Type: entity
+* Property: email
+* Property Path: $.entities[*].vcardArray[1][?(@[0]=='email')][3]
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ROA search by the role of an associated entity:
+
+* Searchable Resource Type: rpki1_roas
+* Related Resource Type: entity
+* Property: role
+* Property Path: $.entities[*].roles
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ASPA search by the full name (a.k.a. formatted name) of an associated entity:
+
+* Searchable Resource Type: rpki1_aspas
+* Related Resource Type: entity
+* Property: fn
+* Property Path: $.entities[*].vcardArray[1][?(@[0]=='fn')][3]
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ASPA search by the handle of an associated entity:
+
+* Searchable Resource Type: rpki1_aspas
+* Related Resource Type: entity
 * Property: handle
-* Property Path: $.handle
+* Property Path: $.entities[*].handle
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ASPA search by the email address of an associated entity:
+
+* Searchable Resource Type: rpki1_aspas
+* Related Resource Type: entity
+* Property: email
+* Property Path: $.entities[*].vcardArray[1][?(@[0]=='email')][3]
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI ASPA search by the role of an associated entity:
+
+* Searchable Resource Type: rpki1_aspas
+* Related Resource Type: entity
+* Property: role
+* Property Path: $.entities[*].roles
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI X.509 resource certificate search by the full name (a.k.a. formatted name) of an associated entity:
+
+* Searchable Resource Type: rpki1_x509ResourceCerts
+* Related Resource Type: entity
+* Property: fn
+* Property Path: $.entities[*].vcardArray[1][?(@[0]=='fn')][3]
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI X.509 resource certificate search by the handle of an associated entity:
+
+* Searchable Resource Type: rpki1_x509ResourceCerts
+* Related Resource Type: entity
+* Property: handle
+* Property Path: $.entities[*].handle
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI X.509 resource certificate search by the email address of an associated entity:
+
+* Searchable Resource Type: rpki1_x509ResourceCerts
+* Related Resource Type: entity
+* Property: email
+* Property Path: $.entities[*].vcardArray[1][?(@[0]=='email')][3]
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+* Reference: This document.
+
+RPKI X.509 resource certificate search by the role of an associated entity:
+
+* Searchable Resource Type: rpki1_x509ResourceCerts
+* Related Resource Type: entity
+* Property: role
+* Property Path: $.entities[*].roles
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
 ## Link Relations Registry {#link_relations_registry}
 
-IANA is requested to register the following value in the Link Relations Registry at [@LINK-RELATIONS]:
+IANA is requested to register the following value in the "Link Relations" registry at [@LINK-RELATIONS]:
 
 * Relation Name: rdap-help
 * Description: Refers to a resource with RDAP help information related to the link context.
