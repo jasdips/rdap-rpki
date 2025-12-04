@@ -2085,6 +2085,7 @@ Volk from the RPKI community provided valuable feedback for this document.
 ## Changes from 02 to 03
 
 * De-conflicted lookup path segments.
+* More useful reverse search.
 
 {backmatter}
 
