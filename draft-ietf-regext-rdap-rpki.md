@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-ietf-regext-rdap-rpki-03"
 stream = "IETF"
 status = "standard"
-date = 2025-12-03T00:00:00Z
+date = 2025-12-04T00:00:00Z
 
 [[author]]
 initials="J."
@@ -251,13 +251,13 @@ Here is an elided example of a ROA object:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1_roa/XXXX",
+      "value": "https://example.net/rdap/rpki1_roa/handle/XXXX",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1_roa/XXXX",
+      "href": "https://example.net/rdap/rpki1_roa/handle/XXXX",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_roa/XXXX",
+      "value": "https://example.net/rdap/rpki1_roa/handle/XXXX",
       "rel": "related",
       "href": "https://example.net/rdap/ip/2001:db8::/48",
       "type": "application/rdap+json"
@@ -279,70 +279,70 @@ The resource type path segment for exact or closest match lookup of a ROA object
 
 The following lookup path segments are defined for a ROA object:
 
-Syntax: rpki1_roa/<handle>
+Syntax: rpki1_roa/handle/<handle>
 
-Syntax: rpki1_roa/<IP address>
+Syntax: rpki1_roa/ip/<IP address>
 
-Syntax: rpki1_roa/<CIDR prefix>/<CIDR length>
+Syntax: rpki1_roa/ip/<CIDR prefix>/<CIDR length>
 
-Syntax: rpki1_roa/<digest algorithm>/<digest>
+Syntax: rpki1_roa/digest/<digest algorithm>/<digest>
 
 A lookup query for ROA information by handle is specified using this form:
 
-rpki1_roa/XXXX
+rpki1_roa/handle/XXXX
 
 XXXX is a string representing the "handle" property of a ROA, as described in (#roa_object_class). The following URL
 would be used to find information for a ROA that exactly matches the "8a848ab0729f0f4f0173ba2013bc5eb3" handle:
 
 ```
-https://example.net/rdap/rpki1_roa/8a848ab0729f0f4f0173ba2013bc5eb3
+https://example.net/rdap/rpki1_roa/handle/8a848ab0729f0f4f0173ba2013bc5eb3
 ```
 
 A lookup query for ROA information by IP address is specified using this form:
 
-rpki1_roa/YYYY
+rpki1_roa/ip/YYYY
 
 YYYY is a string representing an IPv4 or IPv6 address. The following URL would be used to find information for the
 most-specific ROA matching the "192.0.2.0" IP address:
 
 ```
-https://example.net/rdap/rpki1_roa/192.0.2.0
+https://example.net/rdap/rpki1_roa/ip/192.0.2.0
 ```
 
 Similarly, for the "2001:db8::" IP address:
 
 ```
-https://example.net/rdap/rpki1_roa/2001%3Adb8%3A%3A
+https://example.net/rdap/rpki1_roa/ip/2001%3Adb8%3A%3A
 ```
 
 A lookup query for ROA information by CIDR is specified using this form:
 
-rpki1_roa/YYYY/ZZZZ
+rpki1_roa/ip/YYYY/ZZZZ
 
 YYYY/ZZZZ is a string representing the "ip" property of a CIDR address block within a ROA, as described in
 (#roa_object_class). The following URL would be used to find information for the most-specific ROA matching the
 "192.0.2.0/25" CIDR:
 
 ```
-https://example.net/rdap/rpki1_roa/192.0.2.0/25
+https://example.net/rdap/rpki1_roa/ip/192.0.2.0/25
 ```
 
 Similarly, for the "2001:db8::/64" CIDR:
 
 ```
-https://example.net/rdap/rpki1_roa/2001%3Adb8%3A%3A/64
+https://example.net/rdap/rpki1_roa/ip/2001%3Adb8%3A%3A/64
 ```
 
 A lookup query for ROA information by digest is specified using this form:
 
-rpki1_roa/BBBB/CCCC
+rpki1_roa/digest/BBBB/CCCC
 
 BBBB is a string representing the "digestAlgorithm" property, and CCCC is a string representing the "digest" property,
 as described in (#common_data_members). The following URL would be used to find information for a ROA matching the
 "7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069" SHA-256 digest:
 
 ```
-https://example.net/rdap/rpki1_roa/SHA-256/7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069
+https://example.net/rdap/rpki1_roa/digest/SHA-256/7f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d9069
 ```
 
 In the "links" array of a ROA object, the context URI ("value" member) of each link should be the lookup URL by its
@@ -446,13 +446,13 @@ Here is an elided example of the search results when finding information for ROA
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_roa/XXXX",
+          "value": "https://example.net/rdap/rpki1_roas?originAutnum=65536",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_roa/XXXX",
+          "href": "https://example.net/rdap/rpki1_roa/handle/XXXX",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_roa/XXXX",
+          "value": "https://example.net/rdap/rpki1_roas?originAutnum=65536",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8::/48",
           "type": "application/rdap+json"
@@ -477,7 +477,7 @@ searches in the RDAP Reverse Search and RDAP Reverse Search Mapping IANA registr
 
 ## Relationship with IP Network Object Class
 
-An IP network object can span multiple ROA objects, and vice-versa. Their relationship is affected by IP address
+An IP network object can span multiple ROA objects, and vice versa. Their relationship is affected by IP address
 transfers and splits in a registry. It would be useful to show all the ROA objects associated with an IP network object.
 To that end, this extension adds a new "rpki1_roas" member to the IP Network object class ([@!RFC9083, section 5.4]):
 
@@ -542,15 +542,9 @@ Here is an elided example for an IP network object with ROAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_roa/XXXX",
+          "value": "https://example.net/rdap/ip/2001:db8::/32",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_roa/XXXX",
-          "type": "application/rdap+json"
-        },
-        {
-          "value": "https://example.net/rdap/rpki1_roa/XXXX",
-          "rel": "related",
-          "href": "https://example.net/rdap/ip/2001:db8::/48",
+          "href": "https://example.net/rdap/rpki1_roa/handle/XXXX",
           "type": "application/rdap+json"
         },
         ...
@@ -602,15 +596,9 @@ Here is an elided example for an IP network object with ROAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_roa/YYYY",
+          "value": "https://example.net/rdap/ip/2001:db8::/32",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_roa/YYYY",
-          "type": "application/rdap+json"
-        },
-        {
-          "value": "https://example.net/rdap/rpki1_roa/YYYY",
-          "rel": "related",
-          "href": "https://example.net/rdap/ip/2001:db8:1::/48",
+          "href": "https://example.net/rdap/rpki1_roa/handle/YYYY",
           "type": "application/rdap+json"
         },
         ...
@@ -692,13 +680,13 @@ Here is an elided example of an ASPA object:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1_aspa/XXXX",
+      "value": "https://example.net/rdap/rpki1_aspa/handle/XXXX",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1_aspa/XXXX",
+      "href": "https://example.net/rdap/rpki1_aspa/handle/XXXX",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_aspa/XXXX",
+      "value": "https://example.net/rdap/rpki1_aspa/handle/XXXX",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
@@ -720,45 +708,45 @@ The resource type path segment for exact match lookup of an ASPA object is "rpki
 
 The following lookup path segments are defined for an ASPA object:
 
-Syntax: rpki1_aspa/<handle>
+Syntax: rpki1_aspa/handle/<handle>
 
-Syntax: rpki1_aspa/<customer autonomous system number>
+Syntax: rpki1_aspa/autnum/<customer autonomous system number>
 
-Syntax: rpki1_aspa/<digest algorithm>/<digest>
+Syntax: rpki1_aspa/digest/<digest algorithm>/<digest>
 
 A lookup query for ASPA information by handle is specified using this form:
 
-rpki1_aspa/XXXX
+rpki1_aspa/handle/XXXX
 
 XXXX is a string representing the "handle" property of an ASPA, as described in (#aspa_object_class). The following URL
 would be used to find information for an ASPA that exactly matches the "47ab80ed8693f25d0187d93a07db4484" handle:
 
 ```
-https://example.net/rdap/rpki1_aspa/47ab80ed8693f25d0187d93a07db4484
+https://example.net/rdap/rpki1_aspa/handle/47ab80ed8693f25d0187d93a07db4484
 ```
 
 A lookup query for ASPA information by customer autonomous system number is specified using this form:
 
-rpki1_aspa/YYYY
+rpki1_aspa/autnum/YYYY
 
 YYYY is an autonomous system number representing the "customerAutnum" property of an ASPA, as described in
 (#aspa_object_class). The following URL would be used to find information for an ASPA with customer autonomous system
 number 65536:
 
 ```
-https://example.net/rdap/rpki1_aspa/65536
+https://example.net/rdap/rpki1_aspa/autnum/65536
 ```
 
 A lookup query for ASPA information by digest is specified using this form:
 
-rpki1_aspa/BBBB/CCCC
+rpki1_aspa/digest/BBBB/CCCC
 
 BBBB is a string representing the "digestAlgorithm" property, and CCCC is a string representing the "digest" property,
 as described in (#common_data_members). The following URL would be used to find information for an ASPA matching the
 "f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697" SHA-256 digest:
 
 ```
-https://example.net/rdap/rpki1_aspa/SHA-256/f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697
+https://example.net/rdap/rpki1_aspa/digest/SHA-256/f83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697
 ```
 
 In the "links" array of an ASPA object, the context URI ("value" member) of each link should be the lookup URL by its
@@ -859,15 +847,9 @@ number 65542:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_aspa/XXXX",
+          "value": "https://example.net/rdap/rpki1_aspas?providerAutnum=65542",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_aspa/XXXX",
-          "type": "application/rdap+json"
-        },
-        {
-          "value": "https://example.net/rdap/rpki1_aspa/XXXX",
-          "rel": "related",
-          "href": "https://example.net/rdap/autnum/65536",
+          "href": "https://example.net/rdap/rpki1_aspa/handle/XXXX",
           "type": "application/rdap+json"
         },
         ...
@@ -955,15 +937,9 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_aspa/XXXX",
+          "value": "https://example.net/rdap/autnum/65540",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_aspa/XXXX",
-          "type": "application/rdap+json"
-        },
-        {
-          "value": "https://example.net/rdap/rpki1_aspa/XXXX",
-          "rel": "related",
-          "href": "https://example.net/rdap/autnum/65536",
+          "href": "https://example.net/rdap/rpki1_aspa/handle/XXXX",
           "type": "application/rdap+json"
         },
         ...
@@ -1013,15 +989,9 @@ Here is an elided example for an autonomous system number object with ASPAs:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_aspa/YYYY",
+          "value": "https://example.net/rdap/autnum/65540",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_aspa/YYYY",
-          "type": "application/rdap+json"
-        },
-        {
-          "value": "https://example.net/rdap/rpki1_aspa/YYYY",
-          "rel": "related",
-          "href": "https://example.net/rdap/autnum/65537",
+          "href": "https://example.net/rdap/rpki1_aspa/handle/YYYY",
           "type": "application/rdap+json"
         },
         ...
@@ -1136,31 +1106,31 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/ABCD",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+      "href": "https://example.net/rdap/rpki1_x509ResourceCert/handle/ABCD",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/ip/192.0.2.0/24",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/ip/2001:db8::/48",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/ABCD",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65537",
       "type": "application/rdap+json"
@@ -1230,19 +1200,19 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/EFGH",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+      "href": "https://example.net/rdap/rpki1_x509ResourceCert/handle/EFGH",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/EFGH",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65536",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/EFGH",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65537",
       "type": "application/rdap+json"
@@ -1265,32 +1235,32 @@ The resource type path segment for exact match lookup of an X.509 resource certi
 
 The following lookup path segments are defined for an X.509 resource certificate object:
 
-Syntax: rpki1_x509ResourceCert/<handle>
+Syntax: rpki1_x509ResourceCert/handle/<handle>
 
-Syntax: rpki1_x509ResourceCert/<digest algorithm>/<digest>
+Syntax: rpki1_x509ResourceCert/digest/<digest algorithm>/<digest>
 
 A lookup query for X.509 resource certificate information by handle is specified using this form:
 
-rpki1_x509ResourceCert/XXXX
+rpki1_x509ResourceCert/handle/XXXX
 
 XXXX is a string representing the "handle" property of an X.509 resource certificate, as described in
 (#x509_resource_cert_object_class). The following URL would be used to find information for an X.509 resource
 certificate that exactly matches the "ABCD" handle:
 
 ```
-https://example.net/rdap/rpki1_x509ResourceCert/ABCD
+https://example.net/rdap/rpki1_x509ResourceCert/handle/ABCD
 ```
 
 A lookup query for X.509 resource certificate information by digest is specified using this form:
 
-rpki1_x509ResourceCert/BBBB/CCCC
+rpki1_x509ResourceCert/digest/BBBB/CCCC
 
 BBBB is a string representing the "digestAlgorithm" property, and CCCC is a string representing the "digest" property,
 as described in (#common_data_members). The following URL would be used to find information for an X.509 resource
 certificate matching the "83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697f" SHA-256 digest:
 
 ```
-https://example.net/rdap/rpki1_x509ResourceCert/SHA-256/83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697f
+https://example.net/rdap/rpki1_x509ResourceCert/digest/SHA-256/83b1657ff1fc53b92dc18148a1d65dfc2d4b1fa3d677284addd200126d90697f
 ```
 
 ## Search
@@ -1478,19 +1448,19 @@ issuer matching the "CN=ISP-*" pattern:
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCerts?issuer=CN=ISP-*",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+          "href": "https://example.net/rdap/rpki1_x509ResourceCert/handle/EFGH",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCerts?issuer=CN=ISP-*",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+          "value": "https://example.net/rdap/rpki1_x509ResourceCerts?issuer=CN=ISP-*",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
@@ -1596,31 +1566,31 @@ Here is an elided example for an entity (organization) object with X.509 resourc
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+          "value": "https://example.net/rdap/entity/XYZ-RIR",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+          "href": "https://example.net/rdap/rpki1_x509ResourceCert/handle/ABCD",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+          "value": "https://example.net/rdap/entity/XYZ-RIR",
           "rel": "related",
           "href": "https://example.net/rdap/ip/192.0.2.0/24",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+          "value": "https://example.net/rdap/entity/XYZ-RIR",
           "rel": "related",
           "href": "https://example.net/rdap/ip/2001:db8::/48",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+          "value": "https://example.net/rdap/entity/XYZ-RIR",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/ABCD",
+          "value": "https://example.net/rdap/entity/XYZ-RIR",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
@@ -1680,19 +1650,19 @@ Here is an elided example for an entity (organization) object with X.509 resourc
       "links":
       [
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+          "value": "https://example.net/rdap/entity/XYZ-RIR",
           "rel": "self",
-          "href": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+          "href": "https://example.net/rdap/rpki1_x509ResourceCert/handle/EFGH",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+          "value": "https://example.net/rdap/entity/XYZ-RIR",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65536",
           "type": "application/rdap+json"
         },
         {
-          "value": "https://example.net/rdap/rpki1_x509ResourceCert/EFGH",
+          "value": "https://example.net/rdap/entity/XYZ-RIR",
           "rel": "related",
           "href": "https://example.net/rdap/autnum/65537",
           "type": "application/rdap+json"
@@ -1720,7 +1690,7 @@ organization's RDAP service.
 "rdap-help" is a new link relation type for RDAP help data (see (#link_relations_registry)), enabling an RDAP client to
 distinguish the help URL from other related URLs.
 
-Here is an elided example of an X.509 resource certificate object for a delegated CA certificate with an "rdap-help"
+Here is an elided example of an X.509 resource certificate object for a delegated CA certificate with a "rdap-help"
 link object:
 
 ```
@@ -1778,25 +1748,25 @@ link object:
   "links":
   [
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/IJKL",
       "rel": "self",
-      "href": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "href": "https://example.net/rdap/rpki1_x509ResourceCert/handle/IJKL",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/IJKL",
       "rel": "related",
       "href": "https://example.net/rdap/ip/2001:db8:2::/48",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/IJKL",
       "rel": "related",
       "href": "https://example.net/rdap/autnum/65538",
       "type": "application/rdap+json"
     },
     {
-      "value": "https://example.net/rdap/rpki1_x509ResourceCert/IJKL",
+      "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/IJKL",
       "rel": "rdap-help",
       "href": "https://example.com/rdap/help",
       "type": "application/rdap+json"
@@ -2000,6 +1970,10 @@ Volk from the RPKI community provided valuable feedback for this document.
   presentation.)
 * Expound on RDAP for delegated and hybrid RPKI. (Feedback from Q Misell and Rüdiger Volk during IETF 122 SIDROPS
   presentation.)
+
+## Changes from 02 to 03
+
+* De-conflicted lookup path segments.
 
 {backmatter}
 
