@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-ietf-regext-rdap-rpki-03"
 stream = "IETF"
 status = "standard"
-date = 2025-12-04T00:00:00Z
+date = 2025-12-09T00:00:00Z
 
 [[author]]
 initials="J."
@@ -286,6 +286,8 @@ Syntax: rpki1_roa/ip/<IP address>
 Syntax: rpki1_roa/ip/<CIDR prefix>/<CIDR length>
 
 Syntax: rpki1_roa/digest/<digest algorithm>/<digest>
+
+The `/ip` syntax mirrors the syntax for IP networks found in [@!RFC9082, section 3.1.1].
 
 A lookup query for ROA information by handle is specified using this form:
 
@@ -709,9 +711,11 @@ The following lookup path segments are defined for an ASPA object:
 
 Syntax: rpki1_aspa/handle/<handle>
 
-Syntax: rpki1_aspa/autnum/<customer autonomous system number>
+Syntax: rpki1_aspa/autnum/<autonomous system number>
 
 Syntax: rpki1_aspa/digest/<digest algorithm>/<digest>
+
+The `/autnum` syntax mirrors the syntax for autonomous system numbers found in [@!RFC9082, section 3.1.2].
 
 A lookup query for ASPA information by handle is specified using this form:
 
