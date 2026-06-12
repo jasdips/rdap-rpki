@@ -5,13 +5,13 @@
 Registration Protocols Extensions (regext)                      J. Singh
 Internet-Draft                                                      ARIN
 Intended status: Standards Track                               A. Newton
-Expires: 12 June 2026                                              ICANN
-                                                         9 December 2025
+Expires: 14 December 2026                                          ICANN
+                                                            12 June 2026
 
 
  Registration Data Access Protocol (RDAP) Extension for Resource Public
               Key Infrastructure (RPKI) Registration Data
-                     draft-ietf-regext-rdap-rpki-03
+                     draft-ietf-regext-rdap-rpki-04
 
 Abstract
 
@@ -40,11 +40,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 12 June 2026.
+   This Internet-Draft will expire on 14 December 2026.
 
 Copyright Notice
 
-   Copyright (c) 2025 IETF Trust and the persons identified as the
+   Copyright (c) 2026 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Singh & Newton            Expires 12 June 2026                  [Page 1]
+Singh & Newton          Expires 14 December 2026                [Page 1]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    Please review these documents carefully, as they describe your rights
@@ -109,14 +109,15 @@ Table of Contents
 
 
 
-Singh & Newton            Expires 12 June 2026                  [Page 2]
+Singh & Newton          Expires 14 December 2026                [Page 2]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
      11.1.  Changes from 00 to 01  . . . . . . . . . . . . . . . . .  43
      11.2.  Changes from 01 to 02  . . . . . . . . . . . . . . . . .  44
      11.3.  Changes from 02 to 03  . . . . . . . . . . . . . . . . .  44
+     11.4.  Changes from 03 to 04  . . . . . . . . . . . . . . . . .  44
    12. References  . . . . . . . . . . . . . . . . . . . . . . . . .  44
      12.1.  Normative References . . . . . . . . . . . . . . . . . .  44
      12.2.  Informative References . . . . . . . . . . . . . . . . .  46
@@ -164,10 +165,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-
-Singh & Newton            Expires 12 June 2026                  [Page 3]
+Singh & Newton          Expires 14 December 2026                [Page 3]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  Was a ROA created in conjunction with an Internet Routing Registry
@@ -221,9 +221,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                  [Page 4]
+Singh & Newton          Expires 14 December 2026                [Page 4]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
 2.  Extension
@@ -235,8 +235,8 @@ Internet-Draft                  rdap-rpki                  December 2025
    A server that supports the functionality specified in this document
    MUST include the "rpki1" string literal in the "rdapConformance"
    array (Section 4.1 of [RFC9083]) for any lookup or search response
-   containing an RDAP object per the object class definition in
-   Section 4.1, Section 5.1, or Section 6.1, as well as in the help
+   containing an RDAP object per the object class definitions in
+   Section 4.1, Section 5.1, and Section 6.1, as well as in the help
    response.  Here is an elided example for this inclusion:
 
    {
@@ -277,9 +277,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                  [Page 5]
+Singh & Newton          Expires 14 December 2026                [Page 5]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  "handle" -- a string representing the registry-unique identifier
@@ -333,9 +333,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                  [Page 6]
+Singh & Newton          Expires 14 December 2026                [Page 6]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    For a CA that implements RRDP [RFC8182], the update notification file
@@ -389,9 +389,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                  [Page 7]
+Singh & Newton          Expires 14 December 2026                [Page 7]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
        {
@@ -445,9 +445,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                  [Page 8]
+Singh & Newton          Expires 14 December 2026                [Page 8]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
          "href": "https://example.net/rdap/ip/2001:db8::/48",
@@ -501,9 +501,9 @@ https://example.net/rdap/rpki1_roa/handle/8a848ab0729f0f4f0173ba2013bc5eb3
 
 
 
-Singh & Newton            Expires 12 June 2026                  [Page 9]
+Singh & Newton          Expires 14 December 2026                [Page 9]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    YYYY is a string representing an IPv4 or IPv6 address.  The following
@@ -557,9 +557,9 @@ https://example.net/rdap/rpki1_roa/digest/SHA-256/7f83b1657ff1fc53b92dc18148a1d6
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 10]
+Singh & Newton          Expires 14 December 2026               [Page 10]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    The following search path segments are defined for ROA objects:
@@ -613,9 +613,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 11]
+Singh & Newton          Expires 14 December 2026               [Page 11]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
       "objectClassName": "rpki1_roa",
@@ -669,9 +669,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 12]
+Singh & Newton          Expires 14 December 2026               [Page 12]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
           "type": "application/rdap+json"
@@ -725,9 +725,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 13]
+Singh & Newton          Expires 14 December 2026               [Page 13]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    will be performed on the ROA objects from its data store by the given
@@ -781,9 +781,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 14]
+Singh & Newton          Expires 14 December 2026               [Page 14]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    Here is an elided example of an ASPA object:
@@ -837,9 +837,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 15]
+Singh & Newton          Expires 14 December 2026               [Page 15]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
          "type": "application/rdap+json"
@@ -893,9 +893,9 @@ https://example.net/rdap/rpki1_aspa/handle/47ab80ed8693f25d0187d93a07db4484
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 16]
+Singh & Newton          Expires 14 December 2026               [Page 16]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    rpki1_aspa/autnum/YYYY
@@ -949,9 +949,9 @@ https://example.net/rdap/rpki1_aspa/digest/SHA-256/f83b1657ff1fc53b92dc18148a1d6
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 17]
+Singh & Newton          Expires 14 December 2026               [Page 17]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    https://example.net/rdap/rpki1_aspas?name=ASPA-*
@@ -1005,9 +1005,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 18]
+Singh & Newton          Expires 14 December 2026               [Page 18]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
         ...
@@ -1061,9 +1061,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 19]
+Singh & Newton          Expires 14 December 2026               [Page 19]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
 5.4.1.  By Entity
@@ -1117,9 +1117,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 20]
+Singh & Newton          Expires 14 December 2026               [Page 20]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
 {
@@ -1173,9 +1173,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 21]
+Singh & Newton          Expires 14 December 2026               [Page 21]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  "links" -- "self" link, "related" links for IP network and/or
@@ -1229,9 +1229,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 22]
+Singh & Newton          Expires 14 December 2026               [Page 22]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
   [
@@ -1285,9 +1285,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 23]
+Singh & Newton          Expires 14 December 2026               [Page 23]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
       "rel": "related",
@@ -1341,9 +1341,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 24]
+Singh & Newton          Expires 14 December 2026               [Page 24]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
   ],
@@ -1397,9 +1397,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 25]
+Singh & Newton          Expires 14 December 2026               [Page 25]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
       "description": [ "BGPSec router certificate" ]
@@ -1453,9 +1453,9 @@ https://example.net/rdap/rpki1_x509ResourceCert/digest/SHA-256/83b1657ff1fc53b92
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 26]
+Singh & Newton          Expires 14 December 2026               [Page 26]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    The following search path segments are defined for X.509 resource
@@ -1509,9 +1509,9 @@ https://example.net/rdap/rpki1_x509ResourceCerts?subject=CN%3DISP-BGPSEC-ROUTE*
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 27]
+Singh & Newton          Expires 14 December 2026               [Page 27]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    BBBB is a string representing the "subjectKeyIdentifier" property of
@@ -1565,9 +1565,9 @@ https://example.net/rdap/rpki1_x509ResourceCerts?cidr=2001%3Adb8%3A%3A%2F64
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 28]
+Singh & Newton          Expires 14 December 2026               [Page 28]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    EEEE is an autonomous system number within the "autnums" property of
@@ -1621,9 +1621,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 29]
+Singh & Newton          Expires 14 December 2026               [Page 29]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
       "subjectKeyIdentifier": "iOcGgxqXDa7mYv78fR+sGBKMtWJqItSLfaIYJDKYi8A=",
@@ -1677,9 +1677,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 30]
+Singh & Newton          Expires 14 December 2026               [Page 30]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
         ...
@@ -1733,9 +1733,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 31]
+Singh & Newton          Expires 14 December 2026               [Page 31]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    Section 9.2 and Section 9.3 include registration of entries for X.509
@@ -1789,9 +1789,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 32]
+Singh & Newton          Expires 14 December 2026               [Page 32]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
 7.  RDAP for Delegated and Hybrid RPKI
@@ -1845,9 +1845,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 33]
+Singh & Newton          Expires 14 December 2026               [Page 33]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
   [
@@ -1901,9 +1901,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 34]
+Singh & Newton          Expires 14 December 2026               [Page 34]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
       "href": "https://example.com/rdap/help",
@@ -1957,9 +1957,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 35]
+Singh & Newton          Expires 14 December 2026               [Page 35]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  Searchable Resource Type: rpki1_roas
@@ -2013,9 +2013,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 36]
+Singh & Newton          Expires 14 December 2026               [Page 36]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  Description: The server supports the RPKI ROA search by the handle
@@ -2069,9 +2069,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 37]
+Singh & Newton          Expires 14 December 2026               [Page 37]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  Registrant Contact Information: iesg@ietf.org
@@ -2125,9 +2125,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 38]
+Singh & Newton          Expires 14 December 2026               [Page 38]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  Registrant Name: IETF
@@ -2181,9 +2181,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 39]
+Singh & Newton          Expires 14 December 2026               [Page 39]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  Searchable Resource Type: rpki1_roas
@@ -2237,9 +2237,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 40]
+Singh & Newton          Expires 14 December 2026               [Page 40]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    RPKI ASPA search by the full name (a.k.a. formatted name) of an
@@ -2293,9 +2293,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 41]
+Singh & Newton          Expires 14 December 2026               [Page 41]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  Registrant Name: IETF
@@ -2349,9 +2349,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 42]
+Singh & Newton          Expires 14 December 2026               [Page 42]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    RPKI X.509 resource certificate search by the handle of an associated
@@ -2405,9 +2405,9 @@ Internet-Draft                  rdap-rpki                  December 2025
 
 
 
-Singh & Newton            Expires 12 June 2026                 [Page 43]
+Singh & Newton          Expires 14 December 2026               [Page 43]
 
-Internet-Draft                  rdap-rpki                  December 2025
+Internet-Draft                  rdap-rpki                      June 2026
 
 
    *  Be more explicit about what this extension is not.  (Feedback from
@@ -2432,6 +2432,10 @@ Internet-Draft                  rdap-rpki                  December 2025
       entity, an IP network, or an autonomous system number.
    *  No need for search by handle when lookup by handle is available.
 
+11.4.  Changes from 03 to 04
+
+   *  Minor editorial update.
+
 12.  References
 
 12.1.  Normative References
@@ -2439,32 +2443,33 @@ Internet-Draft                  rdap-rpki                  December 2025
    [I-D.ietf-regext-rdap-extensions]
               Newton, A., Singh, J., and T. Harrison, "RDAP Extensions",
               Work in Progress, Internet-Draft, draft-ietf-regext-rdap-
-              extensions-09, 4 December 2025,
+              extensions-12, 18 February 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-regext-
-              rdap-extensions-09>.
+              rdap-extensions-12>.
 
    [I-D.ietf-sidrops-aspa-profile]
-              Azimov, A., Uskov, E., Bush, R., Snijders, J., Housley,
+              Snijders, J., Azimov, A., Uskov, E., Bush, R., Housley,
               R., and B. Maddison, "A Profile for Autonomous System
               Provider Authorization", Work in Progress, Internet-Draft,
-              draft-ietf-sidrops-aspa-profile-20, 18 August 2025,
+              draft-ietf-sidrops-aspa-profile-26, 19 April 2026,
               <https://datatracker.ietf.org/doc/html/draft-ietf-sidrops-
-              aspa-profile-20>.
+              aspa-profile-26>.
+
+
+
+
+
+
+
+Singh & Newton          Expires 14 December 2026               [Page 44]
+
+Internet-Draft                  rdap-rpki                      June 2026
+
 
    [RFC1519]  Fuller, V., Li, T., Yu, J., and K. Varadhan, "Classless
               Inter-Domain Routing (CIDR): an Address Assignment and
               Aggregation Strategy", RFC 1519, DOI 10.17487/RFC1519,
               September 1993, <https://www.rfc-editor.org/info/rfc1519>.
-
-
-
-
-
-
-Singh & Newton            Expires 12 June 2026                 [Page 44]
-
-Internet-Draft                  rdap-rpki                  December 2025
-
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -2509,18 +2514,18 @@ Internet-Draft                  rdap-rpki                  December 2025
               DOI 10.17487/RFC9082, June 2021,
               <https://www.rfc-editor.org/info/rfc9082>.
 
+
+
+
+Singh & Newton          Expires 14 December 2026               [Page 45]
+
+Internet-Draft                  rdap-rpki                      June 2026
+
+
    [RFC9083]  Hollenbeck, S. and A. Newton, "JSON Responses for the
               Registration Data Access Protocol (RDAP)", STD 95,
               RFC 9083, DOI 10.17487/RFC9083, June 2021,
               <https://www.rfc-editor.org/info/rfc9083>.
-
-
-
-
-Singh & Newton            Expires 12 June 2026                 [Page 45]
-
-Internet-Draft                  rdap-rpki                  December 2025
-
 
    [RFC9536]  Loffredo, M. and M. Martinelli, "Registration Data Access
               Protocol (RDAP) Reverse Search", RFC 9536,
@@ -2565,18 +2570,19 @@ Internet-Draft                  rdap-rpki                  December 2025
               <https://www.iana.org/assignments/rdap-reverse-search-
               mapping/>.
 
+
+
+
+Singh & Newton          Expires 14 December 2026               [Page 46]
+
+Internet-Draft                  rdap-rpki                      June 2026
+
+
    [RFC2622]  Alaettinoglu, C., Villamizar, C., Gerich, E., Kessens, D.,
               Meyer, D., Bates, T., Karrenberg, D., and M. Terpstra,
               "Routing Policy Specification Language (RPSL)", RFC 2622,
               DOI 10.17487/RFC2622, June 1999,
               <https://www.rfc-editor.org/info/rfc2622>.
-
-
-
-Singh & Newton            Expires 12 June 2026                 [Page 46]
-
-Internet-Draft                  rdap-rpki                  December 2025
-
 
    [RFC4271]  Rekhter, Y., Ed., Li, T., Ed., and S. Hares, Ed., "A
               Border Gateway Protocol 4 (BGP-4)", RFC 4271,
@@ -2623,10 +2629,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-Singh & Newton            Expires 12 June 2026                 [Page 47]
+Singh & Newton          Expires 14 December 2026               [Page 47]
