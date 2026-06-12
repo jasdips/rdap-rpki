@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-ietf-regext-rdap-rpki-03"
+value = "draft-ietf-regext-rdap-rpki-04"
 stream = "IETF"
 status = "standard"
-date = 2025-12-09T00:00:00Z
+date = 2026-06-12T00:00:00Z
 
 [[author]]
 initials="J."
@@ -105,8 +105,8 @@ for the ROA, ASPA, and X.509 Resource Certificate RPKI profiles through RDAP.
 
 A server that supports the functionality specified in this document MUST include the "rpki1" string literal in the
 "rdapConformance" array ([@!RFC9083, section 4.1]) for any lookup or search response containing an RDAP object per the
-object class definition in (#roa_object_class), (#aspa_object_class), or (#x509_resource_cert_object_class), as well as
-in the help response. Here is an elided example for this inclusion:
+object class definitions in (#roa_object_class), (#aspa_object_class), and (#x509_resource_cert_object_class), as well
+as in the help response. Here is an elided example for this inclusion:
 
 ```
 {
@@ -1845,6 +1845,10 @@ Volk from the RPKI community provided valuable feedback for this document.
 * Include RPKI-related reverse search links in returned data for an entity, an IP network, or an autonomous system
   number.
 * No need for search by handle when lookup by handle is available.
+
+## Changes from 03 to 04
+
+* Minor editorial update.
 
 {backmatter}
 
