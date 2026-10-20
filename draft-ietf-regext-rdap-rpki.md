@@ -846,7 +846,7 @@ The X.509 resource certificate object class can contain the following members:
 * "rpkiType" -- see (#common_data_members)
 * "events" -- see [@!RFC9083, section 4.5]
 * "links" -- "self" link, "related" links for IP network and/or autonomous system number objects
-  ([@!RFC9083, section 4.2]), and "rdap-help" link (see (#rdap_for_delegated_and_hybrid_rpki))
+  ([@!RFC9083, section 4.2]), and "rdap-base-down" link (see (#rdap_for_delegated_and_hybrid_rpki))
 * "remarks" -- see [@!RFC9083, section 4.3]
 
 The following types of certificates can be represented using this object class:
@@ -1799,14 +1799,6 @@ RPKI X.509 resource certificate search by the handle of an associated autonomous
 * Property Path: $.handle
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-## Link Relations Registry {#link_relations_registry}
-
-IANA is requested to register the following value in the "Link Relations" registry at [@LINK-RELATIONS]:
-
-* Relation Name: rdap-help
-* Description: Refers to a resource with RDAP help information related to the link context.
 * Reference: This document.
 
 # Acknowledgements
