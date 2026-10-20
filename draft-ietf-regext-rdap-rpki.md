@@ -7,10 +7,10 @@ ipr= "trust200902"
 
 [seriesInfo]
 name = "Internet-Draft"
-value = "draft-ietf-regext-rdap-rpki-04"
+value = "draft-ietf-regext-rdap-rpki-05"
 stream = "IETF"
 status = "standard"
-date = 2026-06-12T00:00:00Z
+date = 2026-10-21T00:00:00Z
 
 [[author]]
 initials="J."
@@ -1348,16 +1348,12 @@ could be included in its returned data. For example:
 For delegated and hybrid RPKI (see "rpkiTypes" in (#common_data_members)), a registry may ask an organization with
 allocated resources to provide the base URL for its RDAP service. If the RDAP base URL is provided, then in the X.509
 resource certificate object ((#x509_resource_cert_object_class)) for that organization's CA certificate, the registry
-MUST include a link object ([@!RFC9083, section 4.2]) with the "rel" member set to "rdap-help" and the "href" member set
-to the help URL ([@!RFC9082, section 3.1.6]) for that RDAP service by appending the "help" path segment to the provided
-base URL. RDAP clients can then parse the base RDAP URL from the "href" value of such a link object and use the "ips"
-and "autnums" values from the X.509 resource certificate object to form ROA and ASPA lookup queries for that
-organization's RDAP service.
+MUST include a link object ([@!RFC9083, section 4.2]) with the "rel" member set to "rdap-base-down"
+([@!I-D.ietf-regext-rdap-extensions, section 7.3.2]) and the "href" member set to the base URL for that RDAP service.
+RDAP clients can then use the base RDAP URL from the "href" value of such a link object and the "ips" and "autnums"
+values from the X.509 resource certificate object to form RPKI-related queries for that organization's RDAP service.
 
-"rdap-help" is a new link relation type for RDAP help data (see (#link_relations_registry)), enabling an RDAP client to
-distinguish the help URL from other related URLs.
-
-Here is an elided example of an X.509 resource certificate object for a delegated CA certificate with a "rdap-help"
+Here is an elided example of an X.509 resource certificate object for a delegated CA certificate with a "rdap-base-down"
 link object:
 
 ```
@@ -1434,8 +1430,8 @@ link object:
     },
     {
       "value": "https://example.net/rdap/rpki1_x509ResourceCert/handle/IJKL",
-      "rel": "rdap-help",
-      "href": "https://example.com/rdap/help",
+      "rel": "rdap-base-down",
+      "href": "https://example.com/rdap/",
       "type": "application/rdap+json"
     },
     ...
@@ -1450,8 +1446,8 @@ link object:
 ```
 
 In this example, note how the authority component (domain) in the "value" URL differs from that in the "href" URL for
-the "rdap-help" link object, with the former for the registry's RDAP service and the latter for that organization's RDAP
-service.
+the "rdap-base-down" link object, with the former for the registry's RDAP service and the latter for that organization's
+RDAP service.
 
 # Security Considerations
 
