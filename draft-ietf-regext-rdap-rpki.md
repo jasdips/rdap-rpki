@@ -1349,7 +1349,7 @@ For delegated and hybrid RPKI (see "rpkiTypes" in (#common_data_members)), a reg
 allocated resources to provide the base URL for its RDAP service. If the RDAP base URL is provided, then in the X.509
 resource certificate object ((#x509_resource_cert_object_class)) for that organization's CA certificate, the registry
 MUST include a link object ([@!RFC9083, section 4.2]) with the "rel" member set to "rdap-base-down"
-([@!I-D.ietf-regext-rdap-extensions, section 7.3.2]) and the "href" member set to the base URL for that RDAP service.
+([@!I-D.ietf-regext-rdap-extensions, section 7.3.3]) and the "href" member set to the base URL for that RDAP service.
 RDAP clients can then use the base RDAP URL from the "href" value of such a link object and the "ips" and "autnums"
 values from the X.509 resource certificate object to form RPKI-related queries for that organization's RDAP service.
 
@@ -1854,15 +1854,6 @@ Volk from the RPKI community provided valuable feedback for this document.
         <title>JDR</title>
         <author>
             <organization>NLNet Labs</organization>
-        </author>
-    </front>
-</reference>
-
-<reference anchor='LINK-RELATIONS' target='https://www.iana.org/assignments/link-relations/'>
-    <front>
-        <title>Link Relations</title>
-        <author>
-            <organization>IANA</organization>
         </author>
     </front>
 </reference>
