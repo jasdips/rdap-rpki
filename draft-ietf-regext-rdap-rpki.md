@@ -1868,6 +1868,11 @@ Volk, and Lancheng Qin from the RPKI community provided valuable feedback for th
 
 * Minor editorial update.
 
+## Changes from 04 to 05
+
+* "rdap-base-down" link use instead of "rdap-help".
+* Entity roles for RPKI repository and CA operators. (Thanks Lancheng Qin.)
+
 {backmatter}
 
 <reference anchor='CLOUDFLARE' target='https://rpki.cloudflare.com/'>
