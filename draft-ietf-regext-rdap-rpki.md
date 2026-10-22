@@ -178,10 +178,10 @@ The "entities" array for a registered RPKI object may contain entity objects rep
 
 * the organization registered as the authoritative source for that RPKI object, assigned the "registrant"
   role ([@!RFC9083, section 10.2.4])
-* the organization that operates the RPKI publication repository for that RPKI object, assigned the "rpki repository
-  operator" role ((#json_values_registry))
-* the organization that operates the RPKI Certification Authority (CA) for that RPKI object, assigned the "rpki ca
-  operator" role ((#json_values_registry))
+* the organization that operates the repository for that RPKI object, assigned the "rpki repository operator" role
+  ((#json_values_registry))
+* the organization that operates the CA for that RPKI object, assigned the "rpki ca operator" role
+  ((#json_values_registry))
 
 # Route Origin Authorization {#roa}
 
