@@ -157,8 +157,7 @@ contain one or more of the following common members:
   the URI scheme is "rsync", per [@!RFC6487, section 4]
 * "notificationUri" -- an HTTPS URI string pointing to the location of the RPKI Repository Delta Protocol (RRDP) update
   notification file for an RPKI repository ([@!RFC8182, section 3])
-* "entities" -- an array of entity objects ([@!RFC9083, section 5.1]), including the organization (entity) registered as
-  the authoritative source for an RPKI object
+* "entities" -- an array of entity objects ([@!RFC9083, section 5.1])
 * "rpkiType" -- a string literal representing various combinations of an RPKI repository and a Certification Authority
   (CA), with the following possible values:
     * "hosted" -- both the repository and CA are operated by a registry for an organization with allocated resources
@@ -174,6 +173,15 @@ For a CA that implements RRDP [@!RFC8182], the update notification file location
 resource certificate it issues ([@!RFC8182, section 3.2]). Consequently, the "notificationUri" data should help inform
 about the RPKI repository and/or CA operated downstream from a registry by an organization with resources allocated by
 that registry.
+
+The "entities" array for a registered RPKI object may contain entity objects representing:
+
+* the organization registered as the authoritative source for that RPKI object, assigned the "registrant"
+  role ([@!RFC9083, section 10.2.4])
+* the organization that operates the RPKI publication repository for that RPKI object, assigned the "rpki repository
+  operator" role ((#json_values_registry))
+* the organization that operates the RPKI Certification Authority (CA) for that RPKI object, assigned the "rpki ca
+  operator" role ((#json_values_registry))
 
 # Route Origin Authorization {#roa}
 
@@ -1825,8 +1833,8 @@ RPKI X.509 resource certificate search by the handle of an associated autonomous
 
 # Acknowledgements
 
-Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, Frank Hill, Tobias Fiebig, Q Misell, and Rüdiger
-Volk from the RPKI community provided valuable feedback for this document.
+Job Snijders, Ties de Kock, Mark Kosters, Tim Bruijnzeels, Bart Bakker, Frank Hill, Tobias Fiebig, Q Misell, Rüdiger
+Volk, and Lancheng Qin from the RPKI community provided valuable feedback for this document.
 
 # Change History
 
