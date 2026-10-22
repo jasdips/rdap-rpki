@@ -1468,6 +1468,28 @@ IANA is requested to register the following values in the "RDAP Extensions" regi
 * Contact: IETF <iesg@ietf.org>
 * Intended usage: This extension describes version 1 of a method to access the RPKI registration data through RDAP.
 
+## RDAP JSON Values Registry {#json_values_registry}
+
+IANA is requested to register the following entries in the "RDAP JSON Values" registry at [@RDAP-JSON-VALUES]:
+
+"rpki repository operator" role:
+
+* Value: rpki repository operator
+* Type: role
+* Description: The entity object representing the organization that operates the RPKI publication repository for a
+  registered RPKI object.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+
+"rpki ca operator" role:
+
+* Value: rpki ca operator
+* Type: role
+* Description: The entity object representing the organization that operates the RPKI Certification Authority (CA) for a
+  registered RPKI object.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+
 ## RDAP Reverse Search Registry {#reverse_search_registry}
 
 IANA is requested to register the following entries in the "RDAP Reverse Search" registry at [@RDAP-REVERSE-SEARCH]:
@@ -1881,6 +1903,15 @@ Volk from the RPKI community provided valuable feedback for this document.
         <title>RDAP Guide</title>
         <author>
             <organization>Newton, A.</organization>
+        </author>
+    </front>
+</reference>
+
+<reference anchor='RDAP-JSON-VALUES' target='https://www.iana.org/assignments/rdap-json-values/'>
+    <front>
+        <title>RDAP JSON Values</title>
+        <author>
+            <organization>IANA</organization>
         </author>
     </front>
 </reference>
