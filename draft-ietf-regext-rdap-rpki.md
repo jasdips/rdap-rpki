@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-ietf-regext-rdap-rpki-05"
 stream = "IETF"
 status = "standard"
-date = 2026-10-21T00:00:00Z
+date = 2026-10-24T00:00:00Z
 
 [[author]]
 initials="J."
@@ -243,6 +243,13 @@ Here is an elided example of a ROA object:
     {
       "objectClassName": "entity",
       "handle": "XYZ-RIR",
+      "roles": [ "registrant" ],
+      ...
+    },
+    {
+      "objectClassName": "entity",
+      "handle": "RIR",
+      "roles": [ "rpki repository operator", "rpki ca operator" ],
       ...
     },
     ...
@@ -440,6 +447,13 @@ Here is an elided example of the search results when finding information for ROA
         {
           "objectClassName": "entity",
           "handle": "XYZ-RIR",
+          "roles": [ "registrant" ],
+          ...
+        },
+        {
+          "objectClassName": "entity",
+          "handle": "RIR",
+          "roles": [ "rpki repository operator", "rpki ca operator" ],
           ...
         },
         ...
@@ -576,6 +590,13 @@ Here is an elided example of an ASPA object:
     {
       "objectClassName": "entity",
       "handle": "XYZ-RIR",
+      "roles": [ "registrant" ],
+      ...
+    },
+    {
+      "objectClassName": "entity",
+      "handle": "RIR",
+      "roles": [ "rpki repository operator", "rpki ca operator" ],
       ...
     },
     ...
@@ -745,6 +766,13 @@ number 65542:
         {
           "objectClassName": "entity",
           "handle": "XYZ-RIR",
+          "roles": [ "registrant" ],
+          ...
+        },
+        {
+          "objectClassName": "entity",
+          "handle": "RIR",
+          "roles": [ "rpki repository operator", "rpki ca operator" ],
           ...
         },
         ...
@@ -909,6 +937,13 @@ Here is an elided example of an X.509 resource certificate object for a CA certi
     {
       "objectClassName": "entity",
       "handle": "XYZ-RIR",
+      "roles": [ "registrant" ],
+      ...
+    },
+    {
+      "objectClassName": "entity",
+      "handle": "RIR",
+      "roles": [ "rpki repository operator", "rpki ca operator" ],
       ...
     },
     ...
@@ -1003,6 +1038,13 @@ Here is an elided example of an X.509 resource certificate object for a BGPSec r
     {
       "objectClassName": "entity",
       "handle": "XYZ-RIR",
+      "roles": [ "registrant" ],
+      ...
+    },
+    {
+      "objectClassName": "entity",
+      "handle": "RIR",
+      "roles": [ "rpki repository operator", "rpki ca operator" ],
       ...
     },
     ...
@@ -1237,6 +1279,13 @@ issuer matching the "CN=ISP-*" pattern:
         {
           "objectClassName": "entity",
           "handle": "XYZ-RIR",
+          "roles": [ "registrant" ],
+          ...
+        },
+        {
+          "objectClassName": "entity",
+          "handle": "RIR",
+          "roles": [ "rpki repository operator", "rpki ca operator" ],
           ...
         },
         ...
@@ -1403,6 +1452,7 @@ link object:
     {
       "objectClassName": "entity",
       "handle": "ABC-RIR",
+      "roles": [ "registrant", "rpki repository operator", "rpki ca operator" ],
       ...
     },
     ...
