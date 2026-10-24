@@ -72,7 +72,7 @@ or its verified payload but could be looked up or searched using RDAP; such as:
 * Which ROAs are associated with an origin AS?
 * Which ASPAs are associated with a provider AS?
 * Which X.509 resource certificates are associated with an organization?
-* Which organization is registered as the authoritative source for an RPKI profile object?
+* Which organization is registered as the registrant for an RPKI profile object?
 
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
@@ -158,8 +158,8 @@ contain one or more of the following common members:
 * "notificationUri" -- an HTTPS URI string pointing to the location of the RPKI Repository Delta Protocol (RRDP) update
   notification file for an RPKI repository ([@!RFC8182, section 3])
 * "entities" -- an array of entity objects ([@!RFC9083, section 5.1])
-* "rpkiType" -- a string literal representing various combinations of an RPKI repository and a Certification Authority
-  (CA), with the following possible values:
+* "rpkiType" -- a string literal representing various combinations of an RPKI publication repository and an RPKI
+  Certification Authority (CA), with the following possible values:
     * "hosted" -- both the repository and CA are operated by a registry for an organization with allocated resources
     * "delegated" -- both the repository and CA are operated by an organization with resources allocated by a registry
     * "hybrid" -- the repository is operated by a registry for an organization with allocated resources whereas the CA
@@ -176,11 +176,11 @@ that registry.
 
 The "entities" array for a registered RPKI object may contain entity objects representing:
 
-* the organization registered as the authoritative source for that RPKI object, assigned the "registrant"
-  role ([@!RFC9083, section 10.2.4])
-* the organization that operates the repository for that RPKI object, assigned the "rpki repository operator" role
+* the organization registered as the registrant for that object, assigned the "registrant" role
+  ([@!RFC9083, section 10.2.4])
+* the organization that operates the RPKI repository for that object, assigned the "rpki repository operator" role
   ((#json_values_registry))
-* the organization that operates the CA for that RPKI object, assigned the "rpki ca operator" role
+* the organization that operates the RPKI CA for that object, assigned the "rpki ca operator" role
   ((#json_values_registry))
 
 # Route Origin Authorization {#roa}
@@ -1920,8 +1920,9 @@ Volk, and Lancheng Qin from the RPKI community provided valuable feedback for th
 
 ## Changes from 04 to 05
 
-* "rdap-base-down" link use instead of "rdap-help".
-* Entity roles for RPKI repository and CA operators. (Thanks Lancheng Qin.)
+* Used the "rdap-base-down" link relation instead of "rdap-help".
+* Defined two new "rpki repository operator" and "rpki ca operator" roles (thanks to Lancheng Qin), and used them along
+  with the previously defined "registrant" role for organizational entities.
 
 {backmatter}
 
