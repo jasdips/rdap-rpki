@@ -72,7 +72,7 @@ or its verified payload but could be looked up or searched using RDAP; such as:
 * Which ROAs are associated with an origin AS?
 * Which ASPAs are associated with a provider AS?
 * Which X.509 resource certificates are associated with an organization?
-* Which organization is registered as the registrant for an RPKI profile object?
+* Who is the registrant of an RPKI object?
 
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
 access to the latter's contact information through RDAP entity objects, which should aid troubleshooting.
