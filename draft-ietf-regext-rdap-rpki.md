@@ -71,7 +71,7 @@ or its verified payload but could be looked up or searched using RDAP; such as:
 * Which ROAs are associated with an IP network?
 * Which ROAs are associated with an origin AS?
 * Which ASPAs are associated with a provider AS?
-* Which X.509 resource certificates are associated with an organization?
+* Which X.509 resource certificates are associated with an entity?
 * Who is the registrant of an RPKI object?
 
 Furthermore, correlating registered RPKI data with registered IP networks and autonomous system numbers would also give
@@ -161,10 +161,10 @@ contain one or more of the following common members:
 * "entities" -- an array of entity objects ([@!RFC9083, section 5.1])
 * "rpkiType" -- a string literal representing various combinations of an RPKI publication repository and an RPKI
   Certification Authority (CA), with the following possible values:
-    * "hosted" -- both the repository and CA are operated by a registry for an organization with allocated resources
-    * "delegated" -- both the repository and CA are operated by an organization with resources allocated by a registry
-    * "hybrid" -- the repository is operated by a registry for an organization with allocated resources whereas the CA
-      is operated by the organization itself
+    * "hosted" -- both the repository and CA are operated by a registry for an entity with allocated resources
+    * "delegated" -- both the repository and CA are operated by an entity with resources allocated by a registry
+    * "hybrid" -- the repository is operated by a registry for an entity with allocated resources whereas the CA is
+      operated by the entity itself
 
 The purpose of an object with "digest" and "digestAlgorithm" members is to enable an RDAP server to present a message
 digest (hash) for an entire RPKI object, thereby providing RDAP clients with an exact reference to the underlying RPKI
@@ -172,8 +172,8 @@ object. This can help with analysis, research, and/or debugging.
 
 For a CA that implements RRDP [@!RFC8182], the update notification file location is expected to be set in each X.509
 resource certificate it issues ([@!RFC8182, section 3.2]). Consequently, the "notificationUri" data should help inform
-about the RPKI repository and/or CA operated downstream from a registry by an organization with resources allocated by
-that registry.
+about the RPKI repository and/or CA operated downstream from a registry by an entity with resources allocated by that
+registry.
 
 The "entities" array for a registered RPKI object may contain entity objects representing:
 
@@ -885,8 +885,8 @@ The X.509 resource certificate object class can contain the following members:
 
 The following types of certificates can be represented using this object class:
 
-* a CA certificate ([@!RFC6480, section 2.2]) that a registry issues to an organization (the subject) for its allocated
-  IP addresses and/or autonomous system numbers, authorizing the organization CA to issue end-entity certificates
+* a CA certificate ([@!RFC6480, section 2.2]) that a registry issues to an entity (the subject) for its allocated IP
+  addresses and/or autonomous system numbers, authorizing that entity's CA to issue end-entity certificates
   ([@!RFC6480, section 2.3])
 * a BGPSec router certificate [@!RFC8209] where an ASN(s) holder cryptographically asserts that a router (the subject)
   holding the corresponding private key is authorized to emit secure route advertisements on behalf of the AS(es)
@@ -1400,13 +1400,13 @@ could be included in its returned data. For example:
 
 # RDAP for Delegated and Hybrid RPKI {#rdap_for_delegated_and_hybrid_rpki}
 
-For delegated and hybrid RPKI (see "rpkiTypes" in (#common_data_members)), a registry may ask an organization with
-allocated resources to provide the base URL for its RDAP service. If the RDAP base URL is provided, then in the X.509
-resource certificate object ((#x509_resource_cert_object_class)) for that organization's CA certificate, the registry
-MUST include a link object ([@!RFC9083, section 4.2]) with the "rel" member set to "rdap-base-down"
+For delegated and hybrid RPKI (see "rpkiTypes" in (#common_data_members)), a registry may ask an entity with allocated
+resources to provide the base URL for its RDAP service. If the RDAP base URL is provided, then in the X.509 resource
+certificate object ((#x509_resource_cert_object_class)) for that entity's CA certificate, the registry MUST include a
+link object ([@!RFC9083, section 4.2]) with the "rel" member set to "rdap-base-down"
 ([@!I-D.ietf-regext-rdap-extensions, section 7.3.3]) and the "href" member set to the base URL for that RDAP service.
 RDAP clients can then use the base RDAP URL from the "href" value of such a link object and the "ips" and "autnums"
-values from the X.509 resource certificate object to form RPKI-related queries for that organization's RDAP service.
+values from the X.509 resource certificate object to form RPKI-related queries for that entity's RDAP service.
 
 Here is an elided example of an X.509 resource certificate object for a delegated CA certificate with a "rdap-base-down"
 link object:
@@ -1502,7 +1502,7 @@ link object:
 ```
 
 In this example, note how the authority component (domain) in the "value" URL differs from that in the "href" URL for
-the "rdap-base-down" link object, with the former for the registry's RDAP service and the latter for that organization's
+the "rdap-base-down" link object, with the former for the registry's RDAP service and the latter for that entity's
 RDAP service.
 
 # Security Considerations
@@ -1542,6 +1542,33 @@ IANA is requested to register the following entries in the "RDAP JSON Values" re
 * Type: role
 * Description: The entity object representing the RPKI Certification Authority (CA) operator for a registered RPKI
   object.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+
+"hosted" RPKI type:
+
+* Value: hosted
+* Type: rpkiType
+* Description: Both the RPKI publication repository and the RPKI Certification Authority (CA) are operated by a registry
+  for an entity with allocated resources.
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+
+"delegated" RPKI type:
+
+* Value: delegated
+* Type: rpkiType
+* Description: Both the RPKI publication repository and the RPKI Certification Authority (CA) are operated by an entity
+  with resources allocated by a registry
+* Registrant Name: IETF
+* Registrant Contact Information: iesg@ietf.org
+
+"hybrid" RPKI type:
+
+* Value: hybrid
+* Type: rpkiType
+* Description: The RPKI publication repository is operated by a registry for an entity with allocated resources whereas
+  the RPKI Certification Authority (CA) is operated by the entity itself.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 
@@ -1722,7 +1749,8 @@ Volk, and Lancheng Qin from the RPKI community provided valuable feedback for th
 * Used the "rdap-base-down" link relation instead of "rdap-help".
 * Defined two new "rpki repository operator" and "rpki ca operator" roles (thanks to Lancheng Qin), and used them along
   with the previously defined "registrant" role for entities.
-* More compact IANA registration of reverse searches.
+* IANA registration for RPKI types.
+* More compact IANA registration for reverse searches.
 
 {backmatter}
 
