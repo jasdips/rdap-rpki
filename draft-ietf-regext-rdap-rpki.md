@@ -1549,166 +1549,68 @@ IANA is requested to register the following entries in the "RDAP JSON Values" re
 
 IANA is requested to register the following entries in the "RDAP Reverse Search" registry at [@RDAP-REVERSE-SEARCH]:
 
-RPKI ROA search by the full name (a.k.a. formatted name) of an associated entity:
+RPKI ROA/ASPA/X.509 resource certificate search by the full name (a.k.a. formatted name) of an associated entity:
 
-* Searchable Resource Type: rpki1_roas
+* Searchable Resource Type: rpki1_roas, rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: entity
 * Property: fn
-* Description: The server supports the RPKI ROA search by the full name (a.k.a. formatted name) of an associated entity.
+* Description: The server supports the RPKI ROA/ASPA/X.509 resource certificate search by the full name (a.k.a.
+  formatted name) of an associated entity.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI ROA search by the handle of an associated entity:
+RPKI ROA/ASPA/X.509 resource certificate search by the handle of an associated entity:
 
-* Searchable Resource Type: rpki1_roas
+* Searchable Resource Type: rpki1_roas, rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: entity
 * Property: handle
-* Description: The server supports the RPKI ROA search by the handle of an associated entity.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ROA search by the email address of an associated entity:
-
-* Searchable Resource Type: rpki1_roas
-* Related Resource Type: entity
-* Property: email
-* Description: The server supports the RPKI ROA search by the email address of an associated entity.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ROA search by the role of an associated entity:
-
-* Searchable Resource Type: rpki1_roas
-* Related Resource Type: entity
-* Property: role
-* Description: The server supports the RPKI ROA search by the role of an associated entity.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ROA search by the handle of an associated IP network:
-
-* Searchable Resource Type: rpki1_roas
-* Related Resource Type: ip
-* Property: handle
-* Description: The server supports the RPKI ROA search by the handle of an associated IP network.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ASPA search by the full name (a.k.a. formatted name) of an associated entity:
-
-* Searchable Resource Type: rpki1_aspas
-* Related Resource Type: entity
-* Property: fn
-* Description: The server supports the RPKI ASPA search by the full name (a.k.a. formatted name) of an associated
+* Description: The server supports the RPKI ROA/ASPA/X.509 resource certificate search by the handle of an associated
   entity.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI ASPA search by the handle of an associated entity:
+RPKI ROA/ASPA/X.509 resource certificate search by the email address of an associated entity:
 
-* Searchable Resource Type: rpki1_aspas
-* Related Resource Type: entity
-* Property: handle
-* Description: The server supports the RPKI ASPA search by the handle of an associated entity.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ASPA search by the email address of an associated entity:
-
-* Searchable Resource Type: rpki1_aspas
+* Searchable Resource Type: rpki1_roas, rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: entity
 * Property: email
-* Description: The server supports the RPKI ASPA search by the email address of an associated entity.
+* Description: The server supports the RPKI ROA/ASPA/X.509 resource certificate search by the email address of an
+  associated entity.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI ASPA search by the role of an associated entity:
+RPKI ROA/ASPA/X.509 resource certificate search by the role of an associated entity:
 
-* Searchable Resource Type: rpki1_aspas
+* Searchable Resource Type: rpki1_roas, rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: entity
 * Property: role
-* Description: The server supports the RPKI ASPA search by the role of an associated entity.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ASPA search by the handle of an associated autonomous system number:
-
-* Searchable Resource Type: rpki1_aspas
-* Related Resource Type: autnum
-* Property: handle
-* Description: The server supports the RPKI ASPA search by the handle of an associated autonomous system number.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the full name (a.k.a. formatted name) of an associated entity:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: entity
-* Property: fn
-* Description: The server supports the RPKI X.509 resource certificate search by the full name (a.k.a. formatted name)
-  of an associated entity.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the handle of an associated entity:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: entity
-* Property: handle
-* Description: The server supports the RPKI X.509 resource certificate search by the handle of an associated entity.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the email address of an associated entity:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: entity
-* Property: email
-* Description: The server supports the RPKI X.509 resource certificate search by the email address of an associated
+* Description: The server supports the RPKI ROA/ASPA/X.509 resource certificate search by the role of an associated
   entity.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI X.509 resource certificate search by the role of an associated entity:
+RPKI ROA/X.509 resource certificate search by the handle of an associated IP network:
 
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: entity
-* Property: role
-* Description: The server supports the RPKI X.509 resource certificate search by the role of an associated entity.
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the handle of an associated IP network:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
+* Searchable Resource Type: rpki1_roas, rpki1_x509ResourceCerts
 * Related Resource Type: ip
 * Property: handle
-* Description: The server supports the RPKI X.509 resource certificate search by the handle of an associated IP network.
+* Description: The server supports the RPKI ROA/X.509 resource certificate search by the handle of an associated IP
+  network.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI X.509 resource certificate search by the handle of an associated autonomous system number:
+RPKI ASPA/X.509 resource certificate search by the handle of an associated autonomous system number:
 
-* Searchable Resource Type: rpki1_x509ResourceCerts
+* Searchable Resource Type: rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: autnum
 * Property: handle
-* Description: The server supports the RPKI X.509 resource certificate search by the handle of an associated autonomous
-  system number.
+* Description: The server supports the RPKI ASPA/X.509 resource certificate search by the handle of an associated
+  autonomous system number.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
@@ -1718,9 +1620,9 @@ RPKI X.509 resource certificate search by the handle of an associated autonomous
 IANA is requested to register the following entries in the "RDAP Reverse Search Mapping" registry
 at [@RDAP-REVERSE-SEARCH-MAPPING]:
 
-RPKI ROA search by the full name (a.k.a. formatted name) of an associated entity:
+RPKI ROA/ASPA/X.509 resource certificate search by the full name (a.k.a. formatted name) of an associated entity:
 
-* Searchable Resource Type: rpki1_roas
+* Searchable Resource Type: rpki1_roas, rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: entity
 * Property: fn
 * Property Path: $.entities[*].vcardArray[1][?(@[0]=='fn')][3]
@@ -1728,9 +1630,9 @@ RPKI ROA search by the full name (a.k.a. formatted name) of an associated entity
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI ROA search by the handle of an associated entity:
+RPKI ROA/ASPA/X.509 resource certificate search by the handle of an associated entity:
 
-* Searchable Resource Type: rpki1_roas
+* Searchable Resource Type: rpki1_roas, rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: entity
 * Property: handle
 * Property Path: $.entities[*].handle
@@ -1738,9 +1640,9 @@ RPKI ROA search by the handle of an associated entity:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI ROA search by the email address of an associated entity:
+RPKI ROA/ASPA/X.509 resource certificate search by the email address of an associated entity:
 
-* Searchable Resource Type: rpki1_roas
+* Searchable Resource Type: rpki1_roas, rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: entity
 * Property: email
 * Property Path: $.entities[*].vcardArray[1][?(@[0]=='email')][3]
@@ -1748,9 +1650,9 @@ RPKI ROA search by the email address of an associated entity:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI ROA search by the role of an associated entity:
+RPKI ROA/ASPA/X.509 resource certificate search by the role of an associated entity:
 
-* Searchable Resource Type: rpki1_roas
+* Searchable Resource Type: rpki1_roas, rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: entity
 * Property: role
 * Property Path: $.entities[*].roles
@@ -1758,9 +1660,9 @@ RPKI ROA search by the role of an associated entity:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI ROA search by the handle of an associated IP network:
+RPKI ROA/X.509 resource certificate search by the handle of an associated IP network:
 
-* Searchable Resource Type: rpki1_roas
+* Searchable Resource Type: rpki1_roas, rpki1_x509ResourceCerts
 * Related Resource Type: ip
 * Property: handle
 * Property Path: $.handle
@@ -1768,109 +1670,9 @@ RPKI ROA search by the handle of an associated IP network:
 * Registrant Contact Information: iesg@ietf.org
 * Reference: This document.
 
-RPKI ASPA search by the full name (a.k.a. formatted name) of an associated entity:
+RPKI ASPA/X.509 resource certificate search by the handle of an associated autonomous system number:
 
-* Searchable Resource Type: rpki1_aspas
-* Related Resource Type: entity
-* Property: fn
-* Property Path: $.entities[*].vcardArray[1][?(@[0]=='fn')][3]
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ASPA search by the handle of an associated entity:
-
-* Searchable Resource Type: rpki1_aspas
-* Related Resource Type: entity
-* Property: handle
-* Property Path: $.entities[*].handle
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ASPA search by the email address of an associated entity:
-
-* Searchable Resource Type: rpki1_aspas
-* Related Resource Type: entity
-* Property: email
-* Property Path: $.entities[*].vcardArray[1][?(@[0]=='email')][3]
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ASPA search by the role of an associated entity:
-
-* Searchable Resource Type: rpki1_aspas
-* Related Resource Type: entity
-* Property: role
-* Property Path: $.entities[*].roles
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI ASPA search by the handle of an associated autonomous system number:
-
-* Searchable Resource Type: rpki1_aspas
-* Related Resource Type: autnum
-* Property: handle
-* Property Path: $.handle
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the full name (a.k.a. formatted name) of an associated entity:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: entity
-* Property: fn
-* Property Path: $.entities[*].vcardArray[1][?(@[0]=='fn')][3]
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the handle of an associated entity:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: entity
-* Property: handle
-* Property Path: $.entities[*].handle
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the email address of an associated entity:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: entity
-* Property: email
-* Property Path: $.entities[*].vcardArray[1][?(@[0]=='email')][3]
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the role of an associated entity:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: entity
-* Property: role
-* Property Path: $.entities[*].roles
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the handle of an associated IP network:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
-* Related Resource Type: ip
-* Property: handle
-* Property Path: $.handle
-* Registrant Name: IETF
-* Registrant Contact Information: iesg@ietf.org
-* Reference: This document.
-
-RPKI X.509 resource certificate search by the handle of an associated autonomous system number:
-
-* Searchable Resource Type: rpki1_x509ResourceCerts
+* Searchable Resource Type: rpki1_aspas, rpki1_x509ResourceCerts
 * Related Resource Type: autnum
 * Property: handle
 * Property Path: $.handle
@@ -1919,7 +1721,8 @@ Volk, and Lancheng Qin from the RPKI community provided valuable feedback for th
 
 * Used the "rdap-base-down" link relation instead of "rdap-help".
 * Defined two new "rpki repository operator" and "rpki ca operator" roles (thanks to Lancheng Qin), and used them along
-  with the previously defined "registrant" role for organizational entities.
+  with the previously defined "registrant" role for entities.
+* More compact IANA registration of reverse searches.
 
 {backmatter}
 
