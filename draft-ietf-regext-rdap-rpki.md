@@ -148,7 +148,7 @@ contain one or more of the following common members:
   * "digest" -- a hexadecimal string representing the hash that entirely covers an RPKI object
   * "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that entirely covers an
     RPKI object, with possible values of "SHA-256" and "SHA-512" [@RFC6234] for this version of the specification
-* "notValidBefore" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00
+* "notValidBefore" -- a string that contains the time and date in Coordinated Universal Time (UTC) with no timezone offset.
   [@!RFC3339], representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
 * "notValidAfter" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 [@!RFC3339],
