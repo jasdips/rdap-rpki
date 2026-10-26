@@ -10,7 +10,7 @@ name = "Internet-Draft"
 value = "draft-ietf-regext-rdap-rpki-05"
 stream = "IETF"
 status = "standard"
-date = 2026-10-24T00:00:00Z
+date = 2026-10-26T00:00:00Z
 
 [[author]]
 initials="J."
@@ -148,11 +148,12 @@ contain one or more of the following common members:
   * "digest" -- a hexadecimal string representing the hash that entirely covers an RPKI object
   * "digestAlgorithm" -- a string literal representing the algorithm used to generate the hash that entirely covers an
     RPKI object, with possible values of "SHA-256" and "SHA-512" [@RFC6234] for this version of the specification
-* "notValidBefore" -- a string that contains the time and date in Coordinated Universal Time (UTC) with no timezone offset.
-  [@!RFC3339], representing the not-valid-before date of an X.509 resource certificate for an RPKI object
+* "notValidBefore" -- a string that contains the time and date in Coordinated Universal Time (UTC) with no timezone
+  offset [@!RFC3339], representing the not-valid-before date of an X.509 resource certificate for an RPKI object
   ([@!RFC6487, section 4])
-* "notValidAfter" -- a string that contains the time and date in Zulu (Z) format with UTC offset of 00:00 [@!RFC3339],
-  representing the not-valid-after date of an X.509 resource certificate for an RPKI object ([@!RFC6487, section 4])
+* "notValidAfter" -- a string that contains the time and date in Coordinated Universal Time (UTC) with no timezone
+  offset [@!RFC3339], representing the not-valid-after date of an X.509 resource certificate for an RPKI object
+  ([@!RFC6487, section 4])
 * "publicationUri" -- a URI string pointing to the location of an RPKI object within an RPKI repository;
   the URI scheme is "rsync", per [@!RFC6487, section 4]
 * "notificationUri" -- an HTTPS URI string pointing to the location of the RPKI Repository Delta Protocol (RRDP) update
@@ -176,12 +177,9 @@ that registry.
 
 The "entities" array for a registered RPKI object may contain entity objects representing:
 
-* the organization registered as the registrant for that object, assigned the "registrant" role
-  ([@!RFC9083, section 10.2.4])
-* the organization that operates the RPKI repository for that object, assigned the "rpki repository operator" role
-  ((#json_values_registry))
-* the organization that operates the RPKI CA for that object, assigned the "rpki ca operator" role
-  ((#json_values_registry))
+* the registrant for that object, assigned the "registrant" role ([@!RFC9083, section 10.2.4])
+* the RPKI repository operator for that object, assigned the "rpki repository operator" role ((#json_values_registry))
+* the RPKI CA operator for that object, assigned the "rpki ca operator" role ((#json_values_registry))
 
 # Route Origin Authorization {#roa}
 
@@ -1534,8 +1532,7 @@ IANA is requested to register the following entries in the "RDAP JSON Values" re
 
 * Value: rpki repository operator
 * Type: role
-* Description: The entity object representing the organization that operates the RPKI publication repository for a
-  registered RPKI object.
+* Description: The entity object representing the RPKI publication repository operator for a registered RPKI object.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 
@@ -1543,8 +1540,8 @@ IANA is requested to register the following entries in the "RDAP JSON Values" re
 
 * Value: rpki ca operator
 * Type: role
-* Description: The entity object representing the organization that operates the RPKI Certification Authority (CA) for a
-  registered RPKI object.
+* Description: The entity object representing the RPKI Certification Authority (CA) operator for a registered RPKI
+  object.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 
