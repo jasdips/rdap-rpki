@@ -160,7 +160,8 @@ contain one or more of the following common members:
   notification file for an RPKI repository ([@!RFC8182, section 3])
 * "entities" -- an array of entity objects ([@!RFC9083, section 5.1])
 * "rpkiType" -- a string literal representing various combinations of an RPKI publication repository and an RPKI
-  Certification Authority (CA), with the following possible values:
+  Certification Authority (CA), with the following possible values (see (#json_values_registry) for the IANA
+  registration):
     * "hosted" -- both the repository and CA are operated by a registry for an entity with allocated resources
     * "delegated" -- both the repository and CA are operated by an entity with resources allocated by a registry
     * "hybrid" -- the repository is operated by a registry for an entity with allocated resources whereas the CA is
@@ -178,8 +179,10 @@ registry.
 The "entities" array for a registered RPKI object may contain entity objects representing:
 
 * the registrant for that object, assigned the "registrant" role ([@!RFC9083, section 10.2.4])
-* the RPKI repository operator for that object, assigned the "rpki repository operator" role ((#json_values_registry))
-* the RPKI CA operator for that object, assigned the "rpki ca operator" role ((#json_values_registry))
+* the RPKI repository operator for that object, assigned the "rpki repository operator" role (see
+  (#json_values_registry) for the IANA registration)
+* the RPKI CA operator for that object, assigned the "rpki ca operator" role (see (#json_values_registry) for the IANA
+  registration)
 
 # Route Origin Authorization {#roa}
 
@@ -1559,7 +1562,7 @@ IANA is requested to register the following entries in the "RDAP JSON Values" re
 * Value: delegated
 * Type: rpkiType
 * Description: Both the RPKI publication repository and the RPKI Certification Authority (CA) are operated by an entity
-  with resources allocated by a registry
+  with resources allocated by a registry.
 * Registrant Name: IETF
 * Registrant Contact Information: iesg@ietf.org
 
